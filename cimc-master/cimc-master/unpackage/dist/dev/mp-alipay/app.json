@@ -1,0 +1,34 @@
+{
+  "pages": [
+    "pages/system/index",
+    "pages/detail/index",
+    "pages/home/index",
+    "pages/list/index"
+  ],
+  "subPackages": [],
+  "window": {
+    "defaultTitle": "运价系统",
+    "titleBarColor": "#F8F8F8",
+    "backgroundColor": "#F8F8F8"
+  },
+  "tabBar": {
+    "textColor": "#666666",
+    "selectedColor": "#2585fc",
+    "backgroundColor": "#ffffff",
+    "items": [
+      {
+        "pagePath": "pages/system/index",
+        "name": "首页",
+        "icon": "static/tabBar/classify.png",
+        "activeIcon": "static/tabBar/classify-bg.png"
+      },
+      {
+        "pagePath": "pages/home/index",
+        "name": "我的",
+        "icon": "static/tabBar/center.png",
+        "activeIcon": "static/tabBar/center-bg.png"
+      }
+    ]
+  },
+  "usingComponents": {}
+}

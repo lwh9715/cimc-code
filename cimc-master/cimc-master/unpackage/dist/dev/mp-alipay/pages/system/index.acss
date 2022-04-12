@@ -1,0 +1,23 @@
+
+.card-conent {
+	height: calc(100vh);
+	overflow-y: hidden;
+}
+.uni-card {
+	margin-top: 80rpx !important;
+	padding: 5px 10px !important;
+	/* border-radius: 15rpx !important; */
+}
+.uni-border {
+	height: calc(100vh - 13vh);
+}
+.scroll-Y {
+	text-align: center;
+	height: 500rpx;
+	width: 100%;
+}
+.popup-view {
+	text-align: center;
+	margin: 30rpx;
+}
+
