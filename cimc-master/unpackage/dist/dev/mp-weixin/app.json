@@ -1,0 +1,36 @@
+{
+  "pages": [
+    "pages/system/index",
+    "pages/detail/index",
+    "pages/home/index",
+    "pages/list/index",
+    "pages/system/searchBase"
+  ],
+  "subPackages": [],
+  "window": {},
+  "tabBar": {
+    "color": "#666666",
+    "selectedColor": "#2585fc",
+    "borderStyle": "black",
+    "backgroundColor": "#ffffff",
+    "list": [
+      {
+        "pagePath": "pages/system/index",
+        "iconPath": "static/tabBar/classify.png",
+        "selectedIconPath": "static/tabBar/classify-bg.png",
+        "text": "首页"
+      },
+      {
+        "pagePath": "pages/home/index",
+        "iconPath": "static/tabBar/center.png",
+        "selectedIconPath": "static/tabBar/center-bg.png",
+        "text": "我的"
+      }
+    ]
+  },
+  "requiredBackgroundModes": [
+    "audio"
+  ],
+  "permission": {},
+  "usingComponents": {}
+}
