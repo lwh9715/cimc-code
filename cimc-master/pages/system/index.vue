@@ -2,12 +2,12 @@
 	<view class="card-conent" style="background-image: url(../../static/background.png);">
 		<!-- <uni-card title="FCL报价查询" style="text-align: center;"> -->
 		<view class="view-content">
-			<view style="margin-bottom: 10px;padding: 1px;" />
-			<view class="" style="text-align: center;margin-bottom: 20rpx;">
+			<view style="margin-bottom: 20px;padding: 1px;" />
+			<view style="text-align: center;margin-bottom: 30rpx;">
 				<text class="title-text">FCL报价查询</text>
 			</view>
-			<view style="border-bottom: 1px solid #e5e5e5;margin-bottom: 10px;" />
-			<view class="" style="padding: 0px 20px;">
+			<view style="border-bottom: 1px solid #e5e5e5;margin-bottom: 40rpx;" />
+			<view style="padding: 0px 20px;">
 				<uni-forms :modelValue="formData">
 					<uni-forms-item label="起运港">
 						<input style="margin-top: 16rpx;" v-model="formData.start" type="text" placeholder="请输入起运港"
@@ -22,10 +22,10 @@
 						<uni-datetime-picker type="date" returnType="date" v-model="formData.date" :border="false"
 							@change="bindDateChange" />
 					</uni-forms-item>
-					<view @click="openCompanyList">
+					<view @click="openCarrierList">
 						<uni-forms-item label="船公司">
 							<view style="margin-top: 18rpx; margin-left: 10rpx;">
-								{{ formData.company }}
+								{{ formData.carrier }}
 							</view>
 						</uni-forms-item>
 					</view>
@@ -48,10 +48,10 @@
 		</view>
 		<!-- </uni-card> -->
 
-		<uni-popup ref="companyPopup" type="bottom" mask-background-color="rgba(0,0,0,-0.6)" backgroundColor="#FFFFFF">
+		<uni-popup ref="carrierPopup" type="bottom" mask-background-color="rgba(0,0,0,-0.6)" backgroundColor="#FFFFFF">
 			<scroll-view scroll-y="true" class="scroll-Y">
-				<view class="popup-view" v-for="(item,index) in companylist" @click="bindCompanyChange(item)">
-					<view class="sentence-text">{{ item }}</view>
+				<view class="popup-view" v-for="(item,index) in carrierlist" @click="bindCarrierChange(item.name)">
+					<view class="sentence-text">{{ item.name }}</view>
 				</view>
 			</scroll-view>
 		</uni-popup>
@@ -72,7 +72,7 @@
 		data() {
 			return {
 				keyword: "",
-				companylist: ['中国', '美国', '巴西', '日本', '中国', '美国', '巴西', '日本'],
+				carrierlist: [],
 				freightlist: [{
 					"value": 0,
 					"text": "FAK"
@@ -88,7 +88,7 @@
 					date: Date.now(),
 					start: '',
 					purpose: '',
-					company: '',
+					carrier: '',
 					routes: '',
 					freightType: [0, 1, 2]
 				}
@@ -99,12 +99,20 @@
 			bindDateChange: function(e) {
 				this.formData.date = e
 			},
-			openCompanyList: function(e) {
-				this.$refs.companyPopup.open('bottom')
+			openCarrierList: async function(e) {
+				this.$refs.carrierPopup.open('bottom')
+				let res = await this.$Tools.Axios({
+					url: this.$api.scp_carrier,
+					method: 'GET'
+				});
+				if (res) {
+					this.carrierlist = res
+				} else {}
 			},
-			bindCompanyChange: function(e) {
-				this.formData.company = e
-				this.$refs.companyPopup.close()
+
+			bindCarrierChange: function(e) {
+				this.formData.carrier = e
+				this.$refs.carrierPopup.close()
 			},
 			openRoutesList: function(e) {
 				this.$refs.routesPopup.open('bottom')
@@ -143,7 +151,8 @@
 			 */
 			submitForm: async function(keyword) {
 				uni.navigateTo({
-					url: '/pages/list/index',
+					url: '/pages/list/index?pol=' + this.formData.start + '&pod=' + this.formData.purpose +
+						'&date=' + this.formData.date + '&carrier=' + this.formData.carrier,
 					fail: (res) => {
 						console.log(res) //打印错误信息
 					}
@@ -152,10 +161,12 @@
 			onShow() {
 				let pages = getCurrentPages();
 				let currPage = pages[pages.length - 1]; // 当前页的实例
-				if (currPage.$vm.index.id == 0) {
-					this.formData.start = currPage.$vm.value
-				} else {
-					this.formData.purpose = currPage.$vm.value
+				if (currPage.$vm.index) {
+					if (currPage.$vm.index.id == 0) {
+						this.formData.start = currPage.$vm.value
+					} else {
+						this.formData.purpose = currPage.$vm.value
+					}
 				}
 			},
 		},
@@ -178,7 +189,8 @@
 	}
 
 	.title-text {
-		font-size: $uni-font-size-lg;
+		font-size: x-large;
+		font-weight: 800;
 		flex: 1;
 		color: #333;
 	}

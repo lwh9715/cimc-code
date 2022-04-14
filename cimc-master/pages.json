@@ -12,7 +12,8 @@
 	}],
 	"globalStyle": {
 		"app-plus": {
-			"titleNView": false
+			"titleNView": false,
+			"softinputMode": "adjustResize"
 		}
 	},
 	"tabBar": {

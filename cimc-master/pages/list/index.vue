@@ -1,23 +1,23 @@
 <template>
 	<view class="card-conent" style="background-image: url(../../static/background.png);">
-		<view v-for="(item,index) in fclInfo" :key="index">
+		<view v-for="(item,index) in list" :key="index">
 			<uni-card :title="item.route" extra="查看详情" @click="showDetail(item)">
 				<uni-grid :column="4" :showBorder="false">
 					<uni-grid-item>
 						<text class="text">20GP</text>
-						<text class="text">{{item.pg20}}</text>
+						<text class="text">{{item.cost20}}</text>
 					</uni-grid-item>
 					<uni-grid-item>
 						<text class="text">40GP</text>
-						<text class="text">{{item.pg40}}</text>
+						<text class="text">{{item.cost40gp}}</text>
 					</uni-grid-item>
 					<uni-grid-item>
 						<text class="text">40HQ</text>
-						<text class="text">{{item.hq40}}</text>
+						<text class="text">{{item.cost40hq}}</text>
 					</uni-grid-item>
 					<uni-grid-item>
 						<text class="text">45HQ</text>
-						<text class="text">{{item.hq45}}</text>
+						<text class="text">{{item.cost45hq}}</text>
 					</uni-grid-item>
 				</uni-grid>
 			</uni-card>
@@ -31,52 +31,47 @@
 		data() {
 			return {
 				keyword: "",
-				fclInfo: [{
-					route: "GUANGZHOU-->DUBAI",
-					freight: "2350/4100/4100/--",
-					currency: "RMB",
-					pg20: "2000",
-					pg40: "4000",
-					hq40: "8000",
-					hq45: "18000"
-				}, {
-					route: "GUANGZHOU-->DUBAI",
-					freight: "2350/4100/4100/--",
-					currency: "RMB",
-					pg20: "2000",
-					pg40: "4000",
-					hq40: "8000",
-					hq45: "18000"
-				}, {
-					route: "GUANGZHOU-->DUBAI",
-					freight: "2350/4100/4100/--",
-					currency: "RMB",
-					pg20: "2000",
-					pg40: "4000",
-					hq40: "8000",
-					hq45: "18000"
-				}, {
-					route: "GUANGZHOU-->DUBAI",
-					freight: "2350/4100/4100/--",
-					currency: "RMB",
-					pg20: "2000",
-					pg40: "4000",
-					hq40: "8000",
-					hq45: "18000"
-				}]
+				data: {
+					pol: "",
+					pod: "",
+					date: "",
+					carrier: "",
+				},
+				list: []
 			}
 		},
 		created() {},
+
 		methods: {
-			showDetail(e) {
-				console.log(e.route)
+			showDetail(val) {
 				uni.navigateTo({
-					url: '/pages/detail/index?id=' + e.freight + '&route=' + e.route,
+					url: '/pages/detail/index?detail=' + encodeURIComponent(JSON.stringify(val)),
 					fail: (res) => {
 						console.log(res) //打印错误信息
 					}
 				});
-			}
+			},
+
+			searchPrice: async function(e) {
+				let res = await this.$Tools.Axios({
+					url: this.$api.scp_price,
+					method: 'GET'
+				});
+				if (res) {
+					this.list = res
+				} else {}
+			},
+
+			onLoad(option) {
+				this.pol = option.pol,
+					this.data.pod = option.pod,
+					this.data.date = option.date,
+					this.data.carrier = option.carrier
+				// TODO测试使用
+				// if (this.pol != '' && this.pod != '') {
+				this.searchPrice()
+				// }
+			},
 		},
 
 	}

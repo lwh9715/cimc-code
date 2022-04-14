@@ -1,5 +1,5 @@
 const config = {
-	url: "https://localhost:8088",
+	url: "https://www.sjcl.club/",
 	appId: "wx9212265a23d9b613",
 }
 

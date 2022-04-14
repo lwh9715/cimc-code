@@ -3,7 +3,10 @@ const api = {
 	user_register: "userapi/user/register",
 	user_info: "userapi/user/info",
 	music_search: "hotspotapi/music/search",
-	port_info: "scp/edi/api"
+	scp_pol: "hotspotapi/api/pol",
+	scp_pod: "hotspotapi/api/pod",
+	scp_carrier: "hotspotapi/api/carrier",
+	scp_price: "hotspotapi/api/price"
 }
 
 export default api;

@@ -11,7 +11,8 @@
 	height: calc(100vh - 25vh);
 }
 .title-text {
-	font-size: $uni-font-size-lg;
+	font-size: x-large;
+	font-weight: 800;
 	flex: 1;
 	color: #333;
 }

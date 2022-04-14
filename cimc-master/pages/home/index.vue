@@ -16,7 +16,7 @@
 			</view>
 			<view>
 				<text class="title">{{ userInfo.nickname }}</text>
-				<text class="description">生活于市井，游离于从林</text>
+				<text class="description">创 · 造 · 新价值</text>
 			</view>
 		</view>
 
@@ -31,52 +31,52 @@
 		data() {
 			return {
 				imgUrls: [{
-					name: "海贼王",
-					img: 'http://relax-dev.oss-cn-shanghai.aliyuncs.com/relax/202203/20220321220850130.jpg',
+					name: "海运",
+					img: 'http://8.129.68.2:8989/so/res/static/img/banner/6.jpg',
 
 				}, {
-					name: "科比",
-					img: 'http://relax-dev.oss-cn-shanghai.aliyuncs.com/relax/202203/20220321220922135.jpg'
+					name: "空运",
+					img: 'http://8.129.68.2:8989/so/res/static/img/banner/banner1.jpg'
 				}, {
-					name: "鼬",
-					img: 'http://relax-dev.oss-cn-shanghai.aliyuncs.com/relax/202203/20220321220952690.jpg'
+					name: "铁路",
+					img: 'http://8.129.68.2:8989/so/res/static/img/banner/banner2.jpg'
 				}],
 				indicatorDots: false,
 				autoplay: true,
 				interval: 5000,
 				duration: 500,
 				userInfo: {
-					avatar: "https://relax-dev.oss-cn-shanghai.aliyuncs.com/relax/202203/20220324102559449.png",
+					avatar: "../../static/cmic.png",
 					nickname: "中集世倡"
 				}
 			};
 
 		},
 		methods: {
-			toLogin() {
-				uni.navigateTo({
-					url: '/pages/login/login',
-					success: function(e) {
-						uni.removeStorageSync("userInfo")
-						uni.removeStorageSync("accessToken")
-					},
-					fail: (res) => {
-						console.log(res) //打印错误信息
-					}
-				});
-			}
+			// toLogin() {
+			// 	uni.navigateTo({
+			// 		url: '/pages/login/login',
+			// 		success: function(e) {
+			// 			uni.removeStorageSync("userInfo")
+			// 			uni.removeStorageSync("accessToken")
+			// 		},
+			// 		fail: (res) => {
+			// 			console.log(res) //打印错误信息
+			// 		}
+			// 	});
+			// }
 		},
 		onShow() {
-			if (uni.getStorageSync("userInfo") != '') {
-				this.userInfo = uni.getStorageSync("userInfo")
-			} else {
-				uni.navigateTo({
-					url: '/pages/login/login',
-					fail: (res) => {
-						console.log(res) //打印错误信息
-					}
-				});
-			}
+			// if (uni.getStorageSync("userInfo") != '') {
+			// 	this.userInfo = uni.getStorageSync("userInfo")
+			// } else {
+			// 	uni.navigateTo({
+			// 		url: '/pages/login/login',
+			// 		fail: (res) => {
+			// 			console.log(res) //打印错误信息
+			// 		}
+			// 	});
+			// }
 		}
 	}
 </script>
