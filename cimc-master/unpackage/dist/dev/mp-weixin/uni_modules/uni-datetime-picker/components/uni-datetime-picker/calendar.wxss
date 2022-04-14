@@ -62,6 +62,7 @@
 }
 .uni-calendar__content.data-v-94becebc {
   background-color: #fff;
+  height: -webkit-fill-available;
 }
 .uni-calendar__header.data-v-94becebc {
   position: relative;

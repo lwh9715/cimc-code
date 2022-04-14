@@ -58,16 +58,16 @@
 			<view v-if="!insert && !range && typeHasTime" class="uni-date-changed uni-calendar--fixed-top"
 				style="padding: 0 40px;">
 				<text class="uni-date-changed--time-date">{{tempSingleDate ? tempSingleDate : '选择日期'}}</text>
-				<time-picker type="time" :start="reactStartTime" :end="reactEndTime" v-model="time" :disabled="!tempSingleDate"
-					:border="false" class="time-picker-style">
+				<time-picker type="time" :start="reactStartTime" :end="reactEndTime" v-model="time"
+					:disabled="!tempSingleDate" :border="false" class="time-picker-style">
 				</time-picker>
 			</view>
 
 			<view v-if="!insert && range && typeHasTime" class="uni-date-changed uni-calendar--fixed-top">
 				<view class="uni-date-changed--time-start">
 					<text class="uni-date-changed--time-date">{{tempRange.before ? tempRange.before : '开始日期'}}</text>
-					<time-picker type="time" :start="reactStartTime" v-model="timeRange.startTime"
-						:border="false" :disabled="!tempRange.before" class="time-picker-style">
+					<time-picker type="time" :start="reactStartTime" v-model="timeRange.startTime" :border="false"
+						:disabled="!tempRange.before" class="time-picker-style">
 					</time-picker>
 				</view>
 				<uni-icons type="arrowthinright" color="#999" style="line-height: 50px;"></uni-icons>
@@ -550,6 +550,7 @@
 
 	.uni-calendar__content {
 		background-color: #fff;
+		height: -webkit-fill-available;
 	}
 
 	.uni-calendar__header {

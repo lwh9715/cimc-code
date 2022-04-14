@@ -38,7 +38,7 @@
 }
 .uni-indexed-list__menu.data-v-0f58ddf9 {
   width: 24px;
-  background-color: lightgrey;
+  background-color: #FFFFFF;
   display: flex;
   flex-direction: column;
 }

@@ -466,7 +466,7 @@
 				align-items: center;
 				position: relative;
 				margin: 5px 0;
-				margin-right: 25px;
+				margin-right: 10px;
 
 				.hidden {
 					position: absolute;

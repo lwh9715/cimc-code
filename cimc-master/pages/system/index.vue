@@ -1,38 +1,53 @@
 <template>
-	<view class="card-conent">
-		<uni-card title="FCL报价查询" style="text-align: center;">
-			<uni-forms :modelValue="formData">
-				<uni-forms-item label="起运港">
-					<input style="margin-top: 13rpx;" v-model="formData.start" type="text" placeholder="请输入起运港"
-						@click="openStartPage(0)" />
-				</uni-forms-item>
-				<uni-forms-item label="目的港">
-					<input style="margin-top: 13rpx;" v-model="formData.purpose" type="text" placeholder="请输入起运港"
-						@click="openStartPage(1)" />
-				</uni-forms-item>
-				<uni-forms-item label="出航时间">
-					<view>
+	<view class="card-conent" style="background-image: url(../../static/background.png);">
+		<!-- <uni-card title="FCL报价查询" style="text-align: center;"> -->
+		<view class="view-content">
+			<view style="margin-bottom: 10px;padding: 1px;" />
+			<view class="" style="text-align: center;margin-bottom: 20rpx;">
+				<text class="title-text">FCL报价查询</text>
+			</view>
+			<view style="border-bottom: 1px solid #e5e5e5;margin-bottom: 10px;" />
+			<view class="" style="padding: 0px 20px;">
+				<uni-forms :modelValue="formData">
+					<uni-forms-item label="起运港">
+						<input style="margin-top: 16rpx;" v-model="formData.start" type="text" placeholder="请输入起运港"
+							@click="openStartPage(0)" />
+					</uni-forms-item>
+					<uni-forms-item label="目的港">
+						<input style="margin-top: 16rpx;" v-model="formData.purpose" type="text" placeholder="请输入起运港"
+							@click="openStartPage(1)" />
+					</uni-forms-item>
+					<uni-forms-item label="出航时间">
+						<!-- <input style="margin-top: 13rpx;" v-model="formData.date" type="text" @click="openTimePage(3)" /> -->
 						<uni-datetime-picker type="date" returnType="date" v-model="formData.date" :border="false"
 							@change="bindDateChange" />
+					</uni-forms-item>
+					<view @click="openCompanyList">
+						<uni-forms-item label="船公司">
+							<view style="margin-top: 18rpx; margin-left: 10rpx;">
+								{{ formData.company }}
+							</view>
+						</uni-forms-item>
 					</view>
-				</uni-forms-item>
-				<view @click="openCompanyList">
-					<uni-forms-item label="船公司">
-						<view style="margin-top: 16rpx; margin-left: 10rpx;">
-							{{ formData.company }}
+					<!-- 				<view @click="openRoutesList">
+						<uni-forms-item label="航线">
+							<view style="margin-top: 16rpx; margin-left: 10rpx;">
+								{{ formData.routes }}
+							</view>
+						</uni-forms-item>
+					</view> -->
+					<uni-forms-item name="freight" label="运价类型">
+						<view style="margin-top: 14rpx;">
+							<uni-data-checkbox style="font-size: xx-small;" multiple v-model="formData.freightType"
+								:localdata="freightlist" />
 						</view>
 					</uni-forms-item>
-				</view>
-				<view @click="openRoutesList">
-					<uni-forms-item label="航线">
-						<view style="margin-top: 16rpx; margin-left: 10rpx;">
-							{{ formData.routes }}
-						</view>
-					</uni-forms-item>
-				</view>
-			</uni-forms>
-			<button type="primary" @click="submitForm" style="margin-top: 50rpx;margin-bottom: 50rpx;">立即查询</button>
-		</uni-card>
+				</uni-forms>
+				<button type="primary" @click="submitForm" style="margin-top: 20rpx;margin-bottom: 50rpx;">立即查询</button>
+			</view>
+		</view>
+		<!-- </uni-card> -->
+
 		<uni-popup ref="companyPopup" type="bottom" mask-background-color="rgba(0,0,0,-0.6)" backgroundColor="#FFFFFF">
 			<scroll-view scroll-y="true" class="scroll-Y">
 				<view class="popup-view" v-for="(item,index) in companylist" @click="bindCompanyChange(item)">
@@ -57,16 +72,25 @@
 		data() {
 			return {
 				keyword: "",
-				startlist: ["阿克苏机场", "阿拉山口机场", "阿勒泰机场", "阿里昆莎机场", "安庆天柱山机场", "澳门国际机场"],
-				purposelist: ["保山机场", "包头机场", "北海福成机场", "北京南苑机场", "北京首都国际机场"],
 				companylist: ['中国', '美国', '巴西', '日本', '中国', '美国', '巴西', '日本'],
+				freightlist: [{
+					"value": 0,
+					"text": "FAK"
+				}, {
+					"value": 1,
+					"text": "NAC"
+				}, {
+					"value": 2,
+					"text": "SPOT"
+				}],
 				routeslist: ['CNN', 'USD', 'ABX', 'CSS'],
 				formData: {
-					date: '2022-04-12',
+					date: Date.now(),
 					start: '',
 					purpose: '',
 					company: '',
-					routes: ''
+					routes: '',
+					freightType: [0, 1, 2]
 				}
 			}
 		},
@@ -92,6 +116,14 @@
 			openStartPage: function(val) {
 				uni.navigateTo({
 					url: '/pages/system/searchBase?id=' + val,
+					fail: (res) => {
+						console.log(res) //打印错误信息
+					}
+				});
+			},
+			openTimePage: function(val) {
+				uni.navigateTo({
+					url: '/pages/system/timeBase?id=' + val,
 					fail: (res) => {
 						console.log(res) //打印错误信息
 					}
@@ -138,11 +170,29 @@
 		overflow-y: auto;
 	}
 
+	.view-content {
+		margin: 45px 15px;
+		background-color: #FFFFFF;
+		border-radius: 15px;
+		height: calc(100vh - 25vh);
+	}
+
+	.title-text {
+		font-size: $uni-font-size-lg;
+		flex: 1;
+		color: #333;
+	}
+
 	.uni-card {
 		margin-top: 100rpx !important;
 		padding: 5px 10px !important;
 		/* border-radius: 15rpx !important; */
 	}
+
+	.uni-input-placeholder {
+		font-size: small !important;
+	}
+
 
 	.scroll-Y {
 		text-align: center;
@@ -156,4 +206,8 @@
 	}
 
 	.uni-date__icon-logo {}
+
+	.checklist-box .uni-label-pointer {
+		margin-right: 10rpx !important;
+	}
 </style>

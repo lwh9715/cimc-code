@@ -3,12 +3,16 @@
 		<view v-if="loaded || list.itemIndex < 15" class="uni-indexed-list__title-wrapper">
 			<text v-if="list.items && list.items.length > 0" class="uni-indexed-list__title">{{ list.key }}</text>
 		</view>
-		<view v-if="(loaded || list.itemIndex < 15) && list.items && list.items.length > 0" class="uni-indexed-list__list">
-			<view v-for="(item, index) in list.items" :key="index" class="uni-indexed-list__item" hover-class="uni-indexed-list__item--hover">
+		<view v-if="(loaded || list.itemIndex < 15) && list.items && list.items.length > 0"
+			class="uni-indexed-list__list">
+			<view v-for="(item, index) in list.items" :key="index" class="uni-indexed-list__item"
+				hover-class="uni-indexed-list__item--hover">
 				<view class="uni-indexed-list__item-container" @click="onClick(idx, index)">
-					<view class="uni-indexed-list__item-border" :class="{'uni-indexed-list__item-border--last':index===list.items.length-1}">
+					<view class="uni-indexed-list__item-border"
+						:class="{'uni-indexed-list__item-border--last':index===list.items.length-1}">
 						<view v-if="showSelect" style="margin-right: 20rpx;">
-							<uni-icons :type="item.checked ? 'checkbox-filled' : 'circle'" :color="item.checked ? '#007aff' : '#aaa'" size="24" />
+							<uni-icons :type="item.checked ? 'checkbox-filled' : 'circle'"
+								:color="item.checked ? '#007aff' : '#aaa'" size="24" />
 						</view>
 						<text class="uni-indexed-list__item-content">{{ item.name }}</text>
 					</view>
@@ -130,7 +134,7 @@
 		display: flex;
 		width: 100%;
 		/* #endif */
-		background-color: #f7f7f7;
+		background-color: #FFFFFF;
 	}
 
 	.uni-indexed-list__title {

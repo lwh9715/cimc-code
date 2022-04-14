@@ -94,12 +94,12 @@
 		/* border-radius: 15rpx !important; */
 	}
 
-	.uni-card__header-title-text {
+	>>>.uni-card__header-title-text {
 		flex: none !important;
 		font-size: 12px !important;
 	}
 
-	.uni-card__content--pd {
+	>>>.uni-card__content--pd {
 		padding: 8px !important;
 	}
 

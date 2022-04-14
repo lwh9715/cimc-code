@@ -297,7 +297,7 @@
 
 	.uni-indexed-list__menu {
 		width: 24px;
-		background-color: lightgrey;
+		background-color: #FFFFFF;
 		/* #ifndef APP-NVUE */
 		display: flex;
 		/* #endif */

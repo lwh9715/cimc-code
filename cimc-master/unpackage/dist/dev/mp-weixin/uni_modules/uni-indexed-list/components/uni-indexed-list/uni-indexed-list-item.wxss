@@ -79,7 +79,7 @@
 .uni-indexed-list__title-wrapper.data-v-f3e68ed2 {
   display: flex;
   width: 100%;
-  background-color: #f7f7f7;
+  background-color: #FFFFFF;
 }
 .uni-indexed-list__title.data-v-f3e68ed2 {
   padding: 6px 12px;

@@ -4,10 +4,24 @@
 	/* background-image: url(../../static/background.png); */
 	overflow-y: auto;
 }
+.view-content {
+	margin: 45px 15px;
+	background-color: #FFFFFF;
+	border-radius: 15px;
+	height: calc(100vh - 25vh);
+}
+.title-text {
+	font-size: $uni-font-size-lg;
+	flex: 1;
+	color: #333;
+}
 .uni-card {
 	margin-top: 100rpx !important;
 	padding: 5px 10px !important;
 	/* border-radius: 15rpx !important; */
+}
+.uni-input-placeholder {
+	font-size: small !important;
 }
 .scroll-Y {
 	text-align: center;
@@ -19,4 +33,7 @@
 	margin: 30rpx;
 }
 .uni-date__icon-logo {}
+.checklist-box .uni-label-pointer {
+	margin-right: 10rpx !important;
+}
 

@@ -35,7 +35,7 @@
 				countdown: "",
 				formData: {
 					account: "",
-					nickname: "市井丛林",
+					nickname: "运价系统",
 					password: "",
 					avatar: "https://relax-dev.oss-cn-shanghai.aliyuncs.com/relax/202203/20220324173831555.png"
 				}
