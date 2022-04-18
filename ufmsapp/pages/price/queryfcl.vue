@@ -23,9 +23,8 @@
 				<view class=" bg-white m-1 px-2 rounded-half py-2 font-sm">
 					<view class="flex justify-center font-md" style="justify-content: space-between;">
 						<b class="text-green">{{item.pol}}</b>
-						<text v-if="item.tt!=''" style="color:red;font-size: x-small;">
-							<!-- <b>({{ item.tt }}天)</b> -->
-							<u-icon name="../../static/icon/right_arrow.png" :size="55"></u-icon>
+						<text>
+							<u-icon name="../../static/icon/right_arrow.png" :size="55" />
 						</text>
 						<b class="text-green">{{item.pod}}</b>
 						<text style="">
@@ -67,15 +66,23 @@
 						<view class="flex justify-between">
 							<view class="" style="width: 35%;">
 								<text class="text-gray font-sm">FreeTime：</text>
-								<text class="text-red">{{ item.freetime == ('' || null) ? '--' : item.freetime }}</text>
+								<text class="text-red">
+									<b>
+										{{ item.freetime == ('' || null) ? '--' : item.freetime }}
+									</b>
+								</text>
 							</view>
 							<view class="" style="width: 30%;">
 								<text class="text-gray font-sm">截关：</text>
-								<text class="font-weight-bold text-red" v-if="item.schedule">{{ item.schedule }}</text>
+								<text class="font-weight-bold text-red" v-if="item.cls">
+									<b>{{ item.cls }}</b>
+								</text>
 							</view>
 							<view class="" style="width: 35%;">
 								<text class="text-gray font-sm">航程：</text>
-								<text class="font-weight-bold text-red" v-if="item.tt">{{ item.tt }}天</text>
+								<text class="font-weight-bold text-red" v-if="item.tt">
+									<b>{{ item.tt }}天</b>
+								</text>
 							</view>
 						</view>
 						<view class="flex justify-between">
@@ -89,9 +96,14 @@
 									<b>{{ item.schedule == ('' || null) ? '--' : item.schedule}}</b>
 								</text>
 							</view>
-							<view class="" style="width: 35%">
-								<text class="text-gray font-sm">船名：</text>
-								<text>{{item.shipname}}</text>
+							<view class=""
+								style="width: 35%;text-overflow: ellipsis;display:block;white-space: nowrap;overflow: hidden;">
+								<text class="text-gray font-sm">船名：
+									<text style="color: #000000;">
+										<b>{{item.vessel}}</b>
+									</text>
+								</text>
+
 							</view>
 						</view>
 						<view class="flex justify-between">
@@ -216,38 +228,7 @@
 					});
 				})
 			},
-			search() {
-				// this.$H.post('/price?method=fcllist&pol=' + this.fclArray[0][this.fclIndex[0]] + '&pod=' + this.fclArray[1]
-				// 	[this.fclIndex[1]] + '&crrier=' + this.fclArray[2][this.fclIndex[2]], this.form, {
-				// 		token: false
-				// 	}).then(res => {
-				// 	this.pricelist = res.data;
-				// 	for (var i = 0; i < res.data.length; i++) {
-				// 		this.$H.post('/price?method=getfeeadd&id=' + res.data[i].uuid, this.form, {
-				// 			token: false
-				// 		}).then(res => {
-
-				// 		}).catch(res => {
-				// 			console.log(res)
-				// 			uni.showToast({
-				// 				title: '失败：' + res.message,
-				// 				icon: 'none'
-				// 			});
-				// 		})
-
-
-				// 	}
-				// 	console.log(res);
-				// }).catch(res => {
-				// 	console.log(res)
-				// 	uni.showToast({
-				// 		title: 'search失败：' + res.message,
-				// 		icon: 'none'
-				// 	});
-				// })
-				// console.log(this.pricelist)
-
-			},
+			search() {},
 			onLoad: function(option) {
 				if (option.detail) {
 					let data = JSON.parse(decodeURIComponent(option.detail));
@@ -256,7 +237,14 @@
 						.form, {
 							token: false
 						}).then(res => {
-						this.pricelist = res.data.splice(0, 25);
+						if (res.data.length > 0) {
+							this.pricelist = res.data.splice(0, 25);
+						} else {
+							uni.showToast({
+								title: '该港口暂无数据',
+								icon: 'none'
+							})
+						}
 					});
 				} else {
 					uni.showToast({
