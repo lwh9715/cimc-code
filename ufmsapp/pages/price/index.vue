@@ -1,5 +1,5 @@
 <template>
-	<view class="card-conent" style="background-image: url(../../static/img/background.png);">
+	<view class="card-conent" style="background-color: #e8e8e8;">
 		<view class="view-content">
 			<view style="margin-bottom: 20rpx;padding: 1px;" />
 			<view style="text-align: center;margin-bottom: 20rpx;">

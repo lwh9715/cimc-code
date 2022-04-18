@@ -6,7 +6,7 @@ image{will-change: transform}
 
 body{
 	--primary:#007bff;
-	--secondary: #6c757d;
+	--secondary: #e8e8e8;
 	--success: #28a745;
 	--danger: #dc3545;
 	--warning: #ffc107;

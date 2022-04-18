@@ -23,7 +23,8 @@
 				</u-grid-item>
 
 				<u-grid-item @click="notAvail">
-					<navigator hover-class="none" url="../wms/scan-wmsin-order">
+					<!-- <navigator hover-class="none" url="../wms/scan-wmsin-order"> -->
+					<navigator hover-class="none">
 						<u-icon name="../../static/tabIcon/hones1.png" :size="130"></u-icon>
 						<view class="grid-text">入库确认</view>
 					</navigator>
@@ -61,7 +62,6 @@
 				})
 			},
 			openLogin() {
-
 				uni.navigateTo({
 					url: '../login/login',
 				});

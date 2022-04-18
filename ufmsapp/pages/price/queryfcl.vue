@@ -21,40 +21,90 @@
 		<view class="bg-secondary flex-1">
 			<block class="" v-for="(item,index) in pricelist" :key="index">
 				<view class=" bg-white m-1 px-2 rounded-half py-2 font-sm">
-					<view class=" flex justify-center font-md"><b class="text-green">{{item.pol}}</b> --> <b
-							class="text-green">{{item.pod}}</b></view>
+					<view class="flex justify-center font-md" style="justify-content: space-between;">
+						<b class="text-green">{{item.pol}}</b>
+						<text v-if="item.tt!=''" style="color:red;font-size: x-small;">
+							<!-- <b>({{ item.tt }}天)</b> -->
+							<u-icon name="../../static/icon/right_arrow.png" :size="55"></u-icon>
+						</text>
+						<b class="text-green">{{item.pod}}</b>
+						<text style="">
+							<button type="primary" size="mini">订舱</button>
+						</text>
+					</view>
+					<view style="border-bottom: 1px solid #e5e5e5;margin-bottom: 10rpx;" />
 					<view class="fontSizeMy pr-1 rounded-s">
 						<view class="flex justify-between">
-							<view class="">
-								<text class="text-gray font-sm">运价：</text>
-								<text class="font-weight-bold text-red font-sm"><b
-										class="text-green">{{item.bargecurrency}}</b>{{item.cost20}}/{{item.cost40gp}}/{{item.cost40hq}}/{{item.cost45hq}}</text>
+							<view class="" style="width: 35%;">
+								<text class="text-gray font-sm">运价类型：</text>
+								<text class="font-weight-bold text-red font-sm">
+									<b class="text-red">
+										{{item.pricetype == ('' || null) ? '--' : item.pricetype }}
+									</b>
+								</text>
 							</view>
-							<view class="" style="width: 180rpx">
-								<text class="text-gray font-sm">截关：</text>
-								<text class="font-weight-bold text-red">{{item.schedule}}</text>
+							<view class="" style="width: 65%;">
+								<text class="text-gray font-sm">运价：</text>
+								<text class="font-weight-bold text-red font-sm">
+									<b class="text-green">
+										{{ item.bargecurrency }}
+									</b>
+									&nbsp;&nbsp;{{item.cost20}}/{{item.cost40gp}}/{{item.cost40hq}}/{{item.cost45hq}}
+								</text>
 							</view>
 						</view>
 						<view class="flex justify-between">
 							<view class="">
 								<text class="text-gray font-sm">有效期：</text>
-								<text class="font-weight-bold text-primary font-sm">{{item.datefm}} ~
-									{{item.dateto}}</text>
+								<text v-if="item.typestart != ''">
+									({{ startType(item.typestart) }})
+								</text>
+								<text class="font-weight-bold text-primary font-sm">
+									{{ timeFormat(item.datefm) }} ~ {{ timeFormat(item.dateto) }}
+								</text>
 							</view>
 						</view>
 						<view class="flex justify-between">
-							<view class="">
-								<text class="text-gray font-sm">船公司：</text>
-								<text>{{item.shipping}}</text>
+							<view class="" style="width: 35%;">
+								<text class="text-gray font-sm">FreeTime：</text>
+								<text class="text-red">{{ item.freetime == ('' || null) ? '--' : item.freetime }}</text>
 							</view>
-							<view class="" style="width: 350rpx">
-								<text class="text-gray font-sm">代码：</text>
-								<text class="text-red">{{item.shipline}}</text>
+							<view class="" style="width: 30%;">
+								<text class="text-gray font-sm">截关：</text>
+								<text class="font-weight-bold text-red" v-if="item.schedule">{{ item.schedule }}</text>
+							</view>
+							<view class="" style="width: 35%;">
+								<text class="text-gray font-sm">航程：</text>
+								<text class="font-weight-bold text-red" v-if="item.tt">{{ item.tt }}天</text>
+							</view>
+						</view>
+						<view class="flex justify-between">
+							<view class="" style="width: 35%;">
+								<text class="text-gray font-sm">船公司：</text>
+								<text><b>{{item.shipping}}</b></text>
+							</view>
+							<view class="" style="width: 30%;">
+								<text class="text-gray font-sm">船期：</text>
+								<text class="text-red">
+									<b>{{ item.schedule == ('' || null) ? '--' : item.schedule}}</b>
+								</text>
+							</view>
+							<view class="" style="width: 35%">
+								<text class="text-gray font-sm">船名：</text>
+								<text>{{item.shipname}}</text>
+							</view>
+						</view>
+						<view class="flex justify-between">
+							<view class=""
+								style="text-overflow: ellipsis;display:block;white-space: nowrap;overflow: hidden;width: 650rpx;">
+								<text class="text-gray font-sm">备注：
+									<text>{{item.remark_in}}</text>
+								</text>
 							</view>
 						</view>
 					</view>
-					<view style="height: 1rpx; background-color: #eee;"></view>
-					<uni-collapse class="bg-light" v-model="activeNames" @change="change(item.uuid,index)">
+					<!-- <view style="height: 1rpx; background-color: #eee;"></view> -->
+					<!-- <uni-collapse class="bg-light" v-model="activeNames" @change="change(item.uuid,index)">
 						<uni-collapse-item name='abc' ref="add" title="更多信息" :show-animation="true"
 							thumb="https://img-cdn-qiniu.dcloud.net.cn/new-page/hx.png">
 							<view class="bg-white m-1 px-1 py-1">
@@ -98,7 +148,7 @@
 								</view>
 							</view>
 						</uni-collapse-item>
-					</uni-collapse>
+					</uni-collapse> -->
 				</view>
 			</block>
 		</view>
@@ -116,11 +166,38 @@
 					['']
 				],
 				fclIndex: [0, 0, 0],
-				pricelist: {},
+				pricelist: [],
 				feelist: {},
 			}
 		},
 		methods: {
+			timeFormat: function(val) {
+				var crtTime = new Date(val);
+				var year = crtTime.getFullYear(); //得到年份
+				var month = crtTime.getMonth(); //得到月份
+				var date = crtTime.getDate(); //得到日期
+				return year + '/' + month + '/' + date;
+
+			},
+			startType: function(val) {
+				if (val == 'CLS') {
+					return '大船截关'
+				} else if (val == 'BETD') {
+					return '大船截关'
+				} else if (val == 'ETD') {
+					return '大船'
+				} else if (val == 'TDETD') {
+					return '驳船'
+				} else if (val == 'ONBOARD') {
+					return '驳船'
+				} else if (val == 'SOETD') {
+					return 'SO ETD'
+				} else if (val == 'GATE') {
+					return 'GATE IN'
+				} else {
+					return ''
+				}
+			},
 			bindMultiPickerColumnChange: function(e) {
 				this.fclIndex[e.detail.column] = e.detail.value
 				this.$forceUpdate()
@@ -179,7 +256,7 @@
 						.form, {
 							token: false
 						}).then(res => {
-						this.pricelist = res.data;
+						this.pricelist = res.data.splice(0, 25);
 					});
 				} else {
 					uni.showToast({
