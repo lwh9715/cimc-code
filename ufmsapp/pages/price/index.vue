@@ -1,5 +1,5 @@
 <template>
-	<view class="card-conent" style="background-image: url(../../static/img/bg.png);">
+	<view class="card-conent">
 		<view class="view-content">
 			<view style="margin-bottom: 20rpx;padding: 1px;" />
 			<view style="text-align: center;margin-bottom: 20rpx;">
@@ -149,12 +149,15 @@
 <style>
 	.card-conent {
 		height: calc(100vh);
-		/* background-image: url(../../static/background.png); */
+		background-image: url(../../static/img/bg.png);
+		background-color: rgb(119 184 240);
+		background-repeat: no-repeat;/* 图片按比例显示，其余部分为其他颜色 */
+		background-size: contain;/*图片等比例缩放*/
 		overflow-y: auto;
 	}
 
 	.view-content {
-		margin: 84px 14px;
+		margin: 88px 14px;
 		background-color: #FFFFFF;
 		box-shadow: rgb(0 0 0 / 15%) 0px 0px 3px 1px;
 		border-radius: 15px;
