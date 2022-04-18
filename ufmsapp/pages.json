@@ -1,0 +1,278 @@
+{
+	"easycom": {
+		"^u-(.*)": "@/uview-ui/components/u-$1/u-$1.vue"
+	},
+	"pages": [{
+			"path": "pages/index/index",
+			"style": {
+
+			}
+		}, {
+			"path": "pages/config/config",
+			"style": {
+
+			}
+		},
+		{
+			"path": "pages/price/index",
+			"style": {
+
+			}
+		},
+		{
+			"path": "pages/price/searchBase",
+			"style": {
+
+			}
+		},
+
+		{
+			"path": "pages/login/login",
+			"style": {
+				// "app-plus":{
+				// "bounce":"none",
+				// "scrollIndicator":"none",
+				// "titleNView":false
+				// }
+			}
+		},
+
+
+		{
+			"path": "pages/index/index-web",
+			"style": {
+
+			}
+		},
+
+		{
+			"path": "pages/menu/menu",
+			"style": {
+
+			}
+		},
+		{
+			"path": "pages/mind/mind",
+			"style": {
+				"app-plus": {
+					"bounce": "none",
+					"titleNView": {
+						"backgroundColor": "#6DBA52"
+
+					}
+				}
+			}
+		},
+		{
+			"path": "pages/new-order/new-order",
+			"style": {
+				"app-plus": {
+					"scrollIndicator": "none",
+					"bounce": "none",
+					"titleNView": {
+						"backgroundColor": "#6DBA52",
+						"titleText": "新建提货单",
+						"titleSize": "35rpx",
+						//配置按钮
+						"buttons": [
+							// 右边
+							{
+								"color": "#fff",
+
+								"colorPressed": "#BBBBBB",
+
+								"fontSize": "35rpx",
+								"text": "保存"
+							}
+						]
+					}
+				}
+			}
+		},
+		{
+			"path": "pages/new-order/scan-order",
+			"style": {
+				"app-plus": {
+					"scrollIndicator": "none",
+					"bounce": "none",
+					"titleNView": {
+						"backgroundColor": "#6DBA52",
+						"titleText": "操作扫单",
+						"titleSize": "35rpx",
+						//配置按钮
+						"buttons": [
+							// 右边
+							{
+								"color": "#fff",
+								"colorPressed": "#BBBBBB",
+								"fontSize": "35rpx",
+								"text": "完成"
+							}
+						]
+					}
+				}
+			}
+		}
+
+		, {
+			"path": "pages/wms/scan-wmsin-order",
+			"style": {
+				"app-plus": {
+					"scrollIndicator": "none",
+					"bounce": "none",
+					"titleNView": {
+						"backgroundColor": "#6DBA52",
+						"titleText": "入库扫码确认",
+						"titleSize": "35rpx",
+						//配置按钮
+						"buttons": [
+							// 右边
+							{
+								"color": "#fff",
+								"colorPressed": "#BBBBBB",
+								"fontSize": "35rpx",
+								"text": "完成"
+							}
+						]
+					}
+				}
+			}
+		}, {
+			"path": "pages/pickup-order/pickup-order",
+			"style": {
+				"app-plus": {
+					"scrollIndicator": "none",
+					"bounce": "none",
+					"titleNView": {
+						"backgroundColor": "#6DBA52",
+						"titleText": "提货总单",
+						"titleSize": "35rpx"
+
+					}
+				}
+			}
+		}
+
+		, {
+			"path": "pages/diff-report/diff-report",
+			"style": {
+				"app-plus": {
+					"scrollIndicator": "none",
+					"bounce": "none",
+					"titleNView": {
+						"backgroundColor": "#6DBA52",
+						"titleText": "生成差异报告",
+						"titleSize": "35rpx"
+
+					}
+				}
+			}
+		}, {
+			"path": "pages/pick-detail/pick-detail",
+			"style": {
+				"app-plus": {
+					"scrollIndicator": "none",
+					"bounce": "none",
+					"titleNView": {
+						"backgroundColor": "#6DBA52",
+						"titleText": "提货明细",
+						"titleSize": "35rpx"
+
+					}
+				}
+			}
+		}, {
+			"path": "pages/price/queryfcl",
+			"style": {
+				"app-plus": {
+					"scrollIndicator": "none",
+					"bounce": "none",
+					"titleNView": {
+						"backgroundColor": "#6DBA52",
+						"titleText": "运价查询",
+						"titleSize": "35rpx"
+
+					}
+				}
+			}
+		}, {
+			"path": "pages/submitList/submitList",
+			"style": {
+				"app-plus": {
+					"scrollIndicator": "none",
+					"bounce": "none",
+					"titleNView": {
+						"backgroundColor": "#6DBA52",
+						"titleText": "交付总单",
+						"titleSize": "35rpx"
+
+					}
+				}
+			}
+		}, {
+			"path": "pages/unsubmitList/unsubmitList",
+			"style": {}
+		},
+		{
+			"path": "pages/fbx/fbx",
+			"style": {
+				"app-plus": {
+					"scrollIndicator": "none",
+					"bounce": "none",
+					"titleNView": {
+						"backgroundColor": "#6DBA52",
+						"titleText": "FBX拆包",
+						"titleSize": "35rpx"
+
+					}
+				}
+			}
+		}
+
+	],
+	"globalStyle": {
+		"navigationBarTextStyle": "white",
+		"navigationStyle": "custom",
+		"navigationBarBackgroundColor": "#007AFF",
+		"backgroundColor": "#FFFFFF"
+
+	},
+	"tabBar": {
+		"color": "#7D7D7D",
+		"selectedColor": "#6DBA52",
+		"borderStyle": "black",
+		"backgroundColor": "#fff",
+		"list": [{
+				"pagePath": "pages/index/index",
+				"text": "首页",
+				"iconPath": "/static/tabIcon/home1.png",
+				"selectedIconPath": "/static/tabIcon/hones1.png"
+			}, {
+				"pagePath": "pages/config/config",
+				"text": "配置",
+				"iconPath": "/static/tabIcon/menu.png",
+				"selectedIconPath": "/static/tabIcon/menus.png"
+			}
+			/* ,{
+				"pagePath": "pages/menu/menu",
+				"text": "功能",
+				"iconPath": "/static/tabIcon/menu.png",
+				"selectedIconPath": "/static/tabIcon/menus.png"
+			} */
+			/* ,{
+				"pagePath": "pages/mind/mind",
+				"text": "我的",
+				"iconPath": "/static/tabIcon/my.png",
+				"selectedIconPath": "/static/tabIcon/mys.png"
+			} */
+		]
+	},
+	"condition": { //模式配置，仅开发期间生效
+		"current": 0, //当前激活的模式(list 的索引项)
+		"list": [{
+			"name": "", //模式名称
+			"path": "", //启动页面，必选
+			"query": "" //启动参数，在页面的onLoad函数里面得到
+		}]
+	}
+}

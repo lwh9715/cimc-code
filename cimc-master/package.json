@@ -1,5 +1,6 @@
 {
   "dependencies": {
+    "@escook/request-miniprogram": "^0.2.1",
     "dingtalk-jsapi": "^2.13.92"
   }
 }

@@ -3,7 +3,7 @@
 		<!-- <uni-card title="FCL报价查询" style="text-align: center;"> -->
 		<view class="view-content">
 			<view style="margin-bottom: 20px;padding: 1px;" />
-			<view style="text-align: center;margin-bottom: 30rpx;">
+			<view style="text-align: center;margin-bottom: 20rpx;">
 				<text class="title-text">FCL报价查询</text>
 			</view>
 			<view style="border-bottom: 1px solid #e5e5e5;margin-bottom: 40rpx;" />
@@ -17,11 +17,11 @@
 						<input style="margin-top: 16rpx;" v-model="formData.purpose" type="text" placeholder="请输入起运港"
 							@click="openStartPage(1)" />
 					</uni-forms-item>
-					<uni-forms-item label="出航时间">
-						<!-- <input style="margin-top: 13rpx;" v-model="formData.date" type="text" @click="openTimePage(3)" /> -->
+					<!-- <input style="margin-top: 13rpx;" v-model="formData.date" type="text" @click="openTimePage(3)" /> -->
+					<!-- <uni-forms-item label="出航时间">
 						<uni-datetime-picker type="date" returnType="date" v-model="formData.date" :border="false"
 							@change="bindDateChange" />
-					</uni-forms-item>
+					</uni-forms-item> -->
 					<view @click="openCarrierList">
 						<uni-forms-item label="船公司">
 							<view style="margin-top: 18rpx; margin-left: 10rpx;">

@@ -51,22 +51,36 @@
 			search: async function(val) {
 				this.$refs.popup.open('top')
 				if (this.index.id == 0) {
+					// let res = await this.$Tools.Axios({
+					// 	url: this.$api.scp_pol + '?src=flexbox&action=fclpol&q=' + val.value +
+					// 		'&p=1&s=10',
+					// 	method: 'GET'
+					// });
 					let res = await this.$Tools.Axios({
-						url: this.$api.scp_pol,
+						url: this.$api.scp_pol + '?method=commonInterface&methodFlag=getFclpol',
 						method: 'GET'
 					});
-					if (res) {
-						this.portlist = res
+					
+					
+					// http://localhost:8088/scp/edi/api?method=commonInterface&methodFlag=getFclpol
+					if (res.results) {
+						this.portlist = res.results
 					} else {
 						return
 					}
 				} else {
-					let res = await this.$Tools.Axios({
-						url: this.$api.scp_pod,
-						method: 'GET'
-					});
-					if (res) {
-						this.portlist = res
+					// let res = await this.$Tools.Axios({
+					// 	url: this.$api.scp_pod + '?src=flexbox&action=fclpod&q=' + val.value +
+					// 		'&p=1&s=10&contentType=application/json; charset=utf-8',
+					// 	method: 'GET'
+					// });
+					// let res = await this.$Tools.Axios({
+					// 	url: this.$api.scp_pod + '?src=flexbox&action=fclpod&q=' + val.value +
+					// 		'&p=1&s=10&contentType=application/json; charset=utf-8',
+					// 	method: 'GET'
+					// });
+					if (res.results) {
+						this.portlist = res.results
 					} else {
 						return
 					}
