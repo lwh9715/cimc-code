@@ -1,6 +1,6 @@
 <template>
 	<view class="card-conent">
-		<view class="">
+		<view style="height: 360rpx;">
 			<uni-search-bar confirm-type="search" radius="15" @confirm="search" :focus="true" v-model="keyword"
 				@cancel="cancal" :adjust-position="false">
 			</uni-search-bar>
@@ -17,10 +17,11 @@
 				</view>
 			</view>
 		</view>
+
 		<view>
-			<view>
+			<!-- 	<view>
 				<uni-section title="选择港口" type="line" />
-			</view>
+			</view> -->
 			<uni-indexed-list :options="list" :show-select="false" @click="bindClick" />
 		</view>
 
@@ -198,7 +199,7 @@
 	}
 
 	>>>.uni-indexed-list {
-		top: calc(100vh - 67.5vh) !important;
+		top: calc(100vh - 73vh) !important;
 	}
 
 	.example-body {
@@ -242,5 +243,10 @@
 	.example-body-item-text {
 		font-size: 28rpx;
 		color: #333;
+	}
+
+	>>>.uni-transition {
+		background-color: rgb(255 255 255);
+		margin-top: 55px;
 	}
 </style>

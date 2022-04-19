@@ -1,23 +1,5 @@
 <template>
 	<view class="flex flex-column " style="height: 100%;">
-		<!-- 		<view class="bg-primary ">
-			<view class="uni-list">
-				<view class="uni-list-cell">
-					<view class="uni-list-cell-db">
-						<picker mode="multiSelector" @columnchange="bindMultiPickerColumnChange" :value="fclIndex"
-							:range="fclArray">
-							<view class="uni-input font-10">{{fclArray[0][fclIndex[0]]}} -> {{fclArray[1][fclIndex[1]]}}
-							</view>
-						</picker>
-					</view>
-					<view>
-						<u-icon @click="search" name="../../static/img/querybtn.png" style="overflow: auto;"
-							color="#6DBA52" size="68"></u-icon>
-					</view>
-				</view>
-			</view>
-		</view> -->
-
 		<view class="bg-secondary flex-1">
 			<block class="" v-for="(item,index) in pricelist" :key="index">
 				<view class=" bg-white m-1 px-2 rounded-half py-2 font-sm">
@@ -32,7 +14,7 @@
 						</text>
 					</view>
 					<view style="border-bottom: 1px solid #e5e5e5;margin-bottom: 10rpx;" />
-					<view class="fontSizeMy pr-1 rounded-s">
+					<view class="fontSizeMy pr-1 rounded-s" @click="checkDetail(item)">
 						<view class="flex justify-between">
 							<view class="" style="width: 35%;">
 								<text class="text-gray font-sm">运价类型：</text>
@@ -115,52 +97,6 @@
 							</view>
 						</view>
 					</view>
-					<!-- <view style="height: 1rpx; background-color: #eee;"></view> -->
-					<!-- <uni-collapse class="bg-light" v-model="activeNames" @change="change(item.uuid,index)">
-						<uni-collapse-item name='abc' ref="add" title="更多信息" :show-animation="true"
-							thumb="https://img-cdn-qiniu.dcloud.net.cn/new-page/hx.png">
-							<view class="bg-white m-1 px-1 py-1">
-
-								<view class="fontSizeMy pr-1">
-									<view class="flex justify-between">
-										<table class="font-smaller" style='width:100%;text-align: center;'>
-											<tr>
-												<th>费用名</th>
-												<th>PPCC</th>
-												<th>币制</th>
-												<th>单位</th>
-												<th>箱型费用</th>
-												<th>票/箱量</th>
-											</tr>
-											<block class="" v-for="(item,index) in feelist" :key="index">
-												<tr>
-													<td>{{item.feeitemname}}</td>
-													<td>{{item.ppcc}}</td>
-													<td>{{item.currency}}</td>
-													<td>{{item.unit}}</td>
-													<td>{{item.amt20}}</td>
-													<td>{{item.feeitemname}}</td>
-												</tr>
-											</block>
-										</table>
-									</view>
-									<view class="flex justify-between">
-										<view class="">
-											<text style="color: #999;">备注：</text>
-											<text class="font-smaller text-red">小柜货重限重18吨,超过需要加OWS:USD150</text>
-										</view>
-
-									</view>
-									<view class="flex justify-between">
-
-										<view class="rounded-half bg-primary text-white px-3">
-											<text @click="openWms">订舱</text>
-										</view>
-									</view>
-								</view>
-							</view>
-						</uni-collapse-item>
-					</uni-collapse> -->
 				</view>
 			</block>
 		</view>
@@ -189,7 +125,6 @@
 				var month = crtTime.getMonth(); //得到月份
 				var date = crtTime.getDate(); //得到日期
 				return year + '/' + month + '/' + date;
-
 			},
 			startType: function(val) {
 				if (val == 'CLS') {
@@ -228,10 +163,22 @@
 					});
 				})
 			},
-			search() {},
+			checkDetail(val) {
+				uni.navigateTo({
+					url: '/pages/price/detail?detail=' + encodeURIComponent(JSON.stringify(val)),
+					fail: (res) => {
+						console.log(res) //打印错误信息
+					}
+				});
+			},
 			onLoad: function(option) {
 				if (option.detail) {
 					let data = JSON.parse(decodeURIComponent(option.detail));
+					let line = '';
+					// for (var i = 0; i < data.freightType.length; i++) {
+					// 	line = data.freightType[0]
+					// }
+					console.log(line, "line")
 					this.$H.post('/price?method=fcllist&pol=' + data.pol + '&pod=' + data.pod +
 						'&crrier=' + data.carrier, this
 						.form, {

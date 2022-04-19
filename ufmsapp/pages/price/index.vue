@@ -9,24 +9,17 @@
 			<view style="padding: 0px 20px;">
 				<uni-forms :value="formData">
 					<uni-forms-item name="pol" label="起运港">
-						<input style="margin-top: 16rpx;" :value="formData.pol" type="text" placeholder="请输入起运港"
-							@click="openStartPage(0)" />
+						<input v-model="formData.pol" type="text" placeholder="请输入起运港" @click="openStartPage(0)" />
 					</uni-forms-item>
 					<uni-forms-item name="pod" label="目的港">
-						<input style="margin-top: 16rpx;" :value="formData.pod" type="text" placeholder="请输入起运港"
-							@click="openStartPage(1)" />
+						<input v-model="formData.pod" type="text" placeholder="请输入目的港" @click="openStartPage(1)" />
 					</uni-forms-item>
-					<view @click="openCarrierList">
-						<uni-forms-item name="carrier" label="船公司">
-							<view style="margin-top: 18rpx; margin-left: 10rpx;">
-								{{ formData.carrier }}
-							</view>
-						</uni-forms-item>
-					</view>
+					<uni-forms-item name="carrier" label="船公司">
+						<input v-model="formData.carrier" type="text" @click="openCarrierList()" />
+					</uni-forms-item>
 					<uni-forms-item name="freight" label="运价类型">
-						<view style="margin-top: 14rpx;">
-							<uni-data-checkbox style="font-size: xx-small;" multiple v-model="formData.freightType"
-								:localdata="freightlist" />
+						<view>
+							<uni-data-checkbox multiple v-model="formData.freightType" :localdata="freightlist" />
 						</view>
 					</uni-forms-item>
 				</uni-forms>
@@ -53,13 +46,13 @@
 				keyword: "",
 				carrierlist: [],
 				freightlist: [{
-					"value": 0,
+					"value": 'FAK',
 					"text": "FAK"
 				}, {
-					"value": 1,
+					"value": 'NAC',
 					"text": "NAC"
 				}, {
-					"value": 2,
+					"value": 'SPOT',
 					"text": "SPOT"
 				}],
 				formData: {
@@ -67,7 +60,7 @@
 					pod: '',
 					carrier: '',
 					date: Date.now(),
-					freightType: [0, 1, 2]
+					freightType: ['FAK', 'NAC', 'SPOT']
 				}
 			}
 		},
@@ -146,22 +139,24 @@
 	}
 </script>
 
-<style>
+<style scoped>
 	.card-conent {
 		height: calc(100vh);
 		background-image: url(../../static/img/bg.png);
 		background-color: rgb(119 184 240);
-		background-repeat: no-repeat;/* 图片按比例显示，其余部分为其他颜色 */
-		background-size: contain;/*图片等比例缩放*/
+		background-repeat: no-repeat;
+		/* 图片按比例显示，其余部分为其他颜色 */
+		background-size: contain;
+		/*图片等比例缩放*/
 		overflow-y: auto;
 	}
 
 	.view-content {
-		margin: 88px 14px;
+		margin: 120px 14px;
 		background-color: #FFFFFF;
 		box-shadow: rgb(0 0 0 / 15%) 0px 0px 3px 1px;
 		border-radius: 15px;
-		height: calc(100vh - 33vh);
+		height: calc(100vh - 36vh);
 	}
 
 	.title-text {
@@ -173,6 +168,14 @@
 
 	.uni-input-placeholder {
 		font-size: small !important;
+	}
+
+	>>>.uni-forms-item__inner {
+		align-items: baseline;
+	}
+
+	>>>.uni-forms-item__inner {
+		padding-bottom: 12px;
 	}
 
 	.scroll-Y {
