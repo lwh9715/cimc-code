@@ -15,19 +15,49 @@
 				</view>
 			</view>
 			<view style="margin-bottom: 20rpx;" />
+			<view style="border-bottom: 1px solid #e5e5e5;" />
 			<view style="padding: 10px 10px;">
 				<uni-forms :modelValue="formData">
 					<uni-forms-item name="pol" label="发货人" labelWidth="80">
-						<input v-model="formData.pol" type="text" placeholder="请输入发货人" />
+						<input type="text" placeholder="请输入发货人" />
 					</uni-forms-item>
 					<uni-forms-item name="pol" label="付款地点" labelWidth="80">
-						<input v-model="formData.pol" type="text" placeholder="请输入付款地点" />
+						<input type="text" placeholder="请输入付款地点" />
 					</uni-forms-item>
 					<uni-forms-item name="pol" label="运费条款" labelWidth="80">
-						<input v-model="formData.pol" type="text" placeholder="请输入付款地点" />
+						<input type="text" placeholder="请输入付款地点" />
 					</uni-forms-item>
-				</uni-forms>
+					<uni-forms-item name="pol" label="联系人" labelWidth="80">
+						<input type="text" placeholder="请输入委托订舱联系人" />
+					</uni-forms-item>
+					<uni-forms-item name="pol" label="电话" labelWidth="80">
+						<input type="text" placeholder="请输入委托订舱电话" />
+					</uni-forms-item>
+					<uni-forms-item name="pol" label="E-MAIL" labelWidth="80">
+						<input type="text" placeholder="请输入委托订舱E-MAIL" />
+					</uni-forms-item>
 
+					<view class="flex justify-between">
+						<text class="text-algin">20GP</text>
+						<text>
+							<uni-number-box v-model="amt20" @blur="blur" @focus="focus" @change="changeValue" />
+						</text>
+					</view>
+					<view style="margin-bottom: 30rpx;" />
+					<view class="flex justify-between">
+						<text class="text-algin">40GP</text>
+						<text>
+							<uni-number-box v-model="amt40gp" @blur="blur" @focus="focus" @change="changeValue" />
+						</text>
+					</view>
+					<view style="margin-bottom: 30rpx;" />
+					<view class="flex justify-between">
+						<text class="text-algin">40HQ</text>
+						<text>
+							<uni-number-box v-model="amt40hq" @blur="blur" @focus="focus" @change="changeValue" />
+						</text>
+					</view>
+				</uni-forms>
 			</view>
 			<button type="primary" @click="submitForm" style="margin-top: 50rpx;margin-bottom: 50rpx;">订舱</button>
 		</uni-card>
@@ -40,6 +70,9 @@
 		data() {
 			return {
 				keyword: "",
+				amt20: 0,
+				amt40gp: 0,
+				amt40hq: 0,
 				formData: {}
 			}
 		},
@@ -95,7 +128,8 @@
 	}
 
 	>>>.uni-card {
-		height: calc(100vh - 100px);
+		overflow-y: auto;
+		height: calc(100vh - 80px);
 		margin-top: 35px;
 		padding: 10px 0px;
 		border-radius: 15px;
@@ -113,6 +147,12 @@
 		font-weight: 500;
 		color: #FFFFFF;
 		background-color: #80b4ed;
+	}
+
+	.text-algin {
+		display: flex;
+		align-items: center;
+		font-size: medium;
 	}
 
 	.text-content {
