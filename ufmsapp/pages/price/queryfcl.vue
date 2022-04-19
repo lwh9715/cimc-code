@@ -10,7 +10,7 @@
 						</text>
 						<b class="text-green">{{item.pod}}</b>
 						<text style="">
-							<button type="primary" size="mini">订舱</button>
+							<button type="primary" size="mini" @click="submitBook(item)">订舱</button>
 						</text>
 					</view>
 					<view style="border-bottom: 1px solid #e5e5e5;margin-bottom: 10rpx;" />
@@ -119,6 +119,14 @@
 			}
 		},
 		methods: {
+			submitBook: function(item) {
+				uni.navigateTo({
+					url: '/pages/price/booking?detail=' + encodeURIComponent(JSON.stringify(item)),
+					fail: (res) => {
+						console.log(res) //打印错误信息
+					}
+				});
+			},
 			timeFormat: function(val) {
 				var crtTime = new Date(val);
 				var year = crtTime.getFullYear(); //得到年份

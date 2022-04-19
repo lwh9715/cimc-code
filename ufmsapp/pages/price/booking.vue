@@ -17,13 +17,13 @@
 			<view style="margin-bottom: 20rpx;" />
 			<view style="padding: 10px 10px;">
 				<uni-forms :modelValue="formData">
-					<uni-forms-item label="发货人" labelWidth="80">
+					<uni-forms-item name="pol" label="发货人" labelWidth="80">
 						<input v-model="formData.pol" type="text" placeholder="请输入发货人" />
 					</uni-forms-item>
-					<uni-forms-item label="付款地点" labelWidth="80">
+					<uni-forms-item name="pol" label="付款地点" labelWidth="80">
 						<input v-model="formData.pol" type="text" placeholder="请输入付款地点" />
 					</uni-forms-item>
-					<uni-forms-item label="运费条款" labelWidth="80">
+					<uni-forms-item name="pol" label="运费条款" labelWidth="80">
 						<input v-model="formData.pol" type="text" placeholder="请输入付款地点" />
 					</uni-forms-item>
 				</uni-forms>
