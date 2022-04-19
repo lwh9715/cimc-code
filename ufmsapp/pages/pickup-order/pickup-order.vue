@@ -98,7 +98,7 @@
 </template>
 
 <script> 
-	import mainLayout from '../../components/my-components/main-layout.vue'
+	import mainLayout from '../../uview-ui/my-component/main-layout.vue'
 	export default {
 		components:{ 
 			mainLayout

@@ -243,7 +243,16 @@
 			}
 		}
 
-	],
+	    ,{
+            "path" : "uni_modules/uni-layout/main-layout/main-layout",
+            "style" :                                                                                    
+            {
+                "navigationBarTitleText": "",
+                "enablePullDownRefresh": false
+            }
+            
+        }
+    ],
 	"globalStyle": {
 		"navigationBarTextStyle": "white",
 		"navigationStyle": "custom",

@@ -6,30 +6,19 @@
 			</uni-search-bar>
 			<uni-section title="历史港口" type="line" />
 			<view class="view-body">
-				<view class="example-body-item" @click="selectMode('SHENZHEN', 0)"><text
-						class="example-body-item-text">深圳</text>
-				</view>
-				<view class="example-body-item" @click="selectMode('DUBAI', 1)">
-					<text class="example-body-item-text">迪拜</text>
-				</view>
-				<view class="example-body-item" @click="selectMode(' INDIA', 2)"><text
-						class="example-body-item-text">印度</text>
+				<view class="example-body-item" v-for="(item,index) in citylist">
+					<view class="example-body-item-text" @click="selectMode(item.value,index)">{{item.name}}</view>
 				</view>
 			</view>
 		</view>
-
 		<view>
-			<!-- 	<view>
-				<uni-section title="选择港口" type="line" />
-			</view> -->
 			<uni-indexed-list :options="list" :show-select="false" @click="bindClick" />
 		</view>
-
-
+		<!-- 弹窗 -->
 		<uni-popup ref="popup" type="bottom" mask-background-color="rgba(0,0,0,-0.6)" backgroundColor="#FFFFFF">
 			<view class="" style="height: calc(100vh - 108rpx);overflow-y: auto;">
 				<uni-list v-for="(item,index) in portlist" index="index">
-					<uni-list-item :title="item.namee +' / '+ item.namec" @click="searchport(item.namee)" clickable />
+					<uni-list-item :title="item.namee +' / '+ item.namec" @click="searchport(item)" clickable />
 				</uni-list>
 			</view>
 		</uni-popup>
@@ -47,14 +36,23 @@
 				list: [{
 					'letter': 'A',
 					'data': []
+				}],
+				citylist: [{
+					'value': 'SHENZHEN',
+					'name': '深圳'
+				}, {
+					'value': 'DUBAI',
+					'name': '迪拜'
 				}]
 			}
 		},
-		created() {},
+		created() {
+			if (uni.getStorageSync("search_key")) {
+				this.citylist = uni.getStorageSync("search_key")
+			}
+		},
+
 		methods: {
-			// blur(e) {
-			// 	console.log('点击blur，返回数据' + JSON.stringify(e))
-			// },
 			search(val) {
 				this.$refs.popup.open('bottom')
 				if (this.index.id == 0) {
@@ -96,18 +94,38 @@
 			 * 查询港口地址
 			 */
 			searchport(e) {
+
+				let obj = {}
+				obj['value'] = e.namee;
+				obj['name'] = e.namec;
+
+
+				let temp = 0;
+
+				console.log(this.citylist[0].name)
+
+				for (var i = 0; i < this.citylist.length; i++) {
+					if (this.citylist[i].name == e.namec) {
+						temp++;
+					}
+				}
+
+				if (temp == 0 && this.citylist.length < 4) {
+					this.citylist.push(obj)
+					uni.setStorageSync('search_key', this.citylist);
+				}
+
 				this.$refs.popup.close()
 				let pages = getCurrentPages()
 				let nowPage = pages[pages.length - 1]; //当前页页面实例
 				let prevPage = pages[pages.length - 2]; //上一页页面实例
 				prevPage.$vm.index = this.index
-				prevPage.$vm.value = e
+				prevPage.$vm.value = e.namee
 				uni.navigateBack({
 					delta: 1,
 				});
 			},
 			bindClick(e) {
-				console.log('点击item，返回数据' + JSON.stringify(e))
 				var str = e.item.name.split('/');
 				let pages = getCurrentPages()
 				let nowPage = pages[pages.length - 1]; //当前页页面实例
@@ -120,11 +138,10 @@
 				});
 			},
 			selectMode(val) {
-				console.log("val", val);
+				console.log(val)
 				let pages = getCurrentPages()
 				let nowPage = pages[pages.length - 1]; //当前页页面实例
 				let prevPage = pages[pages.length - 2]; //上一页页面实例
-				console.log(prevPage)
 				prevPage.$vm.index = this.index
 				prevPage.$vm.value = val
 				uni.navigateBack({
@@ -172,7 +189,6 @@
 					}
 				})
 				this.index = option
-				console.log("option", option);
 			}
 		},
 
@@ -226,7 +242,7 @@
 		flex-direction: row;
 		justify-content: center;
 		align-items: center;
-		margin: 15rpx;
+		margin: 10rpx;
 		padding: 15rpx;
 		height: 60rpx;
 		/* #ifndef APP-NVUE */
