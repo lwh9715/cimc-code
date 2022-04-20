@@ -105,6 +105,7 @@
 </template>
 
 <script>
+	import watermark from '../../common/free-lib/watermark.js';
 	export default {
 		data() {
 			return {
@@ -117,6 +118,9 @@
 				pricelist: [],
 				feelist: {},
 			}
+		},
+		created() {
+			watermark.set('中集世倡001')
 		},
 		methods: {
 			submitBook: function(item) {
@@ -182,11 +186,6 @@
 			onLoad: function(option) {
 				if (option.detail) {
 					let data = JSON.parse(decodeURIComponent(option.detail));
-					let line = '';
-					// for (var i = 0; i < data.freightType.length; i++) {
-					// 	line = data.freightType[0]
-					// }
-					console.log(line, "line")
 					this.$H.post('/price?method=fcllist&pol=' + data.pol + '&pod=' + data.pod +
 						'&crrier=' + data.carrier, this
 						.form, {

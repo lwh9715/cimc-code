@@ -53,8 +53,14 @@
 				</view>
 				<view class="flex justify-between">
 					<view class="" style="text-align: left;">
-						<text style="margin-right: 10px;">截关:</text>
+						<text style="margin-right: 10px;">船期:</text>
 						<b>{{formData.schedule}}</b>
+					</view>
+				</view>
+				<view class="flex justify-between">
+					<view class="" style="text-align: left;">
+						<text style="margin-right: 10px;">船名:</text>
+						<b>{{formData.vessel}}</b>
 					</view>
 				</view>
 				<view class="flex justify-between">
@@ -65,8 +71,20 @@
 				</view>
 				<view class="flex justify-between">
 					<view class="" style="text-align: left;">
+						<text style="margin-right: 10px;">截关:</text>
+						<b>{{formData.cls}}</b>
+					</view>
+				</view>
+				<view class="flex justify-between">
+					<view class="" style="text-align: left;">
 						<text style="margin-right: 10px;">航线代码:</text>
 						<b>{{formData.shipline}}</b>
+					</view>
+				</view>
+				<view class="flex justify-between">
+					<view class="" style="text-align: left;">
+						<text style="margin-right: 10px;">FreeTime:</text>
+						<b>{{formData.freetime}}</b>
 					</view>
 				</view>
 				<view class="flex justify-between">

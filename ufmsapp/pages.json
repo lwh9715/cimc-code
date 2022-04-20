@@ -196,7 +196,7 @@
 				}
 			}
 		}, {
-			"path": "pages/price/queryfcl",
+			"path": "pages/price/list",
 			"style": {
 				"app-plus": {
 					"scrollIndicator": "none",

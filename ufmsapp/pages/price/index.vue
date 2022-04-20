@@ -109,7 +109,7 @@
 			submitForm() {
 				if (this.formData.pol != '' && this.formData.pod != '') {
 					uni.navigateTo({
-						url: '/pages/price/queryfcl?detail=' + encodeURIComponent(JSON.stringify(this.formData)),
+						url: '/pages/price/list?detail=' + encodeURIComponent(JSON.stringify(this.formData)),
 						fail: (res) => {
 							console.log(res) //打印错误信息
 						}
@@ -135,6 +135,9 @@
 				}
 			}
 		},
+		created() {
+			this.$U.setStorage('url', 'http://120.77.239.151/so');
+		}
 
 	}
 </script>

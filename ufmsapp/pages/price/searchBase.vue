@@ -1,8 +1,8 @@
 <template>
 	<view class="card-conent">
 		<view style="height: 360rpx;">
-			<uni-search-bar confirm-type="search" radius="15" @confirm="search" :focus="true" v-model="keyword"
-				@cancel="cancal" :adjust-position="false">
+			<uni-search-bar confirm-type="search" radius="15" @confirm="search" v-model="keyword" @cancel="cancal"
+				:adjust-position="false">
 			</uni-search-bar>
 			<uni-section title="历史港口" type="line" />
 			<view class="view-body">
