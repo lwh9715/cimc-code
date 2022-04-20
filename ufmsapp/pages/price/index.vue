@@ -89,7 +89,7 @@
 			},
 			openStartPage: function(val) {
 				uni.navigateTo({
-					url: '/pages/price/searchBase?id=' + val,
+					url: '/pages/price/search?id=' + val,
 					fail: (res) => {
 						console.log(res) //打印错误信息
 					}

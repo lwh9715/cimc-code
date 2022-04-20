@@ -7,7 +7,7 @@
 			<uni-section title="历史港口" type="line" />
 			<view class="view-body">
 				<view class="example-body-item" v-for="(item,index) in citylist">
-					<view class="example-body-item-text" @click="selectMode(item.value,index)">{{item.name}}</view>
+					<view style="font-size: xx-small;" @click="selectMode(item.value,index)">{{item.name}}</view>
 				</view>
 			</view>
 		</view>
@@ -110,7 +110,7 @@
 					}
 				}
 
-				if (temp == 0 && this.citylist.length < 4) {
+				if (temp == 0 && this.citylist.length < 8) {
 					this.citylist.push(obj)
 					uni.setStorageSync('search_key', this.citylist);
 				}
@@ -215,7 +215,7 @@
 	}
 
 	>>>.uni-indexed-list {
-		top: calc(100vh - 73vh) !important;
+		top: calc(100vh - 72.4vh) !important;
 	}
 
 	.example-body {
@@ -231,34 +231,22 @@
 	}
 
 	.view-body {
-		/* #ifndef APP-NVUE */
+		padding: 10rpx;
+		display: -webkit-flex;
 		display: flex;
-		/* #endif */
-		flex-direction: row;
-		padding: 20rpx;
+		flex-wrap: wrap;
+		align-content: stretch;
 	}
 
 	.example-body-item {
-		flex-direction: row;
-		justify-content: center;
-		align-items: center;
-		margin: 10rpx;
-		padding: 15rpx;
-		height: 60rpx;
-		/* #ifndef APP-NVUE */
-		display: flex;
-		padding: 0 15rpx;
-		/* #endif */
-		flex: 1;
 		border-color: #e5e5e5;
 		border-style: solid;
 		border-width: 1px;
 		border-radius: 5px;
-	}
-
-	.example-body-item-text {
-		font-size: 28rpx;
-		color: #333;
+		text-align: center;
+		width: 80px;
+		margin: 4rpx;
+		padding: 2rpx;
 	}
 
 	>>>.uni-transition {
