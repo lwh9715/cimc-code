@@ -1,6 +1,6 @@
 <template>
 	<view class="card-conent">
-		<uni-card style="text-align: center;">
+		<uni-card style="text-align: center;" v-watermark="watermarkConfig">
 			<view class="flex justify-between">
 				<view class="" style="width: 40%; text-align: right;">
 					<uni-icons type="location-filled"></uni-icons>
@@ -77,11 +77,11 @@
 		</uni-card>
 		<view class="goods-carts">
 			<view class="footer" style="padding:20rpx 40rpx;align-items: center;">
-				<text class="">
+				<text>
 					CNY:{{cnytotal}} + USD:{{usdtotal}}
 				</text>
-				<text class="">
-					<button type="primary" size="mini" @click="submitForm">订舱</button>
+				<text>
+					<button style="display: flex;" type="primary" size="mini" @click="submitForm">订舱</button>
 				</text>
 			</view>
 		</view>
@@ -90,9 +90,19 @@
 
 
 <script>
+	import watermarkConfig from '../../common/free-lib/directives.js'
+
 	export default {
 		data() {
 			return {
+				watermarkConfig: {
+					text: '梁文辉0435',
+					font: '20px 微软雅黑',
+					textColor: '#bcbcbc',
+					width: 380, //水印文字的水平间距
+					height: 300, //水印文字的高度间距（低于文字高度会被替代）
+					extRotate: -30 //-90到0， 负数值，不包含-90
+				},
 				keyword: "",
 				cnytotal: 0,
 				usdtotal: 0,
@@ -382,6 +392,8 @@
 		display: flex !important;
 		flex-direction: row;
 		justify-content: space-between;
+		box-shadow: rgb(0 0 0 / 10%) 0px 0px 1px 1px;
+		background-color: #ffffff;
 	}
 
 	.goods-carts {

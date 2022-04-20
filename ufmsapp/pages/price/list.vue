@@ -2,7 +2,7 @@
 	<view class="flex flex-column " style="height: 100%;">
 		<view class="bg-secondary flex-1">
 			<block class="" v-for="(item,index) in pricelist" :key="index">
-				<view class=" bg-white m-1 px-2 rounded-half py-2 font-sm">
+				<view class=" bg-white m-1 px-2 rounded-half py-2 font-sm" v-watermark="watermarkConfig">
 					<view class="flex justify-center font-md" style="justify-content: space-between;">
 						<b class="text-green">{{item.pol}}</b>
 						<text>
@@ -105,10 +105,18 @@
 </template>
 
 <script>
-	import watermark from '../../common/free-lib/watermark.js';
+	import watermarkConfig from '../../common/free-lib/directives.js'
 	export default {
 		data() {
 			return {
+				watermarkConfig: {
+					text: '梁文辉0435',
+					font: '20px 微软雅黑',
+					textColor: '#bcbcbc',
+					width: 380, //水印文字的水平间距
+					height: 150, //水印文字的高度间距（低于文字高度会被替代）
+					extRotate: -30 //-90到0， 负数值，不包含-90
+				},
 				fclArray: [
 					['起运港'],
 					['目的港'],
@@ -118,9 +126,6 @@
 				pricelist: [],
 				feelist: {},
 			}
-		},
-		created() {
-			watermark.set('中集世倡001')
 		},
 		methods: {
 			submitBook: function(item) {

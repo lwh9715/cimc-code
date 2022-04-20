@@ -5,65 +5,34 @@
 	"pages": [
 
 		{
-			"path": "pages/index/index",
-			"style": {
-
-			}
+			"path": "pages/price/index"
+		},
+		{
+			"path": "pages/index/index"
 		}, {
-			"path": "pages/config/config",
-			"style": {
-
-			}
+			"path": "pages/config/config"
 		},
 		{
-			"path": "pages/price/detail",
-			"style": {
-
-			}
+			"path": "pages/price/detail"
 		},
 		{
-			"path": "pages/price/booking",
-			"style": {
-
-			}
-		},
-		{
-			"path": "pages/price/index",
-			"style": {
-
-			}
-		},
-		{
-			"path": "pages/price/searchBase",
-			"style": {
-
-			}
+			"path": "pages/price/booking"
 		},
 
 		{
-			"path": "pages/login/login",
-			"style": {
-				// "app-plus":{
-				// "bounce":"none",
-				// "scrollIndicator":"none",
-				// "titleNView":false
-				// }
-			}
-		},
-
-
-		{
-			"path": "pages/index/index-web",
-			"style": {
-
-			}
+			"path": "pages/price/searchBase"
 		},
 
 		{
-			"path": "pages/menu/menu",
-			"style": {
+			"path": "pages/login/login"
+		},
 
-			}
+		{
+			"path": "pages/index/index-web"
+		},
+
+		{
+			"path": "pages/menu/menu"
 		},
 		{
 			"path": "pages/mind/mind",
@@ -243,16 +212,15 @@
 			}
 		}
 
-	    ,{
-            "path" : "uni_modules/uni-layout/main-layout/main-layout",
-            "style" :                                                                                    
-            {
-                "navigationBarTitleText": "",
-                "enablePullDownRefresh": false
-            }
-            
-        }
-    ],
+		, {
+			"path": "uni_modules/uni-layout/main-layout/main-layout",
+			"style": {
+				"navigationBarTitleText": "",
+				"enablePullDownRefresh": false
+			}
+
+		}
+	],
 	"globalStyle": {
 		"navigationBarTextStyle": "white",
 		"navigationStyle": "custom",

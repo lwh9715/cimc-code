@@ -1,6 +1,6 @@
 <template>
 	<view class="card-conent">
-		<uni-card style="text-align: center;">
+		<uni-card style="text-align: center;" v-watermark="watermarkConfig">
 			<view class="flex justify-between">
 				<view class="" style="width: 40%; text-align: right;">
 					<uni-icons type="location-filled"></uni-icons>
@@ -138,9 +138,19 @@
 
 
 <script>
+	import watermarkConfig from '../../common/free-lib/directives.js'
+
 	export default {
 		data() {
 			return {
+				watermarkConfig: {
+					text: '梁文辉0435',
+					font: '20px 微软雅黑',
+					textColor: '#bcbcbc',
+					width: 380, //水印文字的水平间距
+					height: 300, //水印文字的高度间距（低于文字高度会被替代）
+					extRotate: -30 //-90到0， 负数值，不包含-90
+				},
 				keyword: "",
 				formData: {},
 				feelist: []
