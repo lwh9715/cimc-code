@@ -1,1 +1,0 @@
-<view style="background:#eee;height:100%;" class="data-v-54d2b5db"><view class="data-v-54d2b5db"><view style="background:#6DBA52;height:240rpx;" class="data-v-54d2b5db"></view><view class="card data-v-54d2b5db"><slot></slot></view><view class="data-v-54d2b5db"><slot name="outside"></slot></view></view></view>

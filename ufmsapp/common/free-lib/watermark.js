@@ -6,7 +6,7 @@ let setWatermark = (str) => {
 	if (document.getElementById(id) !== null) {
 		document.body.removeChild(document.getElementById(id))
 	}
-
+	
 	let can = document.createElement('canvas')
 	can.width = 200
 	can.height = 200
@@ -17,7 +17,7 @@ let setWatermark = (str) => {
 	cans.fillStyle = 'rgb(178 178 178)'
 	cans.textAlign = 'left'
 	cans.textBaseline = 'Middle'
-	cans.fillText(str, can.width / 3, can.height / 2)
+	cans.fillText(str, can.width / 4, can.height / 2)
 
 	let div = document.createElement('div')
 	div.id = id
