@@ -216,20 +216,54 @@
 					// 	}
 					// })
 
-					this.$H.post('/price?method=fcllist&pol=' + data.pol + '&pod=' + data.pod +
-						'&crrier=' + data.carrier, this
-						.form, {
-							token: false
-						}).then(res => {
-						if (res.data.length > 0) {
-							this.pricelist = res.data.splice(0, 25);
-						} else {
-							uni.showToast({
-								title: '该港口暂无数据',
-								icon: 'none'
-							})
+
+					let temp = {}
+					uni.getStorage({
+						key: 'user_login',
+						success: res => {
+							temp = res.data
 						}
-					});
+					})
+
+					uni.request({
+						url: 'http://120.77.239.151/so/price?method=fcllist&token=' + temp.token + '&sid=' +
+							temp.sid + '&pol=' + data.pol + '&pod=' + data.pod + '&crrier=' + data.carrier +
+							'&token=' + temp.token + '&sid=' + temp.sid + '&page=1&limit=15',
+						method: 'GET',
+						header: {
+							'content-type': 'application/x-www-form-urlencoded',
+							'token':  temp.token
+						},
+						success: res => {
+							this.pricelist = res.data.data.splice(0, 25);
+						},
+						fail: res => {
+							uni.showToast({
+								title: '失败：' + res.message,
+								icon: 'none'
+							});
+						}
+					})
+
+
+					// this.$H.post('/price?method=fcllist&token=' + temp.token + '&sid=' + temp.sid + '&pol=' +
+					// 	data.pol + '&pod=' + data.pod + '&crrier=' + data.carrier + '&token=' + temp.token +
+					// 	'&sid=' + temp.sid + '&page=1&limit=15', {
+					// 		token: false
+					// 	}).then(res => {
+					// 	if (res.data.length > 0) {
+					// 		this.pricelist = res.data.splice(0, 25);
+					// 	} else {
+					// 		uni.showToast({
+					// 			title: '该港口暂无数据',
+					// 			icon: 'none'
+					// 		})
+					// 	}
+					// });
+
+
+
+
 				} else {
 					uni.showToast({
 						title: '请输入起运港-目的港口查询',

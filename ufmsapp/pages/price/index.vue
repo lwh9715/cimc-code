@@ -52,6 +52,18 @@
 				acode: "",
 				keyword: "",
 				carrierlist: [],
+				form: {
+					method: "login",
+					type: "app",
+					username: "ZSNB",
+					action: "login",
+					userpwd: "Ufms@smfU@Hxkj@jkxH@123.",
+					source: "android",
+					appVersion: "v1.1.0",
+					sim: "1380013800",
+					issysuser: true,
+					timeStamp: 1650533661969
+				},
 				isHideKeyboard: true,
 				freightlist: [{
 					"value": 'FAK',
@@ -139,8 +151,6 @@
 				// 		});
 				// 	}
 				// })
-
-
 				if (this.formData.pol != '' && this.formData.pod != '') {
 					uni.navigateTo({
 						url: '/pages/price/list?detail=' + encodeURIComponent(JSON.stringify(this.formData)),
@@ -171,6 +181,28 @@
 		},
 		created() {
 			this.$U.setStorage('url', 'http://120.77.239.151/so');
+
+			this.form.timeStamp = new Date().getTime()
+			this.$H.post('/login?method=login&type=app', this.form, {
+				token: false
+			}).then(res => {
+				uni.setStorage({
+					key: 'user_login',
+					data: res,
+					success() {
+						console.log('存储成功')
+					}
+				})
+			}).catch(res => {
+				console.log(res)
+				uni.showToast({
+					title: '登录失败：' + res.message,
+					icon: 'none'
+				});
+			})
+
+
+			// TODO 2022/04/21
 			// let temp = {}
 			// dd.ready(function() {
 			// 	dd.runtime.permission.requestAuthCode({
@@ -183,7 +215,6 @@
 			// });
 			// this.acode = temp.code;
 			this.acode = 'cd3b5a13312b3a54ae13e567b8637df6';
-			// alert(this.acode)
 			uni.setStorageSync('code', this.acode)
 			// alert(uni.getStorageSync('code'))
 		}
