@@ -52,17 +52,24 @@
 				acode: "",
 				keyword: "",
 				carrierlist: [],
+				// app
+				// form: {
+				// 	username: "LIANGWENHUI",
+				// 	userpwd: "cimc@1234",
+				// 	source: "android",
+				// 	appVersion: "v1.1.0",
+				// 	sim: "1380013800",
+				// 	issysuser: true,
+				// 	timeStamp: 1650533661969
+				// },
+				// pc
 				form: {
-					method: "login",
-					type: "app",
-					username: "ZSNB",
-					action: "login",
-					userpwd: "Ufms@smfU@Hxkj@jkxH@123.",
-					source: "android",
-					appVersion: "v1.1.0",
-					sim: "1380013800",
-					issysuser: true,
-					timeStamp: 1650533661969
+					username: "梁文辉",
+					password: "bf58b2e54beca61bffc15b30be7afdd1",
+					verification: "2148",
+					rememberme: "on",
+					issysuser: "on",
+					isread: "on"
 				},
 				isHideKeyboard: true,
 				freightlist: [{
@@ -183,24 +190,42 @@
 			this.$U.setStorage('url', 'http://120.77.239.151/so');
 
 			this.form.timeStamp = new Date().getTime()
-			this.$H.post('/login?method=login&type=app', this.form, {
-				token: false
-			}).then(res => {
-				uni.setStorage({
-					key: 'user_login',
-					data: res,
-					success() {
-						console.log('存储成功')
-					}
-				})
-			}).catch(res => {
-				console.log(res)
-				uni.showToast({
-					title: '登录失败：' + res.message,
-					icon: 'none'
-				});
-			})
+			// this.$H.post('/login?method=login&type=app', this.form, {
+			// 	token: false
+			// }).then(res => {
+			// 	uni.setStorage({
+			// 		key: 'user_login',
+			// 		data: res,
+			// 		success() {
+			// 			alert(res.message)
+			// 		}
+			// 	})
+			// }).catch(res => {
+			// 	console.log(res)
+			// 	uni.showToast({
+			// 		title: '登录失败：' + res.message,
+			// 		icon: 'none'
+			// 	});
+			// })
 
+			uni.request({
+				url: 'http://120.77.239.151/so/login?method=login',
+				data: this.form,
+				method: 'POST',
+				success: res => {
+					uni.setStorage({
+						key: 'user_login',
+						data: res.data,
+						success() {}
+					})
+				},
+				fail: res => {
+					uni.showToast({
+						title: '失败：' + res.message,
+						icon: 'none'
+					});
+				}
+			})
 
 			// TODO 2022/04/21
 			// let temp = {}
@@ -281,9 +306,8 @@
 	}
 
 	>>>.uni-scroll-view-content {
-		overflow-y: auto;
-		border-top-left-radius: 15px;
-		border-top-right-radius: 15px;
 		background-color: #FFFFFF;
+		position: absolute;
+		height: auto;
 	}
 </style>

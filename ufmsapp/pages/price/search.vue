@@ -242,11 +242,11 @@
 		border-color: #e5e5e5;
 		border-style: solid;
 		border-width: 1px;
-		border-radius: 5px;
+		border-radius: 4px;
 		text-align: center;
 		width: 80px;
-		margin: 4rpx;
-		padding: 2rpx;
+		margin: 2px 3px;
+		padding: 0px;
 	}
 
 	>>>.uni-transition {

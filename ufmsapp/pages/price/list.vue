@@ -144,11 +144,8 @@
 				});
 			},
 			timeFormat: function(val) {
-				var crtTime = new Date(val);
-				var year = crtTime.getFullYear(); //得到年份
-				var month = crtTime.getMonth(); //得到月份
-				var date = crtTime.getDate(); //得到日期
-				return year + '/' + month + '/' + date;
+				let time = val.split('-')
+				return time[0] + '/' + time[1] + '/' + time[2];
 			},
 			startType: function(val) {
 				if (val == 'CLS') {
@@ -225,14 +222,13 @@
 						}
 					})
 
+
 					uni.request({
-						url: 'http://120.77.239.151/so/price?method=fcllist&token=' + temp.token + '&sid=' +
-							temp.sid + '&pol=' + data.pol + '&pod=' + data.pod + '&crrier=' + data.carrier +
-							'&token=' + temp.token + '&sid=' + temp.sid + '&page=1&limit=15',
+						url: 'http://120.77.239.151/so/price?method=fcllist&pol=' + data.pol + '&pod=' + data
+							.pod + '&crrier=' + data.carrier,
 						method: 'GET',
 						header: {
-							'content-type': 'application/x-www-form-urlencoded',
-							'token':  temp.token
+							'content-type': 'application/x-www-form-urlencoded'
 						},
 						success: res => {
 							this.pricelist = res.data.data.splice(0, 25);

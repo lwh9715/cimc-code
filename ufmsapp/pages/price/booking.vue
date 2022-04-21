@@ -287,14 +287,11 @@
 				}
 			},
 			timeFormat: function(val) {
-				var crtTime = new Date(val);
-				var year = crtTime.getFullYear(); //得到年份
-				var month = crtTime.getMonth(); //得到月份
-				var date = crtTime.getDate(); //得到日期
-				return year + '/' + month + '/' + date;
+				let time = val.split('-')
+				return time[0] + '/' + time[1] + '/' + time[2];
 			},
 		},
-		onLoad: function(option) {			
+		onLoad: function(option) {
 			this.formData = JSON.parse(decodeURIComponent(option.detail));
 			console.log('book', this.formData)
 		}
