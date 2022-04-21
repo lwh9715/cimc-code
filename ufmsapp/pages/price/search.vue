@@ -7,7 +7,7 @@
 			<uni-section title="历史港口" type="line" />
 			<view class="view-body">
 				<view class="example-body-item" v-for="(item,index) in citylist">
-					<view style="font-size: xx-small;" @click="selectMode(item.value,index)">{{item.name}}</view>
+					<view @click="selectMode(item.value,index)">{{item.name}}</view>
 				</view>
 			</view>
 		</view>

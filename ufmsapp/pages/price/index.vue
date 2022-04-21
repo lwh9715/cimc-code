@@ -15,7 +15,8 @@
 						<input v-model="formData.pod" type="text" placeholder="请输入目的港" @click="openStartPage(1)" />
 					</uni-forms-item>
 					<uni-forms-item name="carrier" label="船公司">
-						<input v-model="formData.carrier" type="text" @click="openCarrierList()" />
+						<input adjust-position="false" autocomplete="off" @focus="focus" auto-blur="false"
+							v-model="formData.carrier" type="text" placeholder="请选择船公司" @click="openCarrierList()" />
 					</uni-forms-item>
 					<uni-forms-item name="freight" label="运价类型">
 						<view>
@@ -27,13 +28,15 @@
 			</view>
 		</view>
 
-		<uni-popup ref="carrierPopup" type="bottom" mask-background-color="rgba(0,0,0,-0.6)" backgroundColor="#FFFFFF">
+
+		<uni-popup ref="carrierPopup" type="bottom" mask-background-color="rgba(0,0,0,-0.6)">
 			<scroll-view scroll-y="true" class="scroll-Y">
 				<view class="popup-view" v-for="(item,index) in carrierlist" @click="bindCarrierChange(item.name)">
 					<view class="sentence-text">{{ item.name }}</view>
 				</view>
 			</scroll-view>
 		</uni-popup>
+
 
 	</view>
 </template>
@@ -45,6 +48,7 @@
 			return {
 				keyword: "",
 				carrierlist: [],
+				isHideKeyboard: true,
 				freightlist: [{
 					"value": 'FAK',
 					"text": "FAK"
@@ -65,6 +69,12 @@
 			}
 		},
 		methods: {
+			/**
+			 * 禁止软键盘弹出
+			 */
+			focus() {
+				if (this.isHideKeyboard) uni.hideKeyboard()
+			},
 			bindDateChange: function(e) {
 				this.formData.date = e
 			},
@@ -155,11 +165,11 @@
 	}
 
 	.view-content {
-		margin: 120px 14px;
+		margin: 110px 14px;
 		background-color: #FFFFFF;
 		box-shadow: rgb(0 0 0 / 15%) 0px 0px 3px 1px;
 		border-radius: 15px;
-		height: calc(100vh - 36vh);
+		height: calc(100vh - 33vh);
 	}
 
 	.title-text {
@@ -183,7 +193,7 @@
 
 	.scroll-Y {
 		text-align: center;
-		height: calc(100vh - 55vh);
+		height: calc(100vh - 51vh);
 		width: 100%;
 	}
 
@@ -201,8 +211,9 @@
 	}
 
 	>>>.uni-scroll-view-content {
-		position: absolute !important;
-		height: auto !important;
-		background-color: #FFFFFF !important;
+		overflow-y: auto;
+		border-top-left-radius: 15px;
+		border-top-right-radius: 15px;
+		background-color: #FFFFFF;
 	}
 </style>

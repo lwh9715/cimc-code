@@ -83,9 +83,12 @@
     },
     "quickapp" : {},
     "mp-weixin" : {
-        "appid" : "",
+        "appid" : "wx9212265a23d9b613",
         "setting" : {
-            "urlCheck" : true
+            "urlCheck" : true,
+            "es6" : true,
+            "postcss" : false,
+            "minified" : true
         }
     },
     /* h5特有相关 */

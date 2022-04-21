@@ -111,10 +111,10 @@
 			return {
 				watermarkConfig: {
 					text: '梁文辉0435',
-					font: '20px 微软雅黑',
-					textColor: '#bcbcbc',
-					width: 380, //水印文字的水平间距
-					height: 150, //水印文字的高度间距（低于文字高度会被替代）
+					font: '12px 微软雅黑',
+					textColor: '#dcdfe6',
+					width: 220, //水印文字的水平间距
+					height: 90, //水印文字的高度间距（低于文字高度会被替代）
 					extRotate: -30 //-90到0， 负数值，不包含-90
 				},
 				fclArray: [
