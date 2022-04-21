@@ -109,8 +109,9 @@
 	export default {
 		data() {
 			return {
+				userInfo: {},
 				watermarkConfig: {
-					text: '梁文辉0435',
+					text: '中集世倡0001',
 					font: '12px 微软雅黑',
 					textColor: '#dcdfe6',
 					width: 220, //水印文字的水平间距
@@ -127,6 +128,12 @@
 				feelist: {},
 			}
 		},
+		created() {
+			if (uni.getStorageSync("user_info")) {
+				this.watermarkConfig.text = uni.getStorageSync("user_info")
+			}
+		},
+
 		methods: {
 			submitBook: function(item) {
 				uni.navigateTo({
@@ -191,6 +198,24 @@
 			onLoad: function(option) {
 				if (option.detail) {
 					let data = JSON.parse(decodeURIComponent(option.detail));
+
+
+					// uni.request({
+					// 	url: 'http://120.77.239.151/scp/edi/api?method=commonInterface&methodFlag=getFreightRate&pol=' +
+					// 		data.pol + '&pod=' + data.pod + '&crrier=' + data.carrier + '&pricetype=' +
+					// 		'FAK,NAC,SPOT',
+					// 	method: 'GET',
+					// 	success: res => {
+					// 		this.pricelist = res.data.splice(0, 25);
+					// 	},
+					// 	fail: res => {
+					// 		uni.showToast({
+					// 			title: '失败：' + res.message,
+					// 			icon: 'none'
+					// 		});
+					// 	}
+					// })
+
 					this.$H.post('/price?method=fcllist&pol=' + data.pol + '&pod=' + data.pod +
 						'&crrier=' + data.carrier, this
 						.form, {

@@ -143,8 +143,9 @@
 	export default {
 		data() {
 			return {
+				userInfo: {},
 				watermarkConfig: {
-					text: '梁文辉0435',
+					text: '中集世倡0001',
 					font: '12px 微软雅黑',
 					textColor: '#dcdfe6',
 					width: 200, //水印文字的水平间距
@@ -157,6 +158,10 @@
 			}
 		},
 		created() {
+			if (uni.getStorageSync("user_info")) {
+				this.watermarkConfig.text = uni.getStorageSync("user_info")
+			}
+			
 			if (this.formData.uuid) {
 				this.$H.post('/price?method=getfeeadd&id=' + this.formData.uuid, this.form, {
 					token: false
@@ -207,7 +212,7 @@
 				return year + '/' + month + '/' + date;
 			},
 		},
-		onLoad: function(option) {
+		onLoad: function(option) {			
 			this.formData = JSON.parse(decodeURIComponent(option.detail));
 			console.log(this.formData)
 		}

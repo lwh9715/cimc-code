@@ -43,9 +43,13 @@
 
 
 <script>
+	import dd from 'dingtalk-jsapi';
+
 	export default {
 		data() {
 			return {
+				code: "",
+				acode: "",
 				keyword: "",
 				carrierlist: [],
 				isHideKeyboard: true,
@@ -117,6 +121,26 @@
 			 * 查询运价
 			 */
 			submitForm() {
+				// alert(uni.getStorageSync('code'))
+				// uni.request({
+				// 	url: 'http://120.77.239.151/login',
+				// 	data: {
+				// 		"authCode": uni.getStorageSync('code')
+				// 	},
+				// 	method: 'GET',
+				// 	success: res => {
+				// 		this.code = res.data.data.name + res.data.data.mobile.substring(7, 11)
+				// 		uni.setStorageSync('user_info', this.code)
+				// 	},
+				// 	fail: res => {
+				// 		uni.showToast({
+				// 			title: '失败：' + res.message,
+				// 			icon: 'none'
+				// 		});
+				// 	}
+				// })
+
+
 				if (this.formData.pol != '' && this.formData.pod != '') {
 					uni.navigateTo({
 						url: '/pages/price/list?detail=' + encodeURIComponent(JSON.stringify(this.formData)),
@@ -147,6 +171,21 @@
 		},
 		created() {
 			this.$U.setStorage('url', 'http://120.77.239.151/so');
+			// let temp = {}
+			// dd.ready(function() {
+			// 	dd.runtime.permission.requestAuthCode({
+			// 		corpId: "ding2bb9458351f19b9b35c2f4657eb6378f",
+			// 		onSuccess: function(result) {
+			// 			temp = result
+			// 		},
+			// 		onFail: function(err) {}
+			// 	});
+			// });
+			// this.acode = temp.code;
+			this.acode = 'cd3b5a13312b3a54ae13e567b8637df6';
+			// alert(this.acode)
+			uni.setStorageSync('code', this.acode)
+			// alert(uni.getStorageSync('code'))
 		}
 
 	}
@@ -156,7 +195,7 @@
 	.card-conent {
 		height: calc(100vh);
 		background-image: url(../../static/img/bg.png);
-		background-color: rgb(119 184 240);
+		background-color: rgb(89 142 194);
 		background-repeat: no-repeat;
 		/* 图片按比例显示，其余部分为其他颜色 */
 		background-size: contain;
