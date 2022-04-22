@@ -40,9 +40,6 @@
 				citylist: [{
 					'value': 'SHENZHEN',
 					'name': '深圳'
-				}, {
-					'value': 'DUBAI',
-					'name': '迪拜'
 				}]
 			}
 		},
@@ -58,7 +55,7 @@
 				if (this.index.id == 0) {
 					uni.request({
 						url: 'http://120.77.239.151/scp/service?src=flexbox&action=fclpol&q=' + val.value +
-							'&p=1&s=20',
+							'&p=1&s=50',
 						method: 'GET',
 						success: res => {
 							this.portlist = res.data.results
@@ -73,7 +70,7 @@
 				} else {
 					uni.request({
 						url: 'http://120.77.239.151/scp/service?src=flexbox&action=fclpod&q=' + val.value +
-							'&p=1&s=20',
+							'&p=1&s=50',
 						method: 'GET',
 						success: res => {
 							this.portlist = res.data.results
@@ -94,25 +91,25 @@
 			 * 查询港口地址
 			 */
 			searchport(e) {
-
 				let obj = {}
 				obj['value'] = e.namee;
 				obj['name'] = e.namec;
-
-
 				let temp = 0;
-
-				console.log(this.citylist[0].name)
 
 				for (var i = 0; i < this.citylist.length; i++) {
 					if (this.citylist[i].name == e.namec) {
 						temp++;
 					}
 				}
-
-				if (temp == 0 && this.citylist.length < 8) {
-					this.citylist.push(obj)
-					uni.setStorageSync('search_key', this.citylist);
+				if (temp == 0 && this.citylist.length <= 8) {
+					if (this.citylist.length == 8) {
+						this.citylist.pop()
+						this.citylist.push(obj)
+						uni.setStorageSync('search_key', this.citylist);
+					} else {
+						this.citylist.push(obj)
+						uni.setStorageSync('search_key', this.citylist);
+					}
 				}
 
 				this.$refs.popup.close()
@@ -138,7 +135,6 @@
 				});
 			},
 			selectMode(val) {
-				console.log(val)
 				let pages = getCurrentPages()
 				let nowPage = pages[pages.length - 1]; //当前页页面实例
 				let prevPage = pages[pages.length - 2]; //上一页页面实例
@@ -150,9 +146,10 @@
 				});
 			},
 			onLoad: function(option) {
+				this.index = option
 				uni.request({
 					url: 'http://120.77.239.151/scp/service?src=flexbox&action=fclpod&q=' +
-						'&p=1&s=100',
+						'&p=1&s=500',
 					method: 'GET',
 					success: res => {
 						var list_map = new Array();
@@ -163,6 +160,7 @@
 								data: []
 							});
 						}
+
 						//res去重复后的集合
 						var res = [];
 						var temp = {};
@@ -172,6 +170,19 @@
 								temp[list_map[i].letter] = 1;
 							}
 						}
+
+						// abc顺序排序
+						for (var i = 0; i < res.length; i++) {
+							for (var j = i + 1; j < res.length; j++) {
+								//如果第一个比第二个大，就交换他们两个位置
+								if (res[i].letter.charCodeAt() > res[j].letter.charCodeAt()) {
+									var temp = res[i];
+									res[i] = res[j];
+									res[j] = temp;
+								}
+							}
+						}
+
 						for (var i = 0; i < res.length; i++) {
 							for (var j = 0; j < data.length; j++) {
 								if (res[i].letter == data[j].namee.substr(0, 1)) {
@@ -188,7 +199,6 @@
 						});
 					}
 				})
-				this.index = option
 			}
 		},
 

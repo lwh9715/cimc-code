@@ -20,7 +20,7 @@
 					</uni-forms-item>
 					<uni-forms-item name="freight" label="运价类型">
 						<view>
-							<uni-data-checkbox multiple v-model="formData.freightType" :localdata="freightlist" />
+							<uni-data-checkbox multiple v-model="formData.pricetype" :localdata="freightlist" />
 						</view>
 					</uni-forms-item>
 				</uni-forms>
@@ -43,12 +43,11 @@
 
 
 <script>
-	import dd from 'dingtalk-jsapi';
+	import * as dd from 'dingtalk-jsapi';
 
 	export default {
 		data() {
 			return {
-				code: "",
 				acode: "",
 				keyword: "",
 				carrierlist: [],
@@ -87,7 +86,7 @@
 					pod: '',
 					carrier: '',
 					date: Date.now(),
-					freightType: ['FAK', 'NAC', 'SPOT']
+					pricetype: ['FAK', 'NAC', 'SPOT']
 				}
 			}
 		},
@@ -140,24 +139,6 @@
 			 * 查询运价
 			 */
 			submitForm() {
-				// alert(uni.getStorageSync('code'))
-				// uni.request({
-				// 	url: 'http://120.77.239.151/login',
-				// 	data: {
-				// 		"authCode": uni.getStorageSync('code')
-				// 	},
-				// 	method: 'GET',
-				// 	success: res => {
-				// 		this.code = res.data.data.name + res.data.data.mobile.substring(7, 11)
-				// 		uni.setStorageSync('user_info', this.code)
-				// 	},
-				// 	fail: res => {
-				// 		uni.showToast({
-				// 			title: '失败：' + res.message,
-				// 			icon: 'none'
-				// 		});
-				// 	}
-				// })
 				if (this.formData.pol != '' && this.formData.pod != '') {
 					uni.navigateTo({
 						url: '/pages/price/list?detail=' + encodeURIComponent(JSON.stringify(this.formData)),
@@ -216,7 +197,9 @@
 					uni.setStorage({
 						key: 'user_login',
 						data: res.data,
-						success() {}
+						success() {
+							
+						}
 					})
 				},
 				fail: res => {
@@ -227,21 +210,33 @@
 				}
 			})
 
-			// TODO 2022/04/21
-			// let temp = {}
-			// dd.ready(function() {
-			// 	dd.runtime.permission.requestAuthCode({
-			// 		corpId: "ding2bb9458351f19b9b35c2f4657eb6378f",
-			// 		onSuccess: function(result) {
-			// 			temp = result
-			// 		},
-			// 		onFail: function(err) {}
-			// 	});
-			// });
-			// this.acode = temp.code;
-			this.acode = 'cd3b5a13312b3a54ae13e567b8637df6';
-			uni.setStorageSync('code', this.acode)
-			// alert(uni.getStorageSync('code'))
+			var temp = "";
+			dd.ready(function() {
+				dd.runtime.permission.requestAuthCode({
+					corpId: "ding2bb9458351f19b9b35c2f4657eb6378f",
+					onSuccess: function(result) {
+						uni.setStorageSync('code', result.code);
+						uni.request({
+							url: 'http://120.77.239.151/login',
+							data: {
+								"authCode": uni.getStorageSync('code')
+							},
+							method: 'GET',
+							success: res => {
+								uni.setStorageSync('user_info', res)
+							},
+							fail: res => {
+								uni.showToast({
+									title: '失败：' + res.message,
+									icon: 'none'
+								});
+							}
+						})
+
+					},
+					onFail: function(err) {}
+				});
+			});
 		}
 
 	}

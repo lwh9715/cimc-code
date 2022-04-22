@@ -141,7 +141,9 @@
 		},
 		created() {
 			if (uni.getStorageSync("user_info")) {
-				this.watermarkConfig.text = uni.getStorageSync("user_info")
+				var temp = "";
+				temp = uni.getStorageSync("user_info")
+				this.watermarkConfig.text = temp.data.data.name + temp.data.data.mobile.substring(7, 11)
 			}
 
 			if (this.formData.uuid) {

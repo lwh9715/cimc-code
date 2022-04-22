@@ -1,7 +1,7 @@
 <template>
 	<view class="flex flex-column " style="height: 100%;">
 		<view class="bg-secondary flex-1">
-			<block class="" v-for="(item,index) in pricelist" :key="index">
+			<block class="" v-for="(item,index) in pricelist" :key="index" v-if="pricelist.length > 0 && isread">
 				<view class=" bg-white m-1 px-2 rounded-half py-2 font-sm" v-watermark="watermarkConfig">
 					<view class="flex justify-center font-md" style="justify-content: space-between;">
 						<b class="text-green">{{item.pol}}</b>
@@ -99,6 +99,17 @@
 					</view>
 				</view>
 			</block>
+			<block v-if="pricelist.length <= 0 && isread">
+				<view class=" bg-white m-1 px-2 rounded-half py-2 font-sm">
+					<view class="flex justify-center" style="justify-content: space-between;">
+						没有查询到运价<br>
+						我们会尽快更新运价!!!
+						<text style="display: flex;align-items: center;">
+							<button type="primary" size="mini" @click="backToNext()">询盘</button>
+						</text>
+					</view>
+				</view>
+			</block>
 		</view>
 
 	</view>
@@ -109,7 +120,9 @@
 	export default {
 		data() {
 			return {
+				isread: false,
 				userInfo: {},
+				datatemp: {},
 				watermarkConfig: {
 					text: '中集世倡0001',
 					font: '12px 微软雅黑',
@@ -118,23 +131,49 @@
 					height: 90, //水印文字的高度间距（低于文字高度会被替代）
 					extRotate: -30 //-90到0， 负数值，不包含-90
 				},
-				fclArray: [
-					['起运港'],
-					['目的港'],
-					['']
-				],
-				fclIndex: [0, 0, 0],
 				pricelist: [],
 				feelist: {},
 			}
 		},
 		created() {
+			uni.showLoading({
+				title: '加载中',
+				mask: true
+			});
+			uni.request({
+				url: 'http://120.77.239.151/so/price?method=fcllist',
+				data: this.datatemp,
+				method: 'GET',
+				header: {
+					'content-type': 'application/x-www-form-urlencoded'
+				},
+				success: res => {
+					this.isread = true
+					setTimeout(function() {
+						uni.hideLoading();
+					}, 300);
+					this.pricelist = res.data.data.splice(0, 25);
+
+				},
+				fail: res => {
+					uni.showToast({
+						title: '失败：' + res.message,
+						icon: 'none'
+					});
+				}
+			})
 			if (uni.getStorageSync("user_info")) {
-				this.watermarkConfig.text = uni.getStorageSync("user_info")
+				var temp = "";
+				temp = uni.getStorageSync("user_info")
+				this.watermarkConfig.text = temp.data.data.name + temp.data.data.mobile.substring(7, 11)
 			}
 		},
-
 		methods: {
+			backToNext: function() {
+				uni.navigateBack({
+					delta: 1
+				})
+			},
 			submitBook: function(item) {
 				uni.navigateTo({
 					url: '/pages/price/booking?detail=' + encodeURIComponent(JSON.stringify(item)),
@@ -153,11 +192,11 @@
 				} else if (val == 'BETD') {
 					return '大船截关'
 				} else if (val == 'ETD') {
-					return '大船'
+					return '大船 ETD'
 				} else if (val == 'TDETD') {
-					return '驳船'
+					return '驳船 TDETD'
 				} else if (val == 'ONBOARD') {
-					return '驳船'
+					return '驳船 ONBOARD'
 				} else if (val == 'SOETD') {
 					return 'SO ETD'
 				} else if (val == 'GATE') {
@@ -165,24 +204,6 @@
 				} else {
 					return ''
 				}
-			},
-			bindMultiPickerColumnChange: function(e) {
-				this.fclIndex[e.detail.column] = e.detail.value
-				this.$forceUpdate()
-			},
-			change: function(id, index) {
-				this.$H.post('/price?method=getfeeadd&id=' + id, this.form, {
-					token: false
-				}).then(res => {
-					this.feelist = res;
-					console.log(res);
-				}).catch(res => {
-					console.log(res)
-					uni.showToast({
-						title: 'search失败：' + res.message,
-						icon: 'none'
-					});
-				})
 			},
 			checkDetail(val) {
 				uni.navigateTo({
@@ -194,16 +215,12 @@
 			},
 			onLoad: function(option) {
 				if (option.detail) {
-					let data = JSON.parse(decodeURIComponent(option.detail));
-
-
+					this.datatemp = JSON.parse(decodeURIComponent(option.detail));
 					// uni.request({
-					// 	url: 'http://120.77.239.151/scp/edi/api?method=commonInterface&methodFlag=getFreightRate&pol=' +
-					// 		data.pol + '&pod=' + data.pod + '&crrier=' + data.carrier + '&pricetype=' +
-					// 		'FAK,NAC,SPOT',
+					// 	url: 'http://8.129.68.2:8989/scp/edi/api?method=commonInterface&methodFlag=getFreightRate',
+					// 	data: this.datatemp,
 					// 	method: 'GET',
 					// 	success: res => {
-					// 		this.pricelist = res.data.splice(0, 25);
 					// 	},
 					// 	fail: res => {
 					// 		uni.showToast({
@@ -212,54 +229,6 @@
 					// 		});
 					// 	}
 					// })
-
-
-					let temp = {}
-					uni.getStorage({
-						key: 'user_login',
-						success: res => {
-							temp = res.data
-						}
-					})
-
-
-					uni.request({
-						url: 'http://120.77.239.151/so/price?method=fcllist&pol=' + data.pol + '&pod=' + data
-							.pod + '&crrier=' + data.carrier,
-						method: 'GET',
-						header: {
-							'content-type': 'application/x-www-form-urlencoded'
-						},
-						success: res => {
-							this.pricelist = res.data.data.splice(0, 25);
-						},
-						fail: res => {
-							uni.showToast({
-								title: '失败：' + res.message,
-								icon: 'none'
-							});
-						}
-					})
-
-
-					// this.$H.post('/price?method=fcllist&token=' + temp.token + '&sid=' + temp.sid + '&pol=' +
-					// 	data.pol + '&pod=' + data.pod + '&crrier=' + data.carrier + '&token=' + temp.token +
-					// 	'&sid=' + temp.sid + '&page=1&limit=15', {
-					// 		token: false
-					// 	}).then(res => {
-					// 	if (res.data.length > 0) {
-					// 		this.pricelist = res.data.splice(0, 25);
-					// 	} else {
-					// 		uni.showToast({
-					// 			title: '该港口暂无数据',
-					// 			icon: 'none'
-					// 		})
-					// 	}
-					// });
-
-
-
-
 				} else {
 					uni.showToast({
 						title: '请输入起运港-目的港口查询',

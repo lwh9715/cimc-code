@@ -159,9 +159,11 @@
 		},
 		created() {
 			if (uni.getStorageSync("user_info")) {
-				this.watermarkConfig.text = uni.getStorageSync("user_info")
+				var temp = "";
+				temp = uni.getStorageSync("user_info")
+				this.watermarkConfig.text = temp.data.data.name + temp.data.data.mobile.substring(7, 11)
 			}
-			
+
 			if (this.formData.uuid) {
 				this.$H.post('/price?method=getfeeadd&id=' + this.formData.uuid, this.form, {
 					token: false
@@ -209,7 +211,7 @@
 				return time[0] + '/' + time[1] + '/' + time[2];
 			},
 		},
-		onLoad: function(option) {			
+		onLoad: function(option) {
 			this.formData = JSON.parse(decodeURIComponent(option.detail));
 			console.log(this.formData)
 		}
