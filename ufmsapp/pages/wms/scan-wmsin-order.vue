@@ -18,11 +18,13 @@
 		<view class="" style="margin: 0 20rpx;margin-top: 150rpx;">
 			<!-- 搜索框 -->
 			<view class="u-f">
-				<view class="u-f u-f-ac u-f-jsb" style="border: 1px solid #6DBA52;padding: 10rpx 20rpx;flex: 1;border-radius: 16rpx;">
-					<u-icon @click="openScan" name="scan" style="margin-right: 30rpx;" color="#6DBA52" size="78"></u-icon>
+				<view class="u-f u-f-ac u-f-jsb"
+					style="border: 1px solid #6DBA52;padding: 10rpx 20rpx;flex: 1;border-radius: 16rpx;">
+					<u-icon @click="openScan" name="scan" style="margin-right: 30rpx;" color="#6DBA52" size="78">
+					</u-icon>
 					<input type="text" style="flex: 1;height: 100%;" placeholder="请输入或扫描单号" v-model="form.innos" />
 					<button @click="openWms" style="width: 20%; background-color: #6DBA52; border-radius: 96rpx;"
-					 type="primary">搜索</button>
+						type="primary">搜索</button>
 				</view>
 			</view>
 
@@ -33,40 +35,45 @@
 			<view class="card2" style="">
 
 				<view style="color: #999; font-size: 34rpx;margin: 30rpx 40rpx;">入库信息</view>
-				<view v-for="item in records" class="u-f u-f-jsb" style="margin-left: 80rpx; padding-right: 30rpx;">
+				<view v-for="(item,index) in records" class="u-f u-f-jsb"
+					style="margin-left: 80rpx; padding-right: 30rpx;">
 					<text style="width: 1%;display: none;">{{item.id}}</text>
 					<text style="color: red;">{{item.goodsnamec}}</text>
 					<text>{{item.piece}}</text>
-							
+
 					<text>{{item.gdscbm}}CBM</text>
 					<text>{{item.gdswgt}}KGS</text>
 				</view>
 			</view>
-			
-			
-			<view class="card2" style="">	
+
+
+			<view class="card2" style="">
 				<view style="color: #999; font-size: 34rpx;margin: 30rpx 40rpx;">确认数据
-				
-					<u-icon @click="showItem('before')" style="margin-left: 30rpx;" name="arrow-left" color="#6DBA52" size="78"></u-icon>
-					<u-icon @click="showItem('next')" style="margin-left: 30rpx;" name="arrow-right" color="#6DBA52" size="78"></u-icon>
+
+					<u-icon @click="showItem('before')" style="margin-left: 30rpx;" name="arrow-left" color="#6DBA52"
+						size="78"></u-icon>
+					<u-icon @click="showItem('next')" style="margin-left: 30rpx;" name="arrow-right" color="#6DBA52"
+						size="78"></u-icon>
 				</view>
 
-				<view class="u-f u-f-jsb" style="margin-left: 20rpx; padding-right: 20rpx;">					
+				<view class="u-f u-f-jsb" style="margin-left: 20rpx; padding-right: 20rpx;">
 					<text style="color: red;display: none;">{{form.id}}</text>
 					<text style="color: red;padding: 20rpx;">{{form.goodsnamec}}</text>
 					<u-input type="text" class="rounded border" placeholder="件数" v-model="form.piece_in"
-					  style="padding: 0 20rpx;border-color: #6DBA52;margin: 5rpx;" />
+						style="padding: 0 20rpx;border-color: #6DBA52;margin: 5rpx;" />
 					<u-input type="text" class="rounded border" placeholder="毛重" v-model="form.gdscbm_in"
-					   style="padding: 0 20rpx;border-color: #6DBA52;margin: 5rpx;" />
+						style="padding: 0 20rpx;border-color: #6DBA52;margin: 5rpx;" />
 					<u-input type="text" class="rounded border" placeholder="体积" v-model="form.gdswgt_in"
-					  style="padding: 0 20rpx;border-color: #6DBA52;margin: 5rpx;" />
+						style="padding: 0 20rpx;border-color: #6DBA52;margin: 5rpx;" />
 				</view>
-				
-				<view class="u-f u-f-jsb" style="margin-left: 20rpx; padding-right: 20rpx;">			
-					<button @click="submitWmsDtl" style="width: 40%;margin-top: 5%; background-color: #ff5500; border-radius: 96rpx;"
-					 type="primary">确认件毛体</button>
-					 <button @click="submitWms" style="width: 40%;margin-top: 5%; background-color: #6DBA52; border-radius: 96rpx;"
-					  type="primary">确认入库</button>	
+
+				<view class="u-f u-f-jsb" style="margin-left: 20rpx; padding-right: 20rpx;">
+					<button @click="submitWmsDtl"
+						style="width: 40%;margin-top: 5%; background-color: #ff5500; border-radius: 96rpx;"
+						type="primary">确认件毛体</button>
+					<button @click="submitWms"
+						style="width: 40%;margin-top: 5%; background-color: #6DBA52; border-radius: 96rpx;"
+						type="primary">确认入库</button>
 				</view>
 			</view>
 		</view>
@@ -82,11 +89,11 @@
 	var receiver
 	var main
 	var page
-	
+
 	export default {
 		data() {
 			return {
-				stop:false,
+				stop: false,
 				orderId: '',
 				records: [{
 					id: '',
@@ -94,16 +101,16 @@
 					time: ''
 				}],
 				form: {
-					id:0,
-					goodsnamec:'',
-					innos:'',
-					piece_in:0,
-					gdscbm_in:0,					
-					gdswgt_in:0				
-				} ,
-				itemindex:0,
-				wmsinnos:'',
-				customernamec:''
+					id: 0,
+					goodsnamec: '',
+					innos: '',
+					piece_in: 0,
+					gdscbm_in: 0,
+					gdswgt_in: 0
+				},
+				itemindex: 0,
+				wmsinnos: '',
+				customernamec: ''
 			}
 		},
 		onNavigationBarButtonTap() {
@@ -112,12 +119,12 @@
 			})
 		},
 		onBackPress() {
-		uni.reLaunch({
+			uni.reLaunch({
 				url: '../index/index'
 			})
 			return true
 		},
-			
+
 		onShow() {
 
 			page = this;
@@ -172,46 +179,46 @@
 			main.unregisterReceiver(receiver); //取消监听  
 		},
 		onLoad() {
-			 this.innerAudioContext = uni.createInnerAudioContext();
+			this.innerAudioContext = uni.createInnerAudioContext();
 		},
 		onReady() {
-		
+
 		},
-		watch:{
-			orderId(val){
-				console.log('from watch '+val)
-				if(val === '6926032345152'){
+		watch: {
+			orderId(val) {
+				console.log('from watch ' + val)
+				if (val === '6926032345152') {
 					this.test('1')
 				}
-				
+
 			}
 		},
 		methods: {
-			test(type){
+			test(type) {
 				this.innerAudioContext.autoplay = true;
-				switch (type){
+				switch (type) {
 					case '2':
-					this.innerAudioContext.src = '../../static/voice/2.mp3';
+						this.innerAudioContext.src = '../../static/voice/2.mp3';
 						break;
 					case '1':
-					this.innerAudioContext.src = '../../static/voice/1.mp3';
+						this.innerAudioContext.src = '../../static/voice/1.mp3';
 						break;
-						case '3':
-					this.innerAudioContext.src = 'https://img-cdn-qiniu.dcloud.net.cn/uniapp/audio/music.mp3';
+					case '3':
+						this.innerAudioContext.src = 'https://img-cdn-qiniu.dcloud.net.cn/uniapp/audio/music.mp3';
 						break;
 				}
-			// 	if(this.stop){
-			// 		console.log(this.stop)
-			// 		console.log(this.innerAudioContext)
-			// 		this.innerAudioContext.pause()
-			
-			// 		this.stop = false
-			// 	}else {
-			// 		console.log(this.stop)
-					this.innerAudioContext.play()
+				// 	if(this.stop){
+				// 		console.log(this.stop)
+				// 		console.log(this.innerAudioContext)
+				// 		this.innerAudioContext.pause()
+
+				// 		this.stop = false
+				// 	}else {
+				// 		console.log(this.stop)
+				this.innerAudioContext.play()
 				// 	this.stop = true
 				// }
-				
+
 			},
 			openScan() {
 				uni.scanCode({
@@ -222,7 +229,7 @@
 						this.openWms()
 					})
 				})
-				
+
 			},
 			clearData() {
 				this.records = [{}];
@@ -231,7 +238,7 @@
 				this.customernamec = '';
 				this.showItem('next');
 			},
-			openWms() {					
+			openWms() {
 				if (!this.form.innos) {
 					uni.showToast({
 						title: "请输入或扫描单号",
@@ -239,86 +246,86 @@
 					})
 					return
 				}
-				
-				this.$H.post('/wmsinfo?method=getWmsinfo',this.form,{
-					token:false
-				}).then(res=>{
-					 console.log(res)
-					if(res.data){
+
+				this.$H.post('/wmsinfo?method=getWmsinfo', this.form, {
+					token: false
+				}).then(res => {
+					console.log(res)
+					if (res.data) {
 						this.records = res.data;
 						this.itemindex = 0;
 						this.wmsinnos = res.data[0].wmsinnos;
 						this.customernamec = res.data[0].customernamec;
 						this.showItem('next');
 					}
-					
+
 				}).catch(res => {
 					console.log(res)
 					uni.showToast({
-						title: '失败2：'+res.message,
+						title: '失败2：' + res.message,
 						icon: 'none'
 					});
-				})				
+				})
 			},
-			submitWms(){
-				console.log('form:'+this.form);
-				this.$H.post('/wmsinfo?method=submitWmsin',this.form,{
-					token:false
-				}).then(res=>{
-					 console.log(res)
-					if(res.data){
-						
-					}						
-					if(res.success === true){
+			submitWms() {
+				console.log('form:' + this.form);
+				this.$H.post('/wmsinfo?method=submitWmsin', this.form, {
+					token: false
+				}).then(res => {
+					console.log(res)
+					if (res.data) {
+
+					}
+					if (res.success === true) {
 						uni.showToast({
 							title: '成功'
-						});		
+						});
 						this.clearData()
 						return
 					}
 					uni.showToast({
-						title: '失败：'+res.message,
+						title: '失败：' + res.message,
 						icon: 'none'
-					});					
+					});
 				}).catch(res => {
 					console.log(res)
 					uni.showToast({
-						title: '失败：'+res.message,
+						title: '失败：' + res.message,
 						icon: 'none'
 					});
 				})
 			},
-			submitWmsDtl(){
-				console.log('form:'+this.form);
-				this.$H.post('/wmsinfo?method=updateWmsin',this.form,{
-					token:false
-				}).then(res=>{
-					 console.log(res)
-					if(res.data){
-						
-					}						
-					if(res.success === true){
+			submitWmsDtl() {
+				console.log('form:' + this.form);
+				this.$H.post('/wmsinfo?method=updateWmsin', this.form, {
+					token: false
+				}).then(res => {
+					console.log(res)
+					if (res.data) {
+
+					}
+					if (res.success === true) {
 						uni.showToast({
 							title: '成功'
-						});							
+						});
 						return
 					}
 					uni.showToast({
-						title: '失败：'+res.message,
+						title: '失败：' + res.message,
 						icon: 'none'
-					});					
+					});
 				}).catch(res => {
 					console.log(res)
 					uni.showToast({
-						title: '失败：'+res.message,
+						title: '失败：' + res.message,
 						icon: 'none'
 					});
 				})
 			},
-			showItem(type){
+			showItem(type) {
 				for (let i = 0; i < this.records.length; i++) {
 					console.log(this.records[i]);
-					if(i == (this.itemindex)){
+					if (i == (this.itemindex)) {
 						let item = this.records[i];
 						/* uni.showToast({
 							title: '登录失败2：'+item.goodsnamec,
@@ -331,19 +338,19 @@
 						this.form.gdswgt_in = item.gdswgt_in;
 					}
 				}
-				if(type=='before'){
-					if(this.itemindex>0){
+				if (type == 'before') {
+					if (this.itemindex > 0) {
 						this.itemindex--;
-					}else{
-						this.itemindex=this.records.length-1;
+					} else {
+						this.itemindex = this.records.length - 1;
 					}
 				}
-				if(type=='next'){
-					if(this.itemindex<this.records.length){
+				if (type == 'next') {
+					if (this.itemindex < this.records.length) {
 						this.itemindex++;
-					}else{
-						this.itemindex=0;
-					}					
+					} else {
+						this.itemindex = 0;
+					}
 				}
 			}
 		}

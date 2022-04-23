@@ -5,7 +5,79 @@
 	"pages": [
 
 		{
-			"path": "pages/price/index"
+			"path": "pages/price/index",
+			"style": {
+				"app-plus": {
+					"scrollIndicator": "none",
+					"bounce": "none",
+					"titleNView": {
+						"titleText": "查询运价"
+					}
+				}
+			}
+		},
+		{
+			"path": "pages/price/list",
+			"style": {
+				"app-plus": {
+					"scrollIndicator": "none",
+					"bounce": "none",
+					"titleNView": {
+						"titleText": "运价列表"
+
+					}
+				}
+			}
+		},
+		{
+			"path": "pages/price/bosslist",
+			"style": {
+				"app-plus": {
+					"scrollIndicator": "none",
+					"bounce": "none",
+					"titleNView": {
+						"titleText": "运价列表"
+					}
+				}
+			}
+		},
+		{
+			"path": "pages/price/detail",
+			"style": {
+				"app-plus": {
+					"scrollIndicator": "none",
+					"bounce": "none",
+					"titleNView": {
+						"titleText": "运价详情"
+					}
+				}
+			}
+		},
+		{
+			"path": "pages/price/booking",
+			"style": {
+				"app-plus": {
+					"scrollIndicator": "none",
+					"bounce": "none",
+					"titleNView": {
+						"titleText": "在线订舱"
+					}
+				}
+			}
+		},
+		{
+			"path": "pages/price/search",
+			"style": {
+				"app-plus": {
+					"scrollIndicator": "none",
+					"bounce": "none",
+					"titleNView": {
+						"backgroundColor": "#6DBA52",
+						"titleText": "港口搜索",
+						"titleSize": "35rpx"
+					}
+				}
+			}
 		},
 		{
 			"path": "pages/index/index"
@@ -14,24 +86,11 @@
 			"path": "pages/config/config"
 		},
 		{
-			"path": "pages/price/detail"
-		},
-		{
-			"path": "pages/price/booking"
-		},
-
-		{
-			"path": "pages/price/search"
-		},
-
-		{
 			"path": "pages/login/login"
 		},
-
 		{
 			"path": "pages/index/index-web"
 		},
-
 		{
 			"path": "pages/menu/menu"
 		},
@@ -96,9 +155,8 @@
 					}
 				}
 			}
-		}
-
-		, {
+		},
+		{
 			"path": "pages/wms/scan-wmsin-order",
 			"style": {
 				"app-plus": {
@@ -121,7 +179,8 @@
 					}
 				}
 			}
-		}, {
+		},
+		{
 			"path": "pages/pickup-order/pickup-order",
 			"style": {
 				"app-plus": {
@@ -137,7 +196,8 @@
 			}
 		}
 
-		, {
+		,
+		{
 			"path": "pages/diff-report/diff-report",
 			"style": {
 				"app-plus": {
@@ -151,7 +211,8 @@
 					}
 				}
 			}
-		}, {
+		},
+		{
 			"path": "pages/pick-detail/pick-detail",
 			"style": {
 				"app-plus": {
@@ -165,21 +226,8 @@
 					}
 				}
 			}
-		}, {
-			"path": "pages/price/list",
-			"style": {
-				"app-plus": {
-					"scrollIndicator": "none",
-					"bounce": "none",
-					"titleNView": {
-						"backgroundColor": "#6DBA52",
-						"titleText": "运价查询",
-						"titleSize": "35rpx"
-
-					}
-				}
-			}
-		}, {
+		},
+		{
 			"path": "pages/submitList/submitList",
 			"style": {
 				"app-plus": {
@@ -193,7 +241,8 @@
 					}
 				}
 			}
-		}, {
+		},
+		{
 			"path": "pages/unsubmitList/unsubmitList",
 			"style": {}
 		},
@@ -211,9 +260,8 @@
 					}
 				}
 			}
-		}
-
-		, {
+		},
+		{
 			"path": "uni_modules/uni-layout/main-layout/main-layout",
 			"style": {
 				"navigationBarTitleText": "",

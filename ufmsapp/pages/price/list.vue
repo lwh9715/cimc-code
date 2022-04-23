@@ -141,8 +141,11 @@
 				mask: true
 			});
 			uni.request({
-				url: 'http://120.77.239.151/so/price?method=fcllist',
-				data: this.datatemp,
+				// url: 'http://120.77.239.151/so/price?method=fcllist',
+				// data: this.datatemp,
+				// method: 'GET',
+				url: 'http://120.77.239.151/so/price?method=fcllist&pol=' + this.datatemp.pol + '&pod=' + this
+					.datatemp.pod + '&crrier=' + this.datatemp.carrier,
 				method: 'GET',
 				header: {
 					'content-type': 'application/x-www-form-urlencoded'

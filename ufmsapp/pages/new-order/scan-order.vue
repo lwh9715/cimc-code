@@ -18,13 +18,17 @@
 		<view class="" style="margin: 0 20rpx;margin-top: 150rpx;">
 			<!-- 搜索框 -->
 			<view class="u-f">
-				<view class="u-f u-f-ac u-f-jsb" style="border: 1px solid #6DBA52;padding: 10rpx 20rpx;flex: 1;border-radius: 16rpx;">
-					<u-icon @click="openScan" name="scan" style="margin-right: 30rpx;" color="#6DBA52" size="78"></u-icon>
+				<view class="u-f u-f-ac u-f-jsb"
+					style="border: 1px solid #6DBA52;padding: 10rpx 20rpx;flex: 1;border-radius: 16rpx;">
+					<u-icon @click="openScan" name="scan" style="margin-right: 30rpx;" color="#6DBA52" size="78">
+					</u-icon>
 					<input type="text" style="flex: 1;height: 100%;" placeholder="请输入或扫描单号" v-model="orderId" />
 				</view>
 				<u-icon @click="test('1')" style="margin-left: 30rpx;" name="photo" color="#6DBA52" size="78"></u-icon>
-				<u-icon @click="test('2')" style="margin-left: 30rpx;" name="arrow-left" color="#6DBA52" size="78"></u-icon>
-				<u-icon @click="test('3')" style="margin-left: 30rpx;" name="arrow-upward" color="#6DBA52" size="78"></u-icon>
+				<u-icon @click="test('2')" style="margin-left: 30rpx;" name="arrow-left" color="#6DBA52" size="78">
+				</u-icon>
+				<u-icon @click="test('3')" style="margin-left: 30rpx;" name="arrow-upward" color="#6DBA52" size="78">
+				</u-icon>
 			</view>
 
 			<view class="m-30" style="color: red; font-weight: bold;font-size: 32rpx;height: 56rpx;">
@@ -34,7 +38,8 @@
 			<view class="card2" style="">
 
 				<view style="color: #999; font-size: 34rpx;margin: 30rpx 40rpx;">最新扫描单号</view>
-				<view v-for="item in records" class="u-f u-f-jsb" style="margin-left: 80rpx; padding-right: 30rpx;">
+				<view v-for="(item,index) in records" class="u-f u-f-jsb"
+					style="margin-left: 80rpx; padding-right: 30rpx;">
 					<text>{{item.id}}</text>
 					<text style="color: red;">{{item.status}}</text>
 					<text>{{item.time}}</text>
@@ -63,11 +68,11 @@
 	var receiver
 	var main
 	var page
-	
+
 	export default {
 		data() {
 			return {
-				stop:false,
+				stop: false,
 				orderId: '33',
 				records: [{
 					id: '2131221',
@@ -93,13 +98,13 @@
 			})
 		},
 		onBackPress() {
-		uni.reLaunch({
+			uni.reLaunch({
 				url: '../menu/menu'
 			})
-	
+
 			return true
 		},
-			
+
 		onShow() {
 
 			page = this;
@@ -154,54 +159,54 @@
 			main.unregisterReceiver(receiver); //取消监听  
 		},
 		onLoad() {
-			 this.innerAudioContext = uni.createInnerAudioContext();
+			this.innerAudioContext = uni.createInnerAudioContext();
 		},
 		onReady() {
-		
+
 		},
-		watch:{
-			orderId(val){
-				console.log('from watch '+val)
-				if(val === '6926032345152'){
+		watch: {
+			orderId(val) {
+				console.log('from watch ' + val)
+				if (val === '6926032345152') {
 					this.test('1')
 				}
-				
+
 			}
 		},
 		methods: {
-			
-			test(type){
-				
-				
+
+			test(type) {
+
+
 				this.innerAudioContext.autoplay = true;
-				
-				
-				switch (type){
+
+
+				switch (type) {
 					case '2':
-					this.innerAudioContext.src = '../../static/voice/2.mp3';
+						this.innerAudioContext.src = '../../static/voice/2.mp3';
 						break;
 					case '1':
-					this.innerAudioContext.src = '../../static/voice/1.mp3';
+						this.innerAudioContext.src = '../../static/voice/1.mp3';
 						break;
-						case '3':
-					this.innerAudioContext.src = 'https://img-cdn-qiniu.dcloud.net.cn/uniapp/audio/music.mp3';
+					case '3':
+						this.innerAudioContext.src = 'https://img-cdn-qiniu.dcloud.net.cn/uniapp/audio/music.mp3';
 						break;
 				}
-				
-				
-			
-			// 	if(this.stop){
-			// 		console.log(this.stop)
-			// 		console.log(this.innerAudioContext)
-			// 		this.innerAudioContext.pause()
-			
-			// 		this.stop = false
-			// 	}else {
-			// 		console.log(this.stop)
-					this.innerAudioContext.play()
+
+
+
+				// 	if(this.stop){
+				// 		console.log(this.stop)
+				// 		console.log(this.innerAudioContext)
+				// 		this.innerAudioContext.pause()
+
+				// 		this.stop = false
+				// 	}else {
+				// 		console.log(this.stop)
+				this.innerAudioContext.play()
 				// 	this.stop = true
 				// }
-				
+
 			},
 			openScan() {
 				uni.scanCode({

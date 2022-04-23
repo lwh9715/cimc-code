@@ -23,6 +23,11 @@
 							<uni-data-checkbox multiple v-model="formData.pricetype" :localdata="freightlist" />
 						</view>
 					</uni-forms-item>
+					<uni-forms-item name="mode" label="查询模式">
+						<view>
+							<uni-data-checkbox v-model="mode" :localdata="modedata" />
+						</view>
+					</uni-forms-item>
 				</uni-forms>
 				<button type="primary" @click="submitForm" style="margin-top: 20rpx;margin-bottom: 50rpx;">立即查询</button>
 			</view>
@@ -48,6 +53,14 @@
 	export default {
 		data() {
 			return {
+				mode: 0,
+				modedata: [{
+					"value": 0,
+					"text": "模式一"
+				}, {
+					"value": 1,
+					"text": "模式二"
+				}],
 				acode: "",
 				keyword: "",
 				carrierlist: [],
@@ -140,12 +153,23 @@
 			 */
 			submitForm() {
 				if (this.formData.pol != '' && this.formData.pod != '') {
-					uni.navigateTo({
-						url: '/pages/price/list?detail=' + encodeURIComponent(JSON.stringify(this.formData)),
-						fail: (res) => {
-							console.log(res) //打印错误信息
-						}
-					});
+
+					if (this.mode == 0) {
+						uni.navigateTo({
+							url: '/pages/price/bosslist?detail=' + encodeURIComponent(JSON.stringify(this
+								.formData)),
+							fail: (res) => {
+								console.log(res) //打印错误信息
+							}
+						});
+					} else {
+						uni.navigateTo({
+							url: '/pages/price/list?detail=' + encodeURIComponent(JSON.stringify(this.formData)),
+							fail: (res) => {
+								console.log(res) //打印错误信息
+							}
+						});
+					}
 				} else {
 					uni.showToast({
 						title: '请输入港口信息查询',
@@ -198,7 +222,7 @@
 						key: 'user_login',
 						data: res.data,
 						success() {
-							
+
 						}
 					})
 				},
