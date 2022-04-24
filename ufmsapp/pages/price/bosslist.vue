@@ -73,31 +73,28 @@
 				title: '加载中',
 				mask: true
 			});
-			uni.request({
-				// url: 'http://120.77.239.151/so/price?method=fcllist',
-				// data: this.datatemp,
-				// method: 'GET',
-				url: 'http://120.77.239.151/so/price?method=fcllist&pol=' + this.datatemp.pol + '&pod=' + this
-					.datatemp.pod + '&crrier=' + this.datatemp.carrier,
-				method: 'GET',
-				header: {
-					'content-type': 'application/x-www-form-urlencoded'
-				},
-				success: res => {
-					this.isread = true
-					setTimeout(function() {
-						uni.hideLoading();
-					}, 300);
-					this.pricelist = res.data.data.splice(0, 20);
+			// uni.request({
+			// 	url: 'http://120.77.239.151/so/price?method=fcllist&pol=' + this.datatemp.pol + '&pod=' + this
+			// 		.datatemp.pod + '&crrier=' + this.datatemp.carrier,
+			// 	method: 'GET',
+			// 	header: {
+			// 		'content-type': 'application/x-www-form-urlencoded'
+			// 	},
+			// 	success: res => {
+			// 		this.isread = true
+			// 		setTimeout(function() {
+			// 			uni.hideLoading();
+			// 		}, 300);
+			// 		this.pricelist = res.data.data.splice(0, 20);
 
-				},
-				fail: res => {
-					uni.showToast({
-						title: '失败：' + res.message,
-						icon: 'none'
-					});
-				}
-			})
+			// 	},
+			// 	fail: res => {
+			// 		uni.showToast({
+			// 			title: '失败：' + res.message,
+			// 			icon: 'none'
+			// 		});
+			// 	}
+			// })
 			if (uni.getStorageSync("user_info")) {
 				var temp = "";
 				temp = uni.getStorageSync("user_info")
@@ -152,19 +149,23 @@
 			onLoad: function(option) {
 				if (option.detail) {
 					this.datatemp = JSON.parse(decodeURIComponent(option.detail));
-					// uni.request({
-					// 	url: 'http://8.129.68.2:8989/scp/edi/api?method=commonInterface&methodFlag=getFreightRate',
-					// 	data: this.datatemp,
-					// 	method: 'GET',
-					// 	success: res => {
-					// 	},
-					// 	fail: res => {
-					// 		uni.showToast({
-					// 			title: '失败：' + res.message,
-					// 			icon: 'none'
-					// 		});
-					// 	}
-					// })
+					uni.request({
+						url: 'http://8.129.68.2:8989/scp/edi/api?method=commonInterface&methodFlag=getFreightRate',
+						data: this.datatemp,
+						method: 'GET',
+						success: res => {
+
+							console.log(res.data
+							);
+
+						},
+						fail: res => {
+							uni.showToast({
+								title: '失败：' + res.message,
+								icon: 'none'
+							});
+						}
+					})
 				} else {
 					uni.showToast({
 						title: '请输入起运港-目的港口查询',
@@ -206,7 +207,6 @@
 	}
 
 	>>>.table--stripe .uni-table-tr:nth-child(2n + 3) {
-	    background-color: inherit;
+		background-color: inherit;
 	}
-	
 </style>
