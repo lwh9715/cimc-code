@@ -54,7 +54,7 @@
 				<view class="flex justify-between">
 					<view class="" style="text-align: left;">
 						<text style="margin-right: 10px;">船期:</text>
-						<b>{{formData.schedule}}</b>
+						<b>{{formData.cls}}</b>
 					</view>
 				</view>
 				<view class="flex justify-between">
@@ -72,7 +72,7 @@
 				<view class="flex justify-between">
 					<view class="" style="text-align: left;">
 						<text style="margin-right: 10px;">截关:</text>
-						<b>{{formData.cls}}</b>
+						<b>{{formData.schedule}}</b>
 					</view>
 				</view>
 				<view class="flex justify-between">

@@ -56,8 +56,8 @@
 							</view>
 							<view class="" style="width: 30%;">
 								<text class="text-gray font-sm">截关：</text>
-								<text class="font-weight-bold text-red" v-if="item.cls">
-									<b>{{ item.cls }}</b>
+								<text class="font-weight-bold text-red" v-if="item.schedule">
+									<b>{{ item.schedule == ('' || null) ? '--' : item.schedule}}</b>
 								</text>
 							</view>
 							<view class="" style="width: 35%;">
@@ -75,7 +75,7 @@
 							<view class="" style="width: 30%;">
 								<text class="text-gray font-sm">船期：</text>
 								<text class="text-red">
-									<b>{{ item.schedule == ('' || null) ? '--' : item.schedule}}</b>
+									<b>{{ item.cls }}</b>
 								</text>
 							</view>
 							<view class=""
@@ -155,7 +155,7 @@
 					setTimeout(function() {
 						uni.hideLoading();
 					}, 300);
-					this.pricelist = res.data.data.splice(0, 25);
+					this.pricelist = res.data.data.splice(0, 20);
 
 				},
 				fail: res => {

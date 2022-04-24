@@ -75,14 +75,6 @@
 				// 	timeStamp: 1650533661969
 				// },
 				// pc
-				form: {
-					username: "梁文辉",
-					password: "bf58b2e54beca61bffc15b30be7afdd1",
-					verification: "2148",
-					rememberme: "on",
-					issysuser: "on",
-					isread: "on"
-				},
 				isHideKeyboard: true,
 				freightlist: [{
 					"value": 'FAK',
@@ -193,8 +185,6 @@
 		},
 		created() {
 			this.$U.setStorage('url', 'http://120.77.239.151/so');
-
-			this.form.timeStamp = new Date().getTime()
 			// this.$H.post('/login?method=login&type=app', this.form, {
 			// 	token: false
 			// }).then(res => {
@@ -213,19 +203,22 @@
 			// 	});
 			// })
 
+			var temp = "";
+			uni.removeStorageSync("user_info")
+			uni.removeStorageSync('code')
+
 			uni.request({
 				url: 'http://120.77.239.151/so/login?method=login',
-				data: this.form,
-				method: 'POST',
-				success: res => {
-					uni.setStorage({
-						key: 'user_login',
-						data: res.data,
-						success() {
-
-						}
-					})
+				data: {
+					username: "梁文辉",
+					password: "bf58b2e54beca61bffc15b30be7afdd1",
+					verification: "2148",
+					rememberme: "on",
+					issysuser: "on",
+					isread: "on"
 				},
+				method: 'POST',
+				success: res => {},
 				fail: res => {
 					uni.showToast({
 						title: '失败：' + res.message,
@@ -234,7 +227,7 @@
 				}
 			})
 
-			var temp = "";
+
 			dd.ready(function() {
 				dd.runtime.permission.requestAuthCode({
 					corpId: "ding2bb9458351f19b9b35c2f4657eb6378f",

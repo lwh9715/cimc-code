@@ -1,5 +1,5 @@
 <template>
-	<view class="flex flex-column"  v-watermark="watermarkConfig">
+	<view class="flex flex-column" v-watermark="watermarkConfig">
 		<block v-if="pricelist.length > 0 && isread">
 			<view class=" flex-1">
 				<view class="flex start" style="padding: 5px 10px;align-items: center;">
@@ -27,7 +27,7 @@
 					<uni-td style="color: #ce3c3c;" align="center">{{ item.cost20 }} </uni-td>
 					<uni-td style="color: #ce3c3c;" align="center">{{ item.cost40gp }}</uni-td>
 					<uni-td style="color: #ce3c3c;" align="center">{{ item.cost40hq }}</uni-td>
-					<uni-td align="center">{{ item.cls }}</uni-td>
+					<uni-td align="center">{{ item.schedule }}</uni-td>
 					<uni-td align="center">
 						<button type="primary" size="mini" @click="checkDetail(item)">详情</button>
 					</uni-td>
@@ -88,7 +88,7 @@
 					setTimeout(function() {
 						uni.hideLoading();
 					}, 300);
-					this.pricelist = res.data.data.splice(0, 25);
+					this.pricelist = res.data.data.splice(0, 20);
 
 				},
 				fail: res => {
@@ -200,4 +200,13 @@
 		line-height: 2.3;
 		font-size: 10px;
 	}
+
+	>>>.uni-table {
+		background-color: initial;
+	}
+
+	>>>.table--stripe .uni-table-tr:nth-child(2n + 3) {
+	    background-color: inherit;
+	}
+	
 </style>
