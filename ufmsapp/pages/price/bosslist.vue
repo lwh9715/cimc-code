@@ -15,7 +15,7 @@
 			<view style="border-bottom: 1px solid #e5e5e5;margin-bottom: 10rpx;" />
 			<uni-table ref="table" stripe emptyText="暂无更多数据">
 				<uni-tr>
-					<uni-th width="50" align="center">船公司</uni-th>
+					<uni-th width="55" align="center">船公司</uni-th>
 					<uni-th width="50" align="center">20GP<br>(USD)</uni-th>
 					<uni-th width="50" align="center">40GP<br>(USD)</uni-th>
 					<uni-th width="50" align="center">40HQ<br>(USD)</uni-th>
@@ -23,7 +23,12 @@
 					<uni-th width="50" align="center">操作</uni-th>
 				</uni-tr>
 				<uni-tr v-for="(item,index) in pricelist" :key="index" v-if="pricelist.length > 0 && isread">
-					<uni-td align="center">{{ item.shipping }}</uni-td>
+					<uni-td align="center">
+						<text v-if="item.ispush" class="text-red">
+							<u-icon name="../../static/icon/flag.png" :size="25" />
+						</text>
+						{{ item.shipping }}
+					</uni-td>
 					<uni-td style="color: #ce3c3c;" align="center">{{ item.cost20 }} </uni-td>
 					<uni-td style="color: #ce3c3c;" align="center">{{ item.cost40gp }}</uni-td>
 					<uni-td style="color: #ce3c3c;" align="center">{{ item.cost40hq }}</uni-td>
@@ -73,28 +78,28 @@
 				title: '加载中',
 				mask: true
 			});
-			// uni.request({
-			// 	url: 'http://120.77.239.151/so/price?method=fcllist&pol=' + this.datatemp.pol + '&pod=' + this
-			// 		.datatemp.pod + '&crrier=' + this.datatemp.carrier,
-			// 	method: 'GET',
-			// 	header: {
-			// 		'content-type': 'application/x-www-form-urlencoded'
-			// 	},
-			// 	success: res => {
-			// 		this.isread = true
-			// 		setTimeout(function() {
-			// 			uni.hideLoading();
-			// 		}, 300);
-			// 		this.pricelist = res.data.data.splice(0, 20);
+			uni.request({
+				url: 'http://120.77.239.151/so/price?method=fcllist&pol=' + this.datatemp.pol + '&pod=' + this
+					.datatemp.pod + '&crrier=' + this.datatemp.carrier,
+				method: 'GET',
+				header: {
+					'content-type': 'application/x-www-form-urlencoded'
+				},
+				success: res => {
+					this.isread = true
+					setTimeout(function() {
+						uni.hideLoading();
+					}, 300);
+					this.pricelist = res.data.data.splice(0, 20);
 
-			// 	},
-			// 	fail: res => {
-			// 		uni.showToast({
-			// 			title: '失败：' + res.message,
-			// 			icon: 'none'
-			// 		});
-			// 	}
-			// })
+				},
+				fail: res => {
+					uni.showToast({
+						title: '失败：' + res.message,
+						icon: 'none'
+					});
+				}
+			})
 			if (uni.getStorageSync("user_info")) {
 				var temp = "";
 				temp = uni.getStorageSync("user_info")
@@ -125,11 +130,11 @@
 				} else if (val == 'BETD') {
 					return '大船截关'
 				} else if (val == 'ETD') {
-					return '大船 ETD'
+					return '大船 ON BOARD'
 				} else if (val == 'TDETD') {
-					return '驳船 TDETD'
+					return '驳船 ON BOARD'
 				} else if (val == 'ONBOARD') {
-					return '驳船 ONBOARD'
+					return '驳船 ON BOARD'
 				} else if (val == 'SOETD') {
 					return 'SO ETD'
 				} else if (val == 'GATE') {
@@ -149,23 +154,23 @@
 			onLoad: function(option) {
 				if (option.detail) {
 					this.datatemp = JSON.parse(decodeURIComponent(option.detail));
-					uni.request({
-						url: 'http://8.129.68.2:8989/scp/edi/api?method=commonInterface&methodFlag=getFreightRate',
-						data: this.datatemp,
-						method: 'GET',
-						success: res => {
+					// scp
+					// uni.request({
+					// 	url: 'http://8.129.68.2:8989/scp/edi/api?method=commonInterface&methodFlag=getFreightRate',
+					// 	data: this.datatemp,
+					// 	method: 'GET',
+					// 	success: res => {
 
-							console.log(res.data
-							);
+					// 		console.log(res.data);
 
-						},
-						fail: res => {
-							uni.showToast({
-								title: '失败：' + res.message,
-								icon: 'none'
-							});
-						}
-					})
+					// 	},
+					// 	fail: res => {
+					// 		uni.showToast({
+					// 			title: '失败：' + res.message,
+					// 			icon: 'none'
+					// 		});
+					// 	}
+					// })
 				} else {
 					uni.showToast({
 						title: '请输入起运港-目的港口查询',

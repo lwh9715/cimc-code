@@ -16,15 +16,19 @@
 					<view style="border-bottom: 1px solid #e5e5e5;margin-bottom: 10rpx;" />
 					<view class="fontSizeMy pr-1 rounded-s" @click="checkDetail(item)">
 						<view class="flex justify-between">
-							<view class="" style="width: 35%;">
+							<view class="" style="width: 40%;">
 								<text class="text-gray font-sm">运价类型：</text>
 								<text class="font-weight-bold text-red font-sm">
 									<b class="text-red">
 										{{item.pricetype == ('' || null) ? '--' : item.pricetype }}
+										<text v-if="item.ispush">
+										<u-icon name="../../static/icon/flag.png" :size="25" />
+										{{ item.ispush == true ? '[主推]' : '' }}
+										</text>
 									</b>
 								</text>
 							</view>
-							<view class="" style="width: 65%;">
+							<view class="" style="width: 60%;">
 								<text class="text-gray font-sm">运价：</text>
 								<text class="font-weight-bold text-red font-sm">
 									<b class="text-green">
@@ -46,7 +50,7 @@
 							</view>
 						</view>
 						<view class="flex justify-between">
-							<view class="" style="width: 35%;">
+							<view class="" style="width: 40%;">
 								<text class="text-gray font-sm">FreeTime：</text>
 								<text class="text-red">
 									<b>
@@ -60,7 +64,7 @@
 									<b>{{ item.schedule == ('' || null) ? '--' : item.schedule}}</b>
 								</text>
 							</view>
-							<view class="" style="width: 35%;">
+							<view class="" style="width: 30%;">
 								<text class="text-gray font-sm">航程：</text>
 								<text class="font-weight-bold text-red" v-if="item.tt">
 									<b>{{ item.tt }}天</b>
@@ -68,7 +72,7 @@
 							</view>
 						</view>
 						<view class="flex justify-between">
-							<view class="" style="width: 35%;">
+							<view class="" style="width: 40%;">
 								<text class="text-gray font-sm">船公司：</text>
 								<text><b>{{item.shipping}}</b></text>
 							</view>
@@ -79,7 +83,7 @@
 								</text>
 							</view>
 							<view class=""
-								style="width: 35%;text-overflow: ellipsis;display:block;white-space: nowrap;overflow: hidden;">
+								style="width: 30%;text-overflow: ellipsis;display:block;white-space: nowrap;overflow: hidden;">
 								<text class="text-gray font-sm">船名：
 									<text style="color: #000000;">
 										<b>{{item.vessel}}</b>
@@ -145,7 +149,7 @@
 				// data: this.datatemp,
 				// method: 'GET',
 				url: 'http://120.77.239.151/so/price?method=fcllist&pol=' + this.datatemp.pol + '&pod=' + this
-					.datatemp.pod + '&crrier=' + this.datatemp.carrier,
+					.datatemp.pod + '&crrier=' + this.datatemp.carrier + '&pricetype=' + 'FAK,NAC',
 				method: 'GET',
 				header: {
 					'content-type': 'application/x-www-form-urlencoded'
