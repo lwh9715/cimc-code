@@ -17,30 +17,34 @@
 			<view style="margin-bottom: 20rpx;" />
 			<view style="border-bottom: 1px solid #e5e5e5;" />
 			<view style="padding: 10px 10px;">
-				<uni-forms :modelValue="formData">
+				<uni-forms :value="formData">
 					<uni-forms-item name="cnorname" label="发货人" labelWidth="80">
-						<input type="text" placeholder="请输入发货人" size="mini" />
+						<input type="text" v-model="formData.cnorname" placeholder="请输入发货人" size="mini" />
 					</uni-forms-item>
 					<uni-forms-item name="payplace" label="付款地点" labelWidth="80">
-						<input type="text" placeholder="请输入付款地点" />
+						<input type="text" v-model="formData.payplace" placeholder="请输入付款地点" />
 					</uni-forms-item>
 					<uni-forms-item name="carryitem" label="运费条款" labelWidth="80">
-						<input type="text" placeholder="请输入运费条款" />
+						<input type="text" v-model="freightname" placeholder="请输入运费条款"
+							@click="openFreightClause()" />
 					</uni-forms-item>
 					<uni-forms-item name="marksno" label="唛头" labelWidth="80">
-						<input type="text" placeholder="请输入唛头" />
+						<input type="text" v-model="formData.marksno" placeholder="请输入唛头" />
 					</uni-forms-item>
 					<uni-forms-item name="goodsdesc" label="品名" labelWidth="80">
-						<input type="text" placeholder="请输入品名" />
+						<input type="text" v-model="formData.goodsdesc" placeholder="请输入品名" />
+					</uni-forms-item>
+					<uni-forms-item name="goodsdesc" label="截关日期" labelWidth="80">
+						<uni-datetime-picker type="date" :value="formData.cls" :border="false" />
 					</uni-forms-item>
 					<uni-forms-item name="blcontacts" label="联系人" labelWidth="80">
-						<input type="text" placeholder="请输入委托订舱联系人" />
+						<input type="text" v-model="formData.blcontacts" placeholder="请输入委托订舱联系人" />
 					</uni-forms-item>
 					<uni-forms-item name="phone" label="电话" labelWidth="80">
-						<input type="text" placeholder="请输入委托订舱电话" />
+						<input type="text" v-model="formData.phone" placeholder="请输入委托订舱电话" />
 					</uni-forms-item>
 					<uni-forms-item name="email" label="E-MAIL" labelWidth="80">
-						<input type="text" placeholder="请输入委托订舱E-MAIL" />
+						<input type="text" v-model="formData.email" placeholder="请输入委托订舱E-MAIL" />
 					</uni-forms-item>
 					<view style="border-bottom: 1px solid #e5e5e5;margin-bottom: 30rpx;" />
 					<view class="flex justify-between">
@@ -85,6 +89,20 @@
 				</text>
 			</view>
 		</view>
+
+
+
+
+		<uni-popup ref="freightClausePopup" type="bottom" mask-background-color="rgba(0,0,0,-0.6)">
+			<scroll-view scroll-y="true" class="scroll-Y">
+				<view class="popup-view" v-for="(item,index) in freightitem" @click="bindFreightClauseChange(item)">
+					<view class="sentence-text">{{ item.name }}</view>
+				</view>
+			</scroll-view>
+		</uni-popup>
+
+
+
 	</view>
 </template>
 
@@ -104,6 +122,7 @@
 					height: 120, //水印文字的高度间距（低于文字高度会被替代）
 					extRotate: -30 //-90到0， 负数值，不包含-90
 				},
+				freightname:"",
 				keyword: "",
 				cnytotal: 0,
 				usdtotal: 0,
@@ -130,13 +149,89 @@
 					'DOOR-DOOR',
 					'FCL-FCL'
 				],
-				freightitem: [
-					'FREIGHT PREPAID',
-					'FREIGHT COLLECT',
-					'FREIGHT PAYABLE AT DESTINATION',
-					'FREIGHT PAYABLE AT HONGKONG'
-				],
-				formData: {}
+				freightitem: [{
+					"value": "PP",
+					"name": "FREIGHT PREPAID"
+				}, {
+					"value": "CC",
+					"name": "FREIGHT COLLECT"
+				}, {
+					"value": "PD",
+					"name": "FREIGHT PAYABLE AT DESTINATION"
+				}, {
+					"value": "HK",
+					"name": "FREIGHT PAYABLE AT HONGKONG"
+				}],
+				formData: {
+					atd: "",
+					bargecls: "",
+					bargeetd: "",
+					billemail: "",
+					billname: "",
+					billtel: "",
+					blcontacts: "",
+					bltype: "H",
+					carryitem: "CY-CY",
+					cbm: "",
+					cls: "",
+					cneename: "",
+					cnorname: "",
+					cntype_0: "40hq",
+					contractno: "",
+					currency: "CNY",
+					destination: "",
+					email: "",
+					etd: "",
+					feeArray: [{
+						amt: 10,
+						currency: "USD",
+						feeitemid: 9790502274,
+						piece: 1,
+						price: 10,
+						unit: "箱"
+					}],
+					feeitemid: "22452177",
+					financeemail: "",
+					financename: "",
+					financetel: "",
+					freightitem: "PP",
+					goodsdesc: "",
+					goodsreadydate: "",
+					gp20: "0",
+					gp20grswgt: "0",
+					gp20pieces: "0",
+					gp40: "0",
+					gp40grswgt: "0",
+					gp40pieces: "0",
+					grswgt: "150",
+					hq40: "1",
+					hq40grswgt: "150",
+					hq40pieces: "0",
+					id: "274660812274",
+					isread: "on",
+					isubmit: true,
+					linecode: "JTP",
+					marksno: "唛头",
+					notifyname: "",
+					packer: "",
+					payplace: "地点",
+					pdd: "DUBAI",
+					phone: "13267690653",
+					piece: "0",
+					poa: "",
+					pod: "DUBAI",
+					pol: "SHEKOU",
+					ppcc: "PP",
+					pretrans: "",
+					priceid: "268411622274",
+					putertype: "O",
+					refno: "",
+					remarks: "",
+					routecode: "新西兰",
+					schedule: "",
+					shipping: "KMTC",
+					vesselvoyage: ""
+				}
 			}
 		},
 		created() {
@@ -167,6 +262,19 @@
 			}
 		},
 		methods: {
+			openFreightClause: async function(e) {
+				this.$refs.freightClausePopup.open('bottom')
+			},
+
+			bindFreightClauseChange: function(e) {
+				this.freightname = e.name
+				this.formData.freightitem = e.value
+				this.$refs.freightClausePopup.close()
+			},
+
+			//以上26号添加
+
+
 			submitForm() {
 				uni.showToast({
 					title: '暂不支持订舱',
@@ -265,7 +373,6 @@
 						temp += this.feelist[i].amt;
 					}
 				}
-				console.log(temp)
 				this.feepirce = temp
 			},
 
@@ -404,5 +511,22 @@
 		flex: 1;
 		z-index: 900;
 		background-color: #c8c7cc;
+	}
+
+	.scroll-Y {
+		text-align: center;
+		height: calc(100vh - 80vh);
+		width: 100%;
+	}
+
+	.popup-view {
+		text-align: center;
+		margin: 30rpx;
+	}
+
+	>>>.uni-scroll-view-content {
+		background-color: #FFFFFF;
+		position: absolute;
+		height: auto;
 	}
 </style>
