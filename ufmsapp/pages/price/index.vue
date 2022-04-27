@@ -145,7 +145,6 @@
 			 */
 			submitForm() {
 				if (this.formData.pol != '' && this.formData.pod != '') {
-
 					if (this.mode == 0) {
 						uni.navigateTo({
 							url: '/pages/price/bosslist?detail=' + encodeURIComponent(JSON.stringify(this
@@ -241,6 +240,29 @@
 							method: 'GET',
 							success: res => {
 								uni.setStorageSync('user_info', res)
+
+								uni.request({
+									url: 'http://120.77.239.151/so/login?method=login',
+									data: this.form,
+									method: 'POST',
+									success: res => {
+										uni.setStorage({
+											key: 'user_login',
+											data: res.data,
+											success() {
+
+											}
+										})
+									},
+									fail: res => {
+										uni.showToast({
+											title: '失败：' + res.message,
+											icon: 'none'
+										});
+									}
+								})
+
+
 							},
 							fail: res => {
 								uni.showToast({

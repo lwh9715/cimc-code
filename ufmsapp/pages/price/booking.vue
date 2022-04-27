@@ -186,26 +186,23 @@
 				pricedata: {},
 				feeaddlist: [],
 				formData: {
-					atd: "2022-04-30", //开船日期
+					atd: "", //开船日期
 					bargecls: "",
 					bargeetd: "",
 					billemail: "",
 					billname: "",
 					billtel: "",
-					blcontacts: "联系人-梁文辉", //联系人
+					blcontacts: "", //联系人
 					bltype: "H",
 					carryitem: "CY-CY",
 					cbm: "",
-					cls: "2022-04-30", //截关日期
+					cls: "", //截关日期
 					cneename: "",
-					cnorname: "梁文辉", //发货人
-					cntype_0: "40hq",
-					cntype_18: "40gp",
-					cntype_30: "20gp",
+					cnorname: "", //发货人
 					contractno: "",
 					currency: "CNY",
 					destination: "",
-					email: "lwh9715@gmail.com", //E-MAIL
+					email: "", //E-MAIL
 					etd: "",
 					feeArray: [],
 					feeitemid: "22452177",
@@ -213,7 +210,7 @@
 					financename: "",
 					financetel: "",
 					freightitem: "PP",
-					goodsdesc: "huawei笔记本", //品名
+					goodsdesc: "huawei", //品名
 					goodsreadydate: "",
 					gp20: "0", //箱量
 					gp20grswgt: "0", //KGS
@@ -229,25 +226,25 @@
 					isread: "on",
 					isubmit: true,
 					linecode: "JTP", //航线代码
-					marksno: "唛头", //唛头
+					marksno: "", //唛头
 					notifyname: "",
 					packer: "", //包装
-					payplace: "付款地点-甘坑", //付款地点
+					payplace: "", //付款地点
 					pdd: "DUBAI",
-					phone: "13267690653", //电话
+					phone: "", //电话
 					piece: "0",
 					poa: "",
 					pod: "DUBAI",
 					pol: "SHEKOU",
 					ppcc: "PP",
 					pretrans: "",
-					priceid: "268411622274",
+					priceid: "",
 					putertype: "O",
 					refno: "",
 					remarks: "",
-					routecode: "新西兰", //航线
+					routecode: "", //航线
 					schedule: "",
-					shipping: "KMTC", //船公司
+					shipping: "", //船公司
 					vesselvoyage: ""
 				}
 			}
@@ -306,14 +303,13 @@
 			},
 			submitForm() {
 				uni.request({
-					url: 'http://8.129.68.2:8989/so/booking?method=createBooking',
+					url: 'http://120.77.239.151/so/booking?method=createBooking',
 					data: this.formData,
 					method: 'POST',
 					header: {
-						"Content-Type": "application/json"
+						'content-type': 'application/json'
 					},
 					success: res => {
-						debugger
 						console.log(res);
 					},
 					fail: res => {
@@ -591,8 +587,10 @@
 		},
 		onLoad: function(option) {
 			this.pricedata = JSON.parse(decodeURIComponent(option.detail));
-			this.formData.id = this.pricedata.id;
-			console.log('book', this.pricedata)
+			this.formData.priceid = this.pricedata.id;
+			this.formData.pol = this.pricedata.pol;
+			this.formData.pod = this.pricedata.pod;
+			this.formData.shipping = this.pricedata.shipping;
 		}
 	}
 </script>
