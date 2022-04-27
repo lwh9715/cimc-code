@@ -27,6 +27,9 @@
 					<uni-forms-item name="carryitem" label="运费条款" labelWidth="80">
 						<input type="text" v-model="freightname" placeholder="请输入运费条款" @click="openFreightClause()" />
 					</uni-forms-item>
+					<uni-forms-item name="marksno" label="船公司" labelWidth="80">
+						<input type="text" v-model="formData.shipping" disabled="true" />
+					</uni-forms-item>
 					<uni-forms-item name="marksno" label="唛头" labelWidth="80">
 						<input type="text" v-model="formData.marksno" placeholder="请输入唛头" />
 					</uni-forms-item>
@@ -40,7 +43,7 @@
 						<input type="text" v-model="formData.blcontacts" placeholder="请输入委托订舱联系人" />
 					</uni-forms-item>
 					<uni-forms-item name="phone" label="电话" labelWidth="80">
-						<input type="text" v-model="formData.phone" placeholder="请输入委托订舱电话" />
+						<input type="number" v-model="formData.phone" placeholder="请输入委托订舱电话" />
 					</uni-forms-item>
 					<uni-forms-item name="email" label="E-MAIL" labelWidth="80">
 						<input type="text" v-model="formData.email" placeholder="请输入委托订舱E-MAIL" />
@@ -210,7 +213,7 @@
 					financename: "",
 					financetel: "",
 					freightitem: "PP",
-					goodsdesc: "huawei", //品名
+					goodsdesc: "", //品名
 					goodsreadydate: "",
 					gp20: "0", //箱量
 					gp20grswgt: "0", //KGS
@@ -234,8 +237,8 @@
 					phone: "", //电话
 					piece: "0",
 					poa: "",
-					pod: "DUBAI",
-					pol: "SHEKOU",
+					pod: "",
+					pol: "",
 					ppcc: "PP",
 					pretrans: "",
 					priceid: "",
@@ -302,6 +305,13 @@
 				this.$refs.freightClausePopup.close()
 			},
 			submitForm() {
+				if (this.formData.cnorname == "" || this.formData.phone == "") {
+					uni.showToast({
+						title: '缺少必填信息',
+						icon: 'none'
+					});
+					return;
+				}
 				uni.request({
 					url: 'http://120.77.239.151/so/booking?method=createBooking',
 					data: this.formData,
@@ -310,7 +320,18 @@
 						'content-type': 'application/json'
 					},
 					success: res => {
-						console.log(res);
+						
+						uni.showToast({
+							title: '订舱成功:' + res.data.info,
+							icon: 'none'
+						});
+						
+						setTimeout(function() {
+							uni.navigateBack({
+								delta: 1,
+							});
+						}, 2500);
+
 					},
 					fail: res => {
 						uni.showToast({
@@ -591,6 +612,9 @@
 			this.formData.pol = this.pricedata.pol;
 			this.formData.pod = this.pricedata.pod;
 			this.formData.shipping = this.pricedata.shipping;
+			this.formData.linecode = this.pricedata.linecode;
+			this.formData.routecode = this.pricedata.line;
+			this.formData.schedule = this.pricedata.schedule;
 		}
 	}
 </script>

@@ -131,7 +131,6 @@
 				prevPage.$vm.value = str[0].trim()
 				uni.navigateBack({
 					delta: 1,
-
 				});
 			},
 			selectMode(val) {
@@ -142,7 +141,6 @@
 				prevPage.$vm.value = val
 				uni.navigateBack({
 					delta: 1,
-
 				});
 			},
 			onLoad: function(option) {
