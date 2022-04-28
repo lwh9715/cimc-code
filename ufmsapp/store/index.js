@@ -9,7 +9,6 @@ import common from '@/store/modules/common.js';
 
 export default new Vuex.Store({
 	modules:{
-		
 		user,
 		common
 	}

@@ -1,8 +1,7 @@
 <template>
 	<view class="card-conent">
 		<view class="view-content">
-			<view style="margin-bottom: 20rpx;padding: 1px;" />
-			<view style="text-align: center;margin-bottom: 20rpx;">
+			<view style="text-align: center;padding: 20rpx;">
 				<text class="title-text">FCL报价查询</text>
 			</view>
 			<view style="border-bottom: 1px solid #e5e5e5;margin-bottom: 40rpx;" />
@@ -19,37 +18,29 @@
 							v-model="formData.carrier" type="text" placeholder="请选择船公司" @click="openCarrierList()" />
 					</uni-forms-item>
 					<uni-forms-item name="freight" label="运价类型">
-						<view>
-							<uni-data-checkbox multiple v-model="formData.pricetype" :localdata="freightlist" />
-						</view>
+						<uni-data-checkbox multiple style="transform:scale(1)" v-model="formData.pricetype"
+							:localdata="freightlist" />
 					</uni-forms-item>
 					<uni-forms-item name="mode" label="查询模式">
-						<view>
-							<uni-data-checkbox v-model="mode" :localdata="modedata" />
-						</view>
+						<uni-data-checkbox v-model="mode" :localdata="modedata" />
 					</uni-forms-item>
 				</uni-forms>
 				<button type="primary" @click="submitForm" style="margin-top: 20rpx;margin-bottom: 50rpx;">立即查询</button>
 			</view>
 		</view>
-
-
 		<uni-popup ref="carrierPopup" type="bottom" mask-background-color="rgba(0,0,0,-0.6)">
 			<scroll-view scroll-y="true" class="scroll-Y">
 				<view class="popup-view" v-for="(item,index) in carrierlist" @click="bindCarrierChange(item.name)">
-					<view class="sentence-text">{{ item.name }}</view>
+					<text>{{ item.name }}</text>
 				</view>
 			</scroll-view>
 		</uni-popup>
-
-
 	</view>
 </template>
 
 
 <script>
 	import * as dd from 'dingtalk-jsapi';
-
 	export default {
 		data() {
 			return {
@@ -64,17 +55,6 @@
 				acode: "",
 				keyword: "",
 				carrierlist: [],
-				// app
-				// form: {
-				// 	username: "LIANGWENHUI",
-				// 	userpwd: "cimc@1234",
-				// 	source: "android",
-				// 	appVersion: "v1.1.0",
-				// 	sim: "1380013800",
-				// 	issysuser: true,
-				// 	timeStamp: 1650533661969
-				// },
-				// pc
 				isHideKeyboard: true,
 				freightlist: [{
 					"value": 'FAK',
@@ -167,9 +147,38 @@
 						icon: 'none'
 					});
 				}
-
-
 			},
+			loginDD() {
+				dd.ready(function() {
+					dd.runtime.permission.requestAuthCode({
+						corpId: "ding2bb9458351f19b9b35c2f4657eb6378f",
+						onSuccess: function(result) {
+							uni.setStorageSync('code', result.code);
+							uni.request({
+								url: 'http://47.112.190.46/login',
+								data: {
+									"authCode": uni.getStorageSync('code')
+								},
+								method: 'GET',
+								success: res => {
+									uni.setStorageSync('dd_user', res)
+									uni.setStorageSync('islogin', true)
+								},
+								fail: res => {
+									uni.reLaunch({
+										url: '/pages/price/error'
+									});
+								}
+							})
+						},
+						onFail: function(err) {
+							uni.reLaunch({
+								url: '/pages/price/error'
+							});
+						}
+					});
+				});
+			}
 		},
 		onShow() {
 			let pages = getCurrentPages();
@@ -183,101 +192,36 @@
 			}
 		},
 		created() {
-			this.$U.setStorage('url', 'http://120.77.239.151/so');
-			// this.$H.post('/login?method=login&type=app', this.form, {
-			// 	token: false
-			// }).then(res => {
-			// 	uni.setStorage({
-			// 		key: 'user_login',
-			// 		data: res,
-			// 		success() {
-			// 			alert(res.message)
-			// 		}
-			// 	})
-			// }).catch(res => {
-			// 	console.log(res)
-			// 	uni.showToast({
-			// 		title: '登录失败：' + res.message,
-			// 		icon: 'none'
-			// 	});
-			// })
-
-			var temp = "";
-			uni.removeStorageSync("user_info")
-			uni.removeStorageSync('code')
-
-			uni.request({
-				url: 'http://120.77.239.151/so/login?method=login',
-				data: {
-					username: "梁文辉",
-					password: "bf58b2e54beca61bffc15b30be7afdd1",
-					verification: "2148",
-					rememberme: "on",
-					issysuser: "on",
-					isread: "on"
-				},
-				method: 'POST',
-				success: res => {},
-				fail: res => {
-					uni.showToast({
-						title: '失败：' + res.message,
-						icon: 'none'
+			this.loginDD();
+			let islogin = uni.getStorageSync('islogin')
+			setTimeout(function() {
+				if (islogin) {
+					uni.request({
+						url: 'http://47.112.190.46/so/login?method=login',
+						data: {
+							username: "梁文辉",
+							password: "bf58b2e54beca61bffc15b30be7afdd1",
+							verification: "2148",
+							rememberme: "on",
+							issysuser: "on",
+							isread: "on"
+						},
+						method: 'POST',
+						success: res => {},
+						fail: res => {
+							uni.showToast({
+								title: '失败：' + res.message,
+								icon: 'none'
+							});
+						}
+					})
+				} else {
+					uni.reLaunch({
+						url: '/pages/price/error'
 					});
 				}
-			})
-
-
-			dd.ready(function() {
-				dd.runtime.permission.requestAuthCode({
-					corpId: "ding2bb9458351f19b9b35c2f4657eb6378f",
-					onSuccess: function(result) {
-						uni.setStorageSync('code', result.code);
-						uni.request({
-							url: 'http://120.77.239.151/login',
-							data: {
-								"authCode": uni.getStorageSync('code')
-							},
-							method: 'GET',
-							success: res => {
-								uni.setStorageSync('user_info', res)
-
-								uni.request({
-									url: 'http://120.77.239.151/so/login?method=login',
-									data: this.form,
-									method: 'POST',
-									success: res => {
-										uni.setStorage({
-											key: 'user_login',
-											data: res.data,
-											success() {
-
-											}
-										})
-									},
-									fail: res => {
-										uni.showToast({
-											title: '失败：' + res.message,
-											icon: 'none'
-										});
-									}
-								})
-
-
-							},
-							fail: res => {
-								uni.showToast({
-									title: '失败：' + res.message,
-									icon: 'none'
-								});
-							}
-						})
-
-					},
-					onFail: function(err) {}
-				});
-			});
+			}, 500)
 		}
-
 	}
 </script>
 
@@ -308,8 +252,8 @@
 		color: #333;
 	}
 
-	.uni-input-placeholder {
-		font-size: small !important;
+	>>>.uni-input-placeholder {
+		font-size: small;
 	}
 
 	>>>.uni-forms-item__inner {
@@ -321,9 +265,12 @@
 	}
 
 	.scroll-Y {
+		width: 100%;
 		text-align: center;
 		height: calc(100vh - 51vh);
-		width: 100%;
+		background-color: #FFFFFF;
+		border-top-left-radius: 15px;
+		border-top-right-radius: 15px;
 	}
 
 	.popup-view {
@@ -332,16 +279,10 @@
 	}
 
 	>>>.checklist-group {
-		flex-wrap: inherit !important;
+		flex-wrap: inherit;
 	}
 
 	.checklist-box .uni-label-pointer {
-		margin-right: 10rpx !important;
-	}
-
-	>>>.uni-scroll-view-content {
-		background-color: #FFFFFF;
-		position: absolute;
-		height: auto;
+		margin-right: 10rpx;
 	}
 </style>

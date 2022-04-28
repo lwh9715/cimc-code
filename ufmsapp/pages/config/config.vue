@@ -25,7 +25,7 @@
 		data() {
 			return {
 				form: {
-					url: 'http://120.77.239.151/so'
+					url: 'http://47.112.190.46/so'
 				},
 				value: false,
 				isLogin: false

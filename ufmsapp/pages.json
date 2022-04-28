@@ -42,6 +42,18 @@
 			}
 		},
 		{
+			"path": "pages/price/error",
+			"style": {
+				"app-plus": {
+					"scrollIndicator": "none",
+					"bounce": "none",
+					"titleNView": {
+						"titleText": "找不到页面"
+					}
+				}
+			}
+		},
+		{
 			"path": "pages/price/detail",
 			"style": {
 				"app-plus": {

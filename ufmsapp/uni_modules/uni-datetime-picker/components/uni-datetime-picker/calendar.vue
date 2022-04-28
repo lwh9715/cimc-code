@@ -550,7 +550,7 @@
 
 	.uni-calendar__content {
 		background-color: #fff;
-		height: -webkit-fill-available;
+		height: auto;
 	}
 
 	.uni-calendar__header {

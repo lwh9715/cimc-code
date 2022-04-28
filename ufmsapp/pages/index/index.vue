@@ -52,7 +52,7 @@
 			}
 		},
 		created() {
-			this.$U.setStorage('url', 'http://120.77.239.151/so');
+			this.$U.setStorage('url', 'http://47.112.190.46/so');
 		},
 		methods: {
 			notAvail() {

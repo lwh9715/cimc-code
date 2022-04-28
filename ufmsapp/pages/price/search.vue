@@ -54,7 +54,7 @@
 				this.$refs.popup.open('bottom')
 				if (this.index.id == 0) {
 					uni.request({
-						url: 'http://120.77.239.151/scp/service?src=flexbox&action=fclpol&q=' + val.value +
+						url: 'http://47.112.190.46/scp/service?src=flexbox&action=fclpol&q=' + val.value +
 							'&p=1&s=50',
 						method: 'GET',
 						success: res => {
@@ -69,7 +69,7 @@
 					})
 				} else {
 					uni.request({
-						url: 'http://120.77.239.151/scp/service?src=flexbox&action=fclpod&q=' + val.value +
+						url: 'http://47.112.190.46/scp/service?src=flexbox&action=fclpod&q=' + val.value +
 							'&p=1&s=50',
 						method: 'GET',
 						success: res => {
@@ -146,7 +146,7 @@
 			onLoad: function(option) {
 				this.index = option
 				uni.request({
-					url: 'http://120.77.239.151/scp/service?src=flexbox&action=fclpod&q=' +
+					url: 'http://47.112.190.46/scp/service?src=flexbox&action=fclpod&q=' +
 						'&p=1&s=500',
 					method: 'GET',
 					success: res => {

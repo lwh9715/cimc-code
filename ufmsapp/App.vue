@@ -2,32 +2,10 @@
 	export default {
 		onLaunch: function() {
 			console.log('App Launch');
-
-			// 监听网络
-			let func = (res) => {
-				console.log(res)
-				if (res.networkType === 'none') {
-					uni.showToast({
-						title: '当前处于断网状态,请先连接',
-						icon: 'none'
-					});
-				} else {
-					// uni.showToast({
-					// 	title: '已连接，当前网络环境为：'+res.networkType,
-					// 	icon: 'none'
-					// });
-				}
-			}
-			uni.getNetworkType({
-				success: func
-			});
-			uni.onNetworkStatusChange(func);
-			// 检测更新
-			// #ifdef APP-PLUS
-			this.$U.update()
-			// #endif
-
-
+			this.$U.setStorage('url', 'http://47.112.190.46/so');
+			//TODO 后续添加到拦截器中
+			uni.removeStorageSync("dd_user")
+			uni.removeStorageSync('code')
 		},
 		onShow: function() {
 			console.log('App Show');

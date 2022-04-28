@@ -22,8 +22,8 @@
 									<b class="text-red">
 										{{item.pricetype == ('' || null) ? '--' : item.pricetype }}
 										<text v-if="item.ispush">
-										<u-icon name="../../static/icon/flag.png" :size="25" />
-										{{ item.ispush == true ? '[主推]' : '' }}
+											<u-icon name="../../static/icon/flag.png" :size="25" />
+											{{ item.ispush == true ? '[主推]' : '' }}
 										</text>
 									</b>
 								</text>
@@ -140,39 +140,39 @@
 			}
 		},
 		created() {
-			uni.showLoading({
-				title: '加载中',
-				mask: true
-			});
-			uni.request({
-				// url: 'http://120.77.239.151/so/price?method=fcllist',
-				// data: this.datatemp,
-				// method: 'GET',
-				url: 'http://120.77.239.151/so/price?method=fcllist&pol=' + this.datatemp.pol + '&pod=' + this
-					.datatemp.pod + '&crrier=' + this.datatemp.carrier + '&pricetype=' + 'FAK,NAC',
-				method: 'GET',
-				header: {
-					'content-type': 'application/x-www-form-urlencoded'
-				},
-				success: res => {
-					this.isread = true
-					setTimeout(function() {
-						uni.hideLoading();
-					}, 300);
-					this.pricelist = res.data.data.splice(0, 20);
+			let user = uni.getStorageSync("dd_user")
+			if (user != "") {
+				this.watermarkConfig.text = user.data.data.name + user.data.data.mobile.substring(7, 11)
+				uni.showLoading({
+					title: '加载中',
+					mask: true
+				});
+				uni.request({
+					url: 'http://47.112.190.46/so/price?method=fcllist&pol=' + this.datatemp.pol + '&pod=' + this
+						.datatemp.pod + '&crrier=' + this.datatemp.carrier + '&pricetype=' + 'FAK,NAC',
+					method: 'GET',
+					header: {
+						'content-type': 'application/x-www-form-urlencoded'
+					},
+					success: res => {
+						this.isread = true
+						setTimeout(function() {
+							uni.hideLoading();
+						}, 300);
+						this.pricelist = res.data.data.splice(0, 20);
 
-				},
-				fail: res => {
-					uni.showToast({
-						title: '失败：' + res.message,
-						icon: 'none'
-					});
-				}
-			})
-			if (uni.getStorageSync("user_info")) {
-				var temp = "";
-				temp = uni.getStorageSync("user_info")
-				this.watermarkConfig.text = temp.data.data.name + temp.data.data.mobile.substring(7, 11)
+					},
+					fail: res => {
+						uni.showToast({
+							title: '失败：' + res.message,
+							icon: 'none'
+						});
+					}
+				})
+			} else {
+				uni.reLaunch({
+					url: '/pages/price/error'
+				});
 			}
 		},
 		methods: {

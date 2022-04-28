@@ -1,1 +1,0 @@
-<view><web-view webview-styles="{{webviewStyles}}" src="http://120.77.239.151/so/"></web-view></view>

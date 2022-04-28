@@ -1,7 +1,7 @@
 <template>
 	<view class="card-conent">
-		<uni-card style="text-align: center;" v-watermark="watermarkConfig">
-			<view class="flex justify-between">
+		<view class="view-content" v-watermark="watermarkConfig">
+			<view class="flex justify-between" style="margin-top: 10px;">
 				<view class="" style="width: 40%; text-align: right;">
 					<uni-icons type="location-filled"></uni-icons>
 					<text style="font-size:18px;font-weight: 700;">{{formData.pol}}</text>
@@ -14,7 +14,7 @@
 					<text style="font-size:18px;font-weight: 700;">{{formData.pod}}</text>
 				</view>
 			</view>
-			<view style="margin-bottom: 20rpx;" />
+			<view style="margin-bottom: 10px;" />
 			<view style="border-bottom: 1px solid #e5e5e5;" />
 			<view style="padding: 10px 10px;">
 				<uni-forms :value="formData">
@@ -49,15 +49,13 @@
 						<input type="text" v-model="formData.email" placeholder="请输入委托订舱E-MAIL" />
 					</uni-forms-item>
 					<view style="border-bottom: 1px solid #e5e5e5;margin-bottom: 30rpx;" />
-
-
 					<uni-table stripe emptyText="暂无更多数据">
 						<!-- 表头行 -->
 						<uni-tr>
-							<uni-th width="100" align="center">箱型</uni-th>
-							<uni-th width="55" align="center">箱量</uni-th>
-							<uni-th width="55" align="center">KGS</uni-th>
-							<uni-th width="55" align="center">件数</uni-th>
+							<uni-th width="120" align="center">箱型</uni-th>
+							<uni-th width="60" align="center">箱量</uni-th>
+							<uni-th width="60" align="center">KGS</uni-th>
+							<uni-th width="60" align="center">件数</uni-th>
 						</uni-tr>
 						<!-- 表格数据行 -->
 						<uni-tr>
@@ -100,9 +98,10 @@
 							</uni-td>
 						</uni-tr>
 					</uni-table>
+					<view style="margin-bottom: 20rpx;" />
 				</uni-forms>
 			</view>
-		</uni-card>
+		</view>
 		<view class="goods-carts">
 			<view class="footer" style="padding:20rpx 40rpx;align-items: center;">
 				<text>
@@ -118,7 +117,7 @@
 		<uni-popup ref="freightClausePopup" type="bottom" mask-background-color="rgba(0,0,0,-0.6)">
 			<scroll-view scroll-y="true" class="scroll-Y">
 				<view class="popup-view" v-for="(item,index) in freightitem" @click="bindFreightClauseChange(item)">
-					<view class="sentence-text">{{ item.name }}</view>
+					<view>{{ item.name }}</view>
 				</view>
 			</scroll-view>
 		</uni-popup>
@@ -148,7 +147,7 @@
 				pg40pa: "",
 				hq40pa: "",
 				freightname: "",
-				keyword: "",
+				cnyprice: 0,
 				cnytotal: 0,
 				usdtotal: 0,
 				amt20: 0,
@@ -157,22 +156,9 @@
 				amt20USD: 0,
 				amt40gpUSD: 0,
 				amt40hqUSD: 0,
-				cnyprice: 0,
 				amt20CNY: 0,
 				amt40gpCNY: 0,
 				amt40hqCNY: 0,
-				carryitem: [
-					'CFS-CFS',
-					'CFS-CY',
-					'CFS-DOOR',
-					'CY-CFS',
-					'CY-CY',
-					'CY-DOOR',
-					'CY-FO',
-					'DOOR-CY',
-					'DOOR-DOOR',
-					'FCL-FCL'
-				],
 				freightitem: [{
 					"value": "PP",
 					"name": "FREIGHT PREPAID"
@@ -253,41 +239,44 @@
 			}
 		},
 		created() {
-			// 水印
-			if (uni.getStorageSync("user_info")) {
-				var temp = "";
-				temp = uni.getStorageSync("user_info")
-				this.watermarkConfig.text = temp.data.data.name + temp.data.data.mobile.substring(7, 11)
-			}
-			//附加费
-			if (this.pricedata.uuid) {
-				this.$H.post('/price?method=getfeeadd&id=' + this.pricedata.uuid, this.form, {
-					token: false
-				}).then(res => {
-					if (res) {
-						for (var i = 0; i < res.length; i++) {
-							let temp = {}
-							temp.amt = res[i].amt;
-							temp.currency = res[i].currency;
-							temp.feeitemid = res[i].feeitemid;
-							temp.piece = res[i].unit == "票" ? 1 : res[i].unit == "箱型" ? null : 0;
-							temp.price = res[i].amt;
-							temp.unit = res[i].unit;
-							temp.amt20 = res[i].amt20;
-							temp.amt40gp = res[i].amt40gp;
-							temp.amt40hq = res[i].amt40hq;
-							this.feeaddlist.push(temp);
+			let user = uni.getStorageSync("dd_user")
+			if (user != "") {
+				// 水印
+				this.watermarkConfig.text = user.data.data.name + user.data.data.mobile.substring(7, 11)
+				//附加费
+				if (this.pricedata.uuid) {
+					this.$H.post('/price?method=getfeeadd&id=' + this.pricedata.uuid, this.form, {
+						token: false
+					}).then(res => {
+						if (res) {
+							for (var i = 0; i < res.length; i++) {
+								let temp = {}
+								temp.amt = res[i].amt;
+								temp.currency = res[i].currency;
+								temp.feeitemid = res[i].feeitemid;
+								temp.piece = res[i].unit == "票" ? 1 : res[i].unit == "箱型" ? null : 0;
+								temp.price = res[i].amt;
+								temp.unit = res[i].unit;
+								temp.amt20 = res[i].amt20;
+								temp.amt40gp = res[i].amt40gp;
+								temp.amt40hq = res[i].amt40hq;
+								this.feeaddlist.push(temp);
+							}
+							console.log(this.feeaddlist);
+							this.formData.feeArray = this.feeaddlist;
 						}
-						console.log(this.feeaddlist);
-						this.formData.feeArray = this.feeaddlist;
-					}
-					this.initCnyPrice()
-				}).catch(res => {
-					uni.showToast({
-						title: 'search失败：' + res.message,
-						icon: 'none'
-					});
-				})
+						this.initCnyPrice()
+					}).catch(res => {
+						uni.showToast({
+							title: 'search失败：' + res.message,
+							icon: 'none'
+						});
+					})
+				}
+			} else {
+				uni.reLaunch({
+					url: '/pages/price/error'
+				});
 			}
 		},
 		watch: {
@@ -313,19 +302,19 @@
 					return;
 				}
 				uni.request({
-					url: 'http://120.77.239.151/so/booking?method=createBooking',
+					url: 'http://47.112.190.46/so/booking?method=createBooking',
 					data: this.formData,
 					method: 'POST',
 					header: {
 						'content-type': 'application/json'
 					},
 					success: res => {
-						
+
 						uni.showToast({
 							title: '订舱成功:' + res.data.info,
 							icon: 'none'
 						});
-						
+
 						setTimeout(function() {
 							uni.navigateBack({
 								delta: 1,
@@ -607,6 +596,7 @@
 			},
 		},
 		onLoad: function(option) {
+			console.log(option.detail);
 			this.pricedata = JSON.parse(decodeURIComponent(option.detail));
 			this.formData.priceid = this.pricedata.id;
 			this.formData.pol = this.pricedata.pol;
@@ -615,6 +605,7 @@
 			this.formData.linecode = this.pricedata.linecode;
 			this.formData.routecode = this.pricedata.line;
 			this.formData.schedule = this.pricedata.schedule;
+
 		}
 	}
 </script>
@@ -628,22 +619,23 @@
 		overflow-y: auto;
 	}
 
+	.view-content {
+		height: calc(100vh - 121px);
+		margin: 35px 14px;
+		background-color: #FFFFFF;
+		box-shadow: rgb(0 0 0 / 15%) 0px 0px 3px 1px;
+		border-radius: 15px;
+		overflow-y: auto;
+	}
+
+
 	>>>.uni-forms-item__inner {
 		align-items: baseline;
 		padding-bottom: 10rpx;
 	}
 
-	>>>.uni-card {
-		overflow-y: auto;
-		height: calc(100vh);
-		margin-top: 35px;
-		padding: 5px 0px;
-		border-radius: 15px;
-		box-shadow: rgb(0 0 0 / 15%) 0px 0px 3px 1px;
-	}
-
-	.uni-collapse-cell--open {
-		background-color: #ffffff !important;
+	>>>.uni-collapse-cell--open {
+		background-color: #ffffff;
 	}
 
 
@@ -696,9 +688,9 @@
 	}
 
 	>>>.uni-table-td {
-		padding: 3px 0px !important;
-		font-size: 12px !important;
-		line-height: 12px !important;
+		padding: 3px 0px;
+		font-size: 12px;
+		line-height: 14px;
 	}
 
 	>>>.uni-fab__circle--leftBottom {
@@ -725,21 +717,23 @@
 		background-color: #c8c7cc;
 	}
 
-	.scroll-Y {
-		text-align: center;
-		height: calc(100vh - 80vh);
-		width: 100%;
+	.popup-view {
+		padding: 5px;
 	}
 
-	.popup-view {
+	>>>.uni-scroll-view-content {
+		border-top-right-radius: 20px;
+		border-top-left-radius: 20px;
+	}
+
+	.scroll-Y {
 		text-align: center;
-		margin: 30rpx;
+		height: auto;
+		width: 100%;
 	}
 
 	>>>.uni-scroll-view-content {
 		background-color: #FFFFFF;
-		position: absolute;
-		height: auto;
 	}
 
 	>>>.uni-numbox {

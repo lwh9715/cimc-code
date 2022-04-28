@@ -158,24 +158,26 @@
 			}
 		},
 		created() {
-			if (uni.getStorageSync("user_info")) {
-				var temp = "";
-				temp = uni.getStorageSync("user_info")
-				this.watermarkConfig.text = temp.data.data.name + temp.data.data.mobile.substring(7, 11)
-			}
-
-			if (this.formData.uuid) {
-				this.$H.post('/price?method=getfeeadd&id=' + this.formData.uuid, this.form, {
-					token: false
-				}).then(res => {
-					this.feelist = res;
-				}).catch(res => {
-					console.log(res)
-					uni.showToast({
-						title: 'search失败：' + res.message,
-						icon: 'none'
-					});
-				})
+			let user = uni.getStorageSync("dd_user")
+			if (user != "") {
+				this.watermarkConfig.text = user.data.data.name + user.data.data.mobile.substring(7, 11)
+				if (this.formData.uuid) {
+					this.$H.post('/price?method=getfeeadd&id=' + this.formData.uuid, this.form, {
+						token: false
+					}).then(res => {
+						this.feelist = res;
+					}).catch(res => {
+						console.log(res)
+						uni.showToast({
+							title: 'search失败：' + res.message,
+							icon: 'none'
+						});
+					})
+				}
+			} else {
+				uni.reLaunch({
+					url: '/pages/price/error'
+				});
 			}
 		},
 		methods: {
@@ -227,10 +229,15 @@
 		overflow-y: auto;
 	}
 
+	uni-view {
+		font-size: 12px;
+	}
+
 	>>>.uni-card {
-		margin-top: 35px !important;
-		padding: 5px 0px !important;
-		border-radius: 15px !important;
+		overflow-y: auto;
+		height: calc(100vh - 70px);
+		margin-top: 35px;
+		border-radius: 15px;
 		box-shadow: rgb(0 0 0 / 15%) 0px 0px 3px 1px;
 	}
 

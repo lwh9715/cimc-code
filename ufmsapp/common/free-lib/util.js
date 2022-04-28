@@ -9,9 +9,7 @@ const $iconUrl = "/static/icon/ic_ar.png";
 const info = {
 	username: 'plan',
 	action: 'checkUpdate',
-
 	appVersion: ''
-
 };
 export default {
 	// 获取存储列表数据
@@ -363,10 +361,7 @@ export default {
 		});
 		// #endif  
 	}
-
-
 }
-
 function drawtext(text, maxWidth) {
 	let textArr = text.split("");
 	let len = textArr.length;
@@ -986,36 +981,3 @@ function downloadPopup(data) {
 	// 改变进度条
 	return callbackData;
 }
-// function(isPrompt = false) {
-// 	getCurrentNo(versionInfo => {
-// 		getServerNo(versionInfo,isPrompt, res => {
-// 			if (res.forceUpdate) {
-// 				if (/\.wgt$/i.test(res.downloadUrl)) {
-// 					getDownload(res);
-// 				} else if(/\.html$/i.test(res.downloadUrl)){
-// 					plus.runtime.openURL(res.downloadUrl);
-// 				} else {
-// 					if (platform == "android") {
-// 						getDownload(res);
-// 					} else {
-// 						plus.runtime.openURL(res.downloadUrl);
-// 					}
-// 				}
-// 			} else {
-// 				updatePopup(res, function() {
-// 					if (/\.wgt$/i.test(res.downloadUrl)) {
-// 						getDownload(res);
-// 					} else if(/\.html$/i.test(res.downloadUrl)){
-// 						plus.runtime.openURL(res.downloadUrl);
-// 					} else {
-// 						if (platform == "android") {
-// 							getDownload(res);
-// 						} else {
-// 							plus.runtime.openURL(res.downloadUrl);
-// 						}
-// 					}
-// 				});
-// 			}
-// 		});
-// 	});
-// }
