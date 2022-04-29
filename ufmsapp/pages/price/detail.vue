@@ -2,16 +2,16 @@
 	<view class="card-conent">
 		<uni-card style="text-align: center;" v-watermark="watermarkConfig">
 			<view class="flex justify-between">
-				<view class="" style="width: 40%; text-align: right;">
-					<uni-icons type="location-filled"></uni-icons>
-					<text style="font-size:18px;font-weight: 700;">{{formData.pol}}</text>
+				<view class="" style="text-align: center;">
+					<uni-icons type="location"></uni-icons>
+					<text style="font-size:14px;font-weight: 700;">{{formData.pol}}</text>
 				</view>
 				<view class="" style="width: 20%;text-align: center;">
 					<u-icon name="../../static/icon/right_arrow.png" :size="55" />
 				</view>
-				<view class="" style="width: 40%;text-align: left;">
+				<view class="" style="text-align: center;">
 					<uni-icons type="location-filled"></uni-icons>
-					<text style="font-size:18px;font-weight: 700;">{{formData.pod}}</text>
+					<text style="font-size:14px;font-weight: 700;">{{formData.pod}}</text>
 				</view>
 			</view>
 			<view style="margin-bottom: 20rpx;" />
@@ -148,9 +148,8 @@
 					text: '中集世倡0001',
 					font: '12px 微软雅黑',
 					textColor: '#dcdfe6',
-					width: 200, //水印文字的水平间距
-					height: 120, //水印文字的高度间距（低于文字高度会被替代）
-					extRotate: -30 //-90到0， 负数值，不包含-90
+					width: 180, //水印文字的水平间距
+					height: 110 //水印文字的高度间距（低于文字高度会被替代）
 				},
 				keyword: "",
 				formData: {},
@@ -158,8 +157,9 @@
 			}
 		},
 		created() {
-			let user = uni.getStorageSync("dd_user")
-			if (user != "") {
+			let islogin = uni.getStorageSync('islogin')
+			let user = uni.getStorageSync('dd_user')
+			if (islogin && user) {
 				this.watermarkConfig.text = user.data.data.name + user.data.data.mobile.substring(7, 11)
 				if (this.formData.uuid) {
 					this.$H.post('/price?method=getfeeadd&id=' + this.formData.uuid, this.form, {
@@ -182,8 +182,9 @@
 		},
 		methods: {
 			submitBook: function() {
+				uni.setStorageSync("booking", this.formData)
 				uni.navigateTo({
-					url: '/pages/price/booking?detail=' + encodeURIComponent(JSON.stringify(this.formData)),
+					url: '/pages/price/booking',
 					fail: (res) => {
 						console.log(res) //打印错误信息
 					}
@@ -193,13 +194,15 @@
 				if (val == 'CLS') {
 					return '大船截关'
 				} else if (val == 'BETD') {
-					return '大船截关'
+					return '大船驳船ON BOARD'
 				} else if (val == 'ETD') {
-					return '大船'
+					return '大船ON BOARD'
 				} else if (val == 'TDETD') {
-					return '驳船'
+					return '提单ON BOARD'
+				} else if (val == 'BCETD') {
+					return '驳船ON BOARD'
 				} else if (val == 'ONBOARD') {
-					return '驳船'
+					return '驳船ON BOARD'
 				} else if (val == 'SOETD') {
 					return 'SO ETD'
 				} else if (val == 'GATE') {
@@ -214,29 +217,28 @@
 			},
 		},
 		onLoad: function(option) {
-			this.formData = JSON.parse(decodeURIComponent(option.detail));
+			this.formData = uni.getStorageSync("detail")
 			console.log(this.formData)
 		}
 	}
 </script>
 
 <style>
+	uni-view {
+		font-size: 12px;
+	}
+
 	.card-conent {
 		height: calc(100vh);
-		background-image: url(../../static/img/bluebg.png);
+		background-image: url('../../static/img/bluebg.png');
 		background-repeat: no-repeat;
 		background-size: contain;
 		overflow-y: auto;
 	}
 
-	uni-view {
-		font-size: 12px;
-	}
-
 	>>>.uni-card {
-		overflow-y: auto;
-		height: calc(100vh - 70px);
 		margin-top: 35px;
+		margin-bottom: 35px;
 		border-radius: 15px;
 		box-shadow: rgb(0 0 0 / 15%) 0px 0px 3px 1px;
 	}

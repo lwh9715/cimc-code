@@ -1,22 +1,28 @@
 <template>
 	<view class="card-conent">
-		<view style="height: 360rpx;">
+		<view style="height: 100rpx;">
 			<uni-search-bar confirm-type="search" radius="15" @confirm="search" v-model="keyword" @cancel="cancal"
 				:adjust-position="false">
 			</uni-search-bar>
-			<uni-section title="历史港口" type="line" />
+		</view>
+
+		<view style="height: 240rpx;">
+			<view>
+				<uni-nav-bar backgroundColor="#f5f5f5" leftText="历史港口" right-icon="trash-filled"
+					@clickRight="clearHistory" />
+			</view>
 			<view class="view-body">
 				<view class="example-body-item" v-for="(item,index) in citylist">
 					<view @click="selectMode(item.value,index)">{{item.name}}</view>
 				</view>
 			</view>
 		</view>
-		<view>
-			<uni-indexed-list :options="list" :show-select="false" @click="bindClick" />
-		</view>
+		<view style="border-bottom: 1px solid #e5e5e5;" />
+		<uni-indexed-list :options="list" :show-select="false" @click="bindClick" />
+
 		<!-- 弹窗 -->
 		<uni-popup ref="popup" type="bottom" mask-background-color="rgba(0,0,0,-0.6)" backgroundColor="#FFFFFF">
-			<view class="" style="height: calc(100vh - 108rpx);overflow-y: auto;">
+			<view class="" style="height: calc(100vh - 103rpx);overflow-y: auto;">
 				<uni-list v-for="(item,index) in portlist" index="index">
 					<uni-list-item :title="item.namee +' / '+ item.namec" @click="searchport(item)" clickable />
 				</uni-list>
@@ -48,8 +54,11 @@
 				this.citylist = uni.getStorageSync("search_key")
 			}
 		},
-
 		methods: {
+			clearHistory() {
+				uni.removeStorageSync("search_key")
+				this.citylist = []
+			},
 			search(val) {
 				this.$refs.popup.open('bottom')
 				if (this.index.id == 0) {
@@ -206,14 +215,10 @@
 <style scoped>
 	.card-conent {
 		height: calc(100vh);
-		/* background-image: url(../../static/background.png); */
-		overflow-y: auto;
 	}
 
-	.search-result {
-		padding-top: 10px;
-		padding-bottom: 20px;
-		text-align: center;
+	uni-view {
+		font-size: 12px;
 	}
 
 	.search-result-text {
@@ -223,7 +228,7 @@
 	}
 
 	>>>.uni-indexed-list {
-		top: calc(100vh - 72.4vh) !important;
+		top: 345rpx;
 	}
 
 	.example-body {
@@ -235,30 +240,36 @@
 	}
 
 	>>>.uni-popup {
-		top: 47px !important;
+		top: 47px;
+	}
+
+	>>>.uni-icons {
+		font-size: 20px !important;
 	}
 
 	.view-body {
-		padding: 10rpx;
-		display: -webkit-flex;
 		display: flex;
 		flex-wrap: wrap;
-		align-content: stretch;
+		margin-top: 5px;
+		margin-left: 5px;
 	}
 
 	.example-body-item {
 		border-color: #e5e5e5;
 		border-style: solid;
 		border-width: 1px;
-		border-radius: 4px;
+		border-radius: 15px;
 		text-align: center;
 		width: 80px;
-		margin: 2px 3px;
-		padding: 0px;
+		margin: 3px 3px;
 	}
 
 	>>>.uni-transition {
 		background-color: rgb(255 255 255);
 		margin-top: 55px;
+	}
+
+	>>>.uni-navbar__header-btns-left {
+		padding-left: 20px;
 	}
 </style>

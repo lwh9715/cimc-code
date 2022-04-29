@@ -1,8 +1,5 @@
 <template>
-	<view class="card-conent">
-		<view class="" style="text-align: center;">
-			<image style="width: 200px; height: 200px; background-color: #eeeeee;" :src="src"></image>
-		</view>
+	<view class="error-content">
 	</view>
 </template>
 
@@ -10,9 +7,7 @@
 <script>
 	export default {
 		data() {
-			return {
-				src: '../../static/icon/404.png'
-			}
+			return {}
 		},
 		created() {},
 		methods: {}
@@ -21,12 +16,11 @@
 </script>
 
 <style>
-	.card-conent {
+	.error-content {
 		height: calc(100vh);
-		display: grid;
-		align-items: center;
+		background-image: url('../../static/img/404.png');
 		background-repeat: no-repeat;
+		/* 图片按比例显示，其余部分为其他颜色 */
 		background-size: contain;
-		overflow-y: auto;
 	}
 </style>

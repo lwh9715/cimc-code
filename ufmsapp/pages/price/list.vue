@@ -1,8 +1,9 @@
 <template>
-	<view class="flex flex-column " style="height: 100%;">
-		<view class="bg-secondary flex-1">
-			<block class="" v-for="(item,index) in pricelist" :key="index" v-if="pricelist.length > 0 && isread">
-				<view class=" bg-white m-1 px-2 rounded-half py-2 font-sm" v-watermark="watermarkConfig">
+	<view class="flex flex-column" style="height: 100%;">
+		<view class="flex-1">
+			<block v-for=" (item,index) in pricelist" :key="index" v-if="pricelist.length > 0 && isread">
+				<view style="box-shadow: rgb(0 0 0 / 15%) 0px 0px 3px 1px;"
+					class="bg-white m-1 px-2 rounded-half py-2 font-sm" v-watermark="watermarkConfig">
 					<view class="flex justify-center font-md" style="justify-content: space-between;">
 						<b class="text-green">{{item.pol}}</b>
 						<text>
@@ -131,25 +132,25 @@
 					text: '中集世倡0001',
 					font: '12px 微软雅黑',
 					textColor: '#dcdfe6',
-					width: 220, //水印文字的水平间距
-					height: 90, //水印文字的高度间距（低于文字高度会被替代）
-					extRotate: -30 //-90到0， 负数值，不包含-90
+					width: 210, //水印文字的水平间距
+					height: 80 //水印文字的高度间距（低于文字高度会被替代）
 				},
 				pricelist: [],
 				feelist: {},
 			}
 		},
 		created() {
-			let user = uni.getStorageSync("dd_user")
-			if (user != "") {
+			let islogin = uni.getStorageSync('islogin')
+			let user = uni.getStorageSync('dd_user')
+			if (islogin && user) {
 				this.watermarkConfig.text = user.data.data.name + user.data.data.mobile.substring(7, 11)
 				uni.showLoading({
 					title: '加载中',
 					mask: true
 				});
 				uni.request({
-					url: 'http://47.112.190.46/so/price?method=fcllist&pol=' + this.datatemp.pol + '&pod=' + this
-						.datatemp.pod + '&crrier=' + this.datatemp.carrier + '&pricetype=' + 'FAK,NAC',
+					url: 'http://47.112.190.46/so/price?method=fcllist&pol=' + this.datatemp.pol + '&pod=' +
+						this.datatemp.pod + '&crrier=' + this.datatemp.carrier,
 					method: 'GET',
 					header: {
 						'content-type': 'application/x-www-form-urlencoded'
@@ -159,8 +160,7 @@
 						setTimeout(function() {
 							uni.hideLoading();
 						}, 300);
-						this.pricelist = res.data.data.splice(0, 20);
-
+						this.pricelist = res.data.data.splice(0, 25);
 					},
 					fail: res => {
 						uni.showToast({
@@ -182,8 +182,9 @@
 				})
 			},
 			submitBook: function(item) {
+				uni.setStorageSync("booking", item)
 				uni.navigateTo({
-					url: '/pages/price/booking?detail=' + encodeURIComponent(JSON.stringify(item)),
+					url: '/pages/price/booking',
 					fail: (res) => {
 						console.log(res) //打印错误信息
 					}
@@ -197,13 +198,15 @@
 				if (val == 'CLS') {
 					return '大船截关'
 				} else if (val == 'BETD') {
-					return '大船截关'
+					return '大船驳船ON BOARD'
 				} else if (val == 'ETD') {
-					return '大船 ETD'
+					return '大船ON BOARD'
 				} else if (val == 'TDETD') {
-					return '驳船 TDETD'
+					return '提单ON BOARD'
+				} else if (val == 'BCETD') {
+					return '驳船ON BOARD'
 				} else if (val == 'ONBOARD') {
-					return '驳船 ONBOARD'
+					return '驳船ON BOARD'
 				} else if (val == 'SOETD') {
 					return 'SO ETD'
 				} else if (val == 'GATE') {
@@ -213,16 +216,17 @@
 				}
 			},
 			checkDetail(val) {
+				uni.setStorageSync("detail", val)
 				uni.navigateTo({
-					url: '/pages/price/detail?detail=' + encodeURIComponent(JSON.stringify(val)),
+					url: '/pages/price/detail',
 					fail: (res) => {
 						console.log(res) //打印错误信息
 					}
 				});
 			},
 			onLoad: function(option) {
-				if (option.detail) {
-					this.datatemp = JSON.parse(decodeURIComponent(option.detail));
+				this.datatemp = uni.getStorageSync("list_detail")
+				if (this.datatemp) {
 					// uni.request({
 					// 	url: 'http://8.129.68.2:8989/scp/edi/api?method=commonInterface&methodFlag=getFreightRate',
 					// 	data: this.datatemp,

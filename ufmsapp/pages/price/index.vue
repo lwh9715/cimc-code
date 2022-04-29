@@ -126,16 +126,17 @@
 			submitForm() {
 				if (this.formData.pol != '' && this.formData.pod != '') {
 					if (this.mode == 0) {
+						uni.setStorageSync("bosslist_detail", this.formData)
 						uni.navigateTo({
-							url: '/pages/price/bosslist?detail=' + encodeURIComponent(JSON.stringify(this
-								.formData)),
+							url: '/pages/price/bosslist',
 							fail: (res) => {
 								console.log(res) //打印错误信息
 							}
 						});
 					} else {
+						uni.setStorageSync("list_detail", this.formData)
 						uni.navigateTo({
-							url: '/pages/price/list?detail=' + encodeURIComponent(JSON.stringify(this.formData)),
+							url: '/pages/price/list',
 							fail: (res) => {
 								console.log(res) //打印错误信息
 							}
@@ -192,10 +193,26 @@
 			}
 		},
 		created() {
+			//TODO 后续添加到拦截器中
+			uni.removeStorageSync("dd_user")
+			uni.removeStorageSync('code')
+
+			//测试使用
+			// uni.setStorageSync('islogin', true)
+			// uni.setStorageSync('dd_user', {
+			// 	data: {
+			// 		data: {
+			// 			"name": "梁文辉",
+			// 			"mobile": "13267690653"
+			// 		}
+			// 	}
+			// })
+
 			this.loginDD();
 			let islogin = uni.getStorageSync('islogin')
 			setTimeout(function() {
 				if (islogin) {
+
 					uni.request({
 						url: 'http://47.112.190.46/so/login?method=login',
 						data: {

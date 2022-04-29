@@ -3,9 +3,6 @@
 		onLaunch: function() {
 			console.log('App Launch');
 			this.$U.setStorage('url', 'http://47.112.190.46/so');
-			//TODO 后续添加到拦截器中
-			uni.removeStorageSync("dd_user")
-			uni.removeStorageSync('code')
 		},
 		onShow: function() {
 			console.log('App Show');

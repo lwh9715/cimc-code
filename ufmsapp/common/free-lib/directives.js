@@ -13,9 +13,9 @@ Vue.directive('watermark', (el, binding) => {
 	let text = binding.value.text;
 	let font = binding.value.font || "15px Microsoft JhengHei";
 	let textColor = binding.value.textColor || "rgba(215, 215, 215, 0.2)";
-	let width = binding.value.width || 200;
-	let height = binding.value.height || 200;
-	let textRotate = binding.value.textRotate || -20;
+	let width = binding.value.width || 150;
+	let height = binding.value.height || 150;
+	let textRotate = binding.value.textRotate || -30;
 
 	function addWaterMarker(parentNode) {
 		var can = document.createElement('canvas');

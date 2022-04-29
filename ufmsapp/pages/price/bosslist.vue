@@ -3,13 +3,13 @@
 		<block v-if="pricelist.length > 0 && isread">
 			<view class=" flex-1">
 				<view class="flex start" style="padding: 5px 10px;align-items: center;">
-					起运港：<uni-icons type="location-filled" style="font-size: x-large;"></uni-icons>
-					<text style="font-size:18px;font-weight: 700;">{{datatemp.pol}}</text>
+					起运港：<uni-icons type="location" style="font-size: x-large;"></uni-icons>
+					<text style="font-size:18px;font-weight: 700;">{{pricelist[0].pol}}</text>
 				</view>
 				<view style="border-bottom: 1px solid rgb(234 234 234);margin-bottom: 1rpx;" />
 				<view class="flex start" style="padding: 5px 10px;display: flex;align-items: center;">
 					目的港：<uni-icons type="location-filled" style="font-size: x-large;"></uni-icons>
-					<text style="font-size:18px;font-weight: 700;">{{datatemp.pod}}</text>
+					<text style="font-size:18px;font-weight: 700;">{{pricelist[0].pod}}</text>
 				</view>
 			</view>
 			<view style="border-bottom: 1px solid #e5e5e5;margin-bottom: 10rpx;" />
@@ -65,25 +65,25 @@
 					text: '中集世倡0001',
 					font: '12px 微软雅黑',
 					textColor: '#dcdfe6',
-					width: 220, //水印文字的水平间距
-					height: 90, //水印文字的高度间距（低于文字高度会被替代）
-					extRotate: -30 //-90到0， 负数值，不包含-90
+					width: 210, //水印文字的水平间距
+					height: 110 //水印文字的高度间距（低于文字高度会被替代）
 				},
 				pricelist: [],
 				feelist: {},
 			}
 		},
 		created() {
-			let user = uni.getStorageSync("dd_user")
-			if (user != "") {
+			let islogin = uni.getStorageSync('islogin')
+			let user = uni.getStorageSync('dd_user')
+			if (islogin && user) {
 				this.watermarkConfig.text = user.data.data.name + user.data.data.mobile.substring(7, 11)
 				uni.showLoading({
 					title: '加载中',
 					mask: true
 				});
 				uni.request({
-					url: 'http://47.112.190.46/so/price?method=fcllist&pol=' + this.datatemp.pol + '&pod=' + this
-						.datatemp.pod + '&crrier=' + this.datatemp.carrier,
+					url: 'http://47.112.190.46/so/price?method=fcllist&pol=' + this.datatemp.pol + '&pod=' +
+						this.datatemp.pod + '&crrier=' + this.datatemp.carrier,
 					method: 'GET',
 					header: {
 						'content-type': 'application/x-www-form-urlencoded'
@@ -93,7 +93,7 @@
 						setTimeout(function() {
 							uni.hideLoading();
 						}, 300);
-						this.pricelist = res.data.data.splice(0, 20);
+						this.pricelist = res.data.data.splice(0, 25);
 					},
 					fail: res => {
 						uni.showToast({
@@ -115,8 +115,9 @@
 				})
 			},
 			submitBook: function(item) {
+				uni.setStorageSync("booking", item)
 				uni.navigateTo({
-					url: '/pages/price/booking?detail=' + encodeURIComponent(JSON.stringify(item)),
+					url: '/pages/price/booking',
 					fail: (res) => {
 						console.log(res) //打印错误信息
 					}
@@ -130,13 +131,15 @@
 				if (val == 'CLS') {
 					return '大船截关'
 				} else if (val == 'BETD') {
-					return '大船截关'
+					return '大船驳船ON BOARD'
 				} else if (val == 'ETD') {
-					return '大船 ON BOARD'
+					return '大船ON BOARD'
 				} else if (val == 'TDETD') {
-					return '驳船 ON BOARD'
+					return '提单ON BOARD'
+				} else if (val == 'BCETD') {
+					return '驳船ON BOARD'
 				} else if (val == 'ONBOARD') {
-					return '驳船 ON BOARD'
+					return '驳船ON BOARD'
 				} else if (val == 'SOETD') {
 					return 'SO ETD'
 				} else if (val == 'GATE') {
@@ -146,17 +149,17 @@
 				}
 			},
 			checkDetail(val) {
+				uni.setStorageSync("detail", val)
 				uni.navigateTo({
-					url: '/pages/price/detail?detail=' + encodeURIComponent(JSON.stringify(val)),
+					url: '/pages/price/detail',
 					fail: (res) => {
 						console.log(res) //打印错误信息
 					}
 				});
 			},
 			onLoad: function(option) {
-				if (option.detail) {
-					this.datatemp = JSON.parse(decodeURIComponent(option.detail));
-					// scp
+				this.datatemp = uni.getStorageSync("bosslist_detail")
+				if (this.datatemp) {
 					// uni.request({
 					// 	url: 'http://8.129.68.2:8989/scp/edi/api?method=commonInterface&methodFlag=getFreightRate',
 					// 	data: this.datatemp,

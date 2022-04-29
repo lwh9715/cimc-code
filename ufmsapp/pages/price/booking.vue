@@ -1,52 +1,51 @@
 <template>
 	<view class="card-conent">
 		<view class="view-content" v-watermark="watermarkConfig">
-			<view class="flex justify-between" style="margin-top: 10px;">
-				<view class="" style="width: 40%; text-align: right;">
-					<uni-icons type="location-filled"></uni-icons>
-					<text style="font-size:18px;font-weight: 700;">{{formData.pol}}</text>
+			<view class="flex justify-between" style="padding: 10px 10px;">
+				<view class="" style="text-align: center;">
+					<uni-icons type="location"></uni-icons>
+					<text style="font-size:14px;font-weight: 700;">{{formData.pol}}</text>
 				</view>
 				<view class="" style="width: 20%;text-align: center;">
 					<u-icon name="../../static/icon/right_arrow.png" :size="55" />
 				</view>
-				<view class="" style="width: 40%;text-align: left;">
+				<view class="" style="text-align: center;">
 					<uni-icons type="location-filled"></uni-icons>
-					<text style="font-size:18px;font-weight: 700;">{{formData.pod}}</text>
+					<text style="font-size:14px;font-weight: 700;" >{{formData.pod}}</text>
 				</view>
 			</view>
-			<view style="margin-bottom: 10px;" />
 			<view style="border-bottom: 1px solid #e5e5e5;" />
 			<view style="padding: 10px 10px;">
-				<uni-forms :value="formData">
-					<uni-forms-item name="cnorname" label="发货人" labelWidth="80">
+				<uni-forms ref="formData" :rules="rules" :value="formData">
+					<uni-forms-item name="cnorname" required label="发货人" labelWidth="80">
 						<input type="text" v-model="formData.cnorname" placeholder="请输入发货人" size="mini" />
 					</uni-forms-item>
-					<uni-forms-item name="payplace" label="付款地点" labelWidth="80">
+					<uni-forms-item name="payplace" required label="付款地点" labelWidth="80">
 						<input type="text" v-model="formData.payplace" placeholder="请输入付款地点" />
 					</uni-forms-item>
-					<uni-forms-item name="carryitem" label="运费条款" labelWidth="80">
+					<uni-forms-item name="carryitem" required label="运费条款" labelWidth="80">
 						<input type="text" v-model="freightname" placeholder="请输入运费条款" @click="openFreightClause()" />
 					</uni-forms-item>
-					<uni-forms-item name="marksno" label="船公司" labelWidth="80">
+					<uni-forms-item name="shipping" label="船公司" labelWidth="80">
 						<input type="text" v-model="formData.shipping" disabled="true" />
 					</uni-forms-item>
-					<uni-forms-item name="marksno" label="唛头" labelWidth="80">
+					<uni-forms-item name="marksno" required label="唛头" labelWidth="80">
 						<input type="text" v-model="formData.marksno" placeholder="请输入唛头" />
 					</uni-forms-item>
-					<uni-forms-item name="goodsdesc" label="品名" labelWidth="80">
+					<uni-forms-item name="goodsdesc" required label="品名" labelWidth="80">
 						<input type="text" v-model="formData.goodsdesc" placeholder="请输入品名" />
 					</uni-forms-item>
-					<uni-forms-item name="goodsdesc" label="截关日期" labelWidth="80">
+					<uni-forms-item name="cls" required label="截关日期" labelWidth="80">
 						<uni-datetime-picker type="date" :value="formData.cls" :border="false" />
 					</uni-forms-item>
-					<uni-forms-item name="blcontacts" label="联系人" labelWidth="80">
-						<input type="text" v-model="formData.blcontacts" placeholder="请输入委托订舱联系人" />
+					<uni-forms-item name="blcontacts" required label="联系人" labelWidth="80">
+						<input type="text" v-model="formData.blcontacts" placeholder="请输入联系人" />
 					</uni-forms-item>
-					<uni-forms-item name="phone" label="电话" labelWidth="80">
-						<input type="number" v-model="formData.phone" placeholder="请输入委托订舱电话" />
+					<uni-forms-item name="phone" required label="电话" labelWidth="80">
+						<input type="number" v-model="formData.phone" placeholder="请输入电话" />
 					</uni-forms-item>
-					<uni-forms-item name="email" label="E-MAIL" labelWidth="80">
-						<input type="text" v-model="formData.email" placeholder="请输入委托订舱E-MAIL" />
+					<uni-forms-item name="email" required label="E-MAIL" labelWidth="80">
+						<input type="text" v-model="formData.email" placeholder="请输入Email" />
 					</uni-forms-item>
 					<view style="border-bottom: 1px solid #e5e5e5;margin-bottom: 30rpx;" />
 					<uni-table stripe emptyText="暂无更多数据">
@@ -134,14 +133,62 @@
 	export default {
 		data() {
 			return {
+
+				rules: {
+					cnorname: {
+						rules: [{
+							required: true,
+							errorMessage: '请输入发货人'
+						}]
+					},
+					payplace: {
+						rules: [{
+							required: true,
+							errorMessage: '请输入付款地点'
+						}]
+					},
+					marksno: {
+						rules: [{
+							required: true,
+							errorMessage: '请输入唛头'
+						}]
+					},
+					goodsdesc: {
+						rules: [{
+							required: true,
+							errorMessage: '请输入品名'
+						}]
+					},
+					blcontacts: {
+						rules: [{
+							required: true,
+							errorMessage: '请输入联系人'
+						}]
+					},
+					phone: {
+						rules: [{
+							required: true,
+							errorMessage: '请输入电话'
+						}, {
+							pattern: /^[1]([3-9])[0-9]{9}$/,
+							errorMessage: '手机号不合法'
+						}]
+					},
+					email: {
+						rules: [{
+							required: true,
+							errorMessage: '请输入E-MAIL'
+						}]
+					}
+				},
+
 				userInfo: {},
 				watermarkConfig: {
 					text: '中集世倡0001',
 					font: '12px 微软雅黑',
 					textColor: '#dcdfe6',
-					width: 200, //水印文字的水平间距
-					height: 120, //水印文字的高度间距（低于文字高度会被替代）
-					extRotate: -30 //-90到0， 负数值，不包含-90
+					width: 190, //水印文字的水平间距
+					height: 110 //水印文字的高度间距（低于文字高度会被替代）
 				},
 				pg20pa: "",
 				pg40pa: "",
@@ -238,9 +285,13 @@
 				}
 			}
 		},
+		onReady() {
+			this.$refs.formData.setRules(this.rules)
+		},
 		created() {
-			let user = uni.getStorageSync("dd_user")
-			if (user != "") {
+			let islogin = uni.getStorageSync('islogin')
+			let user = uni.getStorageSync('dd_user')
+			if (islogin && user) {
 				// 水印
 				this.watermarkConfig.text = user.data.data.name + user.data.data.mobile.substring(7, 11)
 				//附加费
@@ -294,40 +345,41 @@
 				this.$refs.freightClausePopup.close()
 			},
 			submitForm() {
-				if (this.formData.cnorname == "" || this.formData.phone == "") {
-					uni.showToast({
-						title: '缺少必填信息',
-						icon: 'none'
-					});
-					return;
-				}
-				uni.request({
-					url: 'http://47.112.190.46/so/booking?method=createBooking',
-					data: this.formData,
-					method: 'POST',
-					header: {
-						'content-type': 'application/json'
-					},
-					success: res => {
-
+				this.$refs.formData.validate().then(res => {
+					if (this.formData.grswgt == "") {
 						uni.showToast({
-							title: '订舱成功:' + res.data.info,
+							title: '缺少必填参数',
 							icon: 'none'
 						});
-
-						setTimeout(function() {
-							uni.navigateBack({
-								delta: 1,
-							});
-						}, 2500);
-
-					},
-					fail: res => {
-						uni.showToast({
-							title: '失败：' + res.message,
-							icon: 'none'
-						});
+						return;
 					}
+					uni.request({
+						url: 'http://47.112.190.46/so/booking?method=createBooking',
+						data: this.formData,
+						method: 'POST',
+						header: {
+							'content-type': 'application/json'
+						},
+						success: res => {
+							uni.showToast({
+								title: '订舱成功:' + res.data.info,
+								icon: 'none'
+							});
+							setTimeout(function() {
+								uni.navigateBack({
+									delta: 1,
+								});
+							}, 1500);
+						},
+						fail: res => {
+							uni.showToast({
+								title: '失败：' + res.message,
+								icon: 'none'
+							});
+						}
+					})
+				}).catch(err => {
+					console.log("缺少必填参数");
 				})
 			},
 			changefeeArray(index, value) {
@@ -571,33 +623,9 @@
 				}
 				this.cnyprice = temp
 			},
-			startType: function(val) {
-				if (val == 'CLS') {
-					return '大船截关'
-				} else if (val == 'BETD') {
-					return '大船截关'
-				} else if (val == 'ETD') {
-					return '大船'
-				} else if (val == 'TDETD') {
-					return '驳船'
-				} else if (val == 'ONBOARD') {
-					return '驳船'
-				} else if (val == 'SOETD') {
-					return 'SO ETD'
-				} else if (val == 'GATE') {
-					return 'GATE IN'
-				} else {
-					return ''
-				}
-			},
-			timeFormat: function(val) {
-				let time = val.split('-')
-				return time[0] + '/' + time[1] + '/' + time[2];
-			},
 		},
 		onLoad: function(option) {
-			console.log(option.detail);
-			this.pricedata = JSON.parse(decodeURIComponent(option.detail));
+			this.pricedata = uni.getStorageSync("booking");
 			this.formData.priceid = this.pricedata.id;
 			this.formData.pol = this.pricedata.pol;
 			this.formData.pod = this.pricedata.pod;
@@ -617,15 +645,14 @@
 		background-repeat: no-repeat;
 		background-size: contain;
 		overflow-y: auto;
+		overflow-x: hidden;
 	}
 
 	.view-content {
-		height: calc(100vh - 121px);
 		margin: 35px 14px;
 		background-color: #FFFFFF;
 		box-shadow: rgb(0 0 0 / 15%) 0px 0px 3px 1px;
 		border-radius: 15px;
-		overflow-y: auto;
 	}
 
 
@@ -639,28 +666,6 @@
 	}
 
 
-	.text {
-		font-size: 12px;
-		text-align: center;
-		font-weight: 500;
-		color: #FFFFFF;
-		background-color: #80b4ed;
-	}
-
-	.text-algin {
-		display: flex;
-		align-items: center;
-		font-size: xx-small;
-	}
-
-	.text-content {
-		font-size: 12px;
-		margin-top: 18rpx;
-		text-align: center;
-		font-weight: 800;
-		color: #ce3c3c;
-	}
-
 	>>>.grid-item-box {
 		flex: 1;
 		display: flex;
@@ -670,21 +675,17 @@
 		padding: 20px 0;
 	}
 
-	>>>.uni-collapse-cell__title {
-		/* padding: 0px 0px !important; */
-	}
-
 	>>>.uni-table-th-content {
-		font-size: 12px !important;
+		font-size: 12px;
 	}
 
 	>>>.uni-grid-item--border-top {
-		height: 65px !important;
+		height: 65px;
 	}
 
 	>>>.uni-table-th {
-		padding: 3px 0px !important;
-		font-size: 12px !important;
+		padding: 3px 0px;
+		font-size: 12px;
 	}
 
 	>>>.uni-table-td {
@@ -704,7 +705,7 @@
 	}
 
 	.footer {
-		display: flex !important;
+		display: flex;
 		flex-direction: row;
 		justify-content: space-between;
 		box-shadow: rgb(0 0 0 / 10%) 0px 0px 1px 1px;
@@ -718,7 +719,7 @@
 	}
 
 	.popup-view {
-		padding: 5px;
+		padding: 10px;
 	}
 
 	>>>.uni-scroll-view-content {
