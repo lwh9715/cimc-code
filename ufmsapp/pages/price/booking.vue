@@ -1,5 +1,5 @@
 <template>
-	<view class="card-conent">
+	<view class="card-content">
 		<view class="view-content" v-watermark="watermarkConfig">
 			<view class="flex justify-between" style="padding: 10px 10px;">
 				<view class="" style="text-align: center;">
@@ -11,7 +11,7 @@
 				</view>
 				<view class="" style="text-align: center;">
 					<uni-icons type="location-filled"></uni-icons>
-					<text style="font-size:14px;font-weight: 700;" >{{formData.pod}}</text>
+					<text style="font-size:14px;font-weight: 700;">{{formData.pod}}</text>
 				</view>
 			</view>
 			<view style="border-bottom: 1px solid #e5e5e5;" />
@@ -639,7 +639,7 @@
 </script>
 
 <style scoped>
-	.card-conent {
+	.card-content {
 		height: calc(100vh);
 		background-image: url(../../static/img/bluebg.png);
 		background-repeat: no-repeat;

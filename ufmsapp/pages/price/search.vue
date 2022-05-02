@@ -1,5 +1,5 @@
 <template>
-	<view class="card-conent">
+	<view class="card-content">
 		<view style="height: 100rpx;">
 			<uni-search-bar confirm-type="search" radius="15" @confirm="search" v-model="keyword" @cancel="cancal"
 				:adjust-position="false">
@@ -213,7 +213,7 @@
 </script>
 
 <style scoped>
-	.card-conent {
+	.card-content {
 		height: calc(100vh);
 	}
 

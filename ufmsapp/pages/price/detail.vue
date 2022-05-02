@@ -1,5 +1,5 @@
 <template>
-	<view class="card-conent">
+	<view class="card-content">
 		<uni-card style="text-align: center;" v-watermark="watermarkConfig">
 			<view class="flex justify-between">
 				<view class="" style="text-align: center;">
@@ -228,7 +228,7 @@
 		font-size: 12px;
 	}
 
-	.card-conent {
+	.card-content {
 		height: calc(100vh);
 		background-image: url('../../static/img/bluebg.png');
 		background-repeat: no-repeat;

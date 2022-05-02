@@ -1,5 +1,5 @@
 <template>
-	<view class="card-conent">
+	<view class="card-content">
 		<view class="view-content">
 			<view style="text-align: center;padding: 20rpx;">
 				<text class="title-text">FCL报价查询</text>
@@ -198,17 +198,17 @@
 			uni.removeStorageSync('code')
 
 			//测试使用
-			// uni.setStorageSync('islogin', true)
-			// uni.setStorageSync('dd_user', {
-			// 	data: {
-			// 		data: {
-			// 			"name": "梁文辉",
-			// 			"mobile": "13267690653"
-			// 		}
-			// 	}
-			// })
+			uni.setStorageSync('islogin', true)
+			uni.setStorageSync('dd_user', {
+				data: {
+					data: {
+						"name": "梁文辉",
+						"mobile": "13267690653"
+					}
+				}
+			})
 
-			this.loginDD();
+			// this.loginDD();
 			let islogin = uni.getStorageSync('islogin')
 			setTimeout(function() {
 				if (islogin) {
@@ -243,7 +243,7 @@
 </script>
 
 <style scoped>
-	.card-conent {
+	.card-cotnent {
 		height: calc(100vh);
 		background-image: url(../../static/img/bg.png);
 		background-color: rgb(89 142 194);
