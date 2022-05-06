@@ -296,7 +296,7 @@
 				this.watermarkConfig.text = user.data.data.name + user.data.data.mobile.substring(7, 11)
 				//附加费
 				if (this.pricedata.uuid) {
-					this.$H.post('/price?method=getfeeadd&id=' + this.pricedata.uuid, this.form, {
+					this.$H.post('/so/price?method=getfeeadd&id=' + this.pricedata.uuid, {}, {
 						token: false
 					}).then(res => {
 						if (res) {
@@ -319,7 +319,7 @@
 						this.initCnyPrice()
 					}).catch(res => {
 						uni.showToast({
-							title: 'search失败：' + res.message,
+							title: '失败：' + res.message,
 							icon: 'none'
 						});
 					})
@@ -361,15 +361,23 @@
 							'content-type': 'application/json'
 						},
 						success: res => {
-							uni.showToast({
-								title: '订舱成功:' + res.data.info,
-								icon: 'none'
-							});
-							setTimeout(function() {
-								uni.navigateBack({
-									delta: 1,
+							if (res.data.result == "success") {
+								uni.showToast({
+									title: '订舱成功:' + res.data.info,
+									icon: 'none'
 								});
-							}, 1500);
+								setTimeout(function() {
+									uni.navigateBack({
+										delta: 1,
+									});
+								}, 1500);
+							} else {
+								uni.showToast({
+									title: '失败：' + res.data.result,
+									icon: 'none'
+								});
+							}
+
 						},
 						fail: res => {
 							uni.showToast({

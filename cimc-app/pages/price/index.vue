@@ -87,9 +87,7 @@
 			},
 			openCarrierList: async function(e) {
 				this.$refs.carrierPopup.open('bottom')
-				this.$H.post('/combobox?method=fscarrier', this.form, {
-					token: false
-				}).then(res => {
+				this.$H.post('/so/combobox?method=fscarrier', this.form, {}).then(res => {
 					this.carrierlist = res
 				}).catch(res => {
 					console.log(res)
@@ -155,21 +153,15 @@
 						corpId: "ding2bb9458351f19b9b35c2f4657eb6378f",
 						onSuccess: function(result) {
 							uni.setStorageSync('code', result.code);
-							uni.request({
-								url: 'http://47.112.190.46/login',
-								data: {
-									"authCode": uni.getStorageSync('code')
-								},
-								method: 'GET',
-								success: res => {
-									uni.setStorageSync('dd_user', res)
-									uni.setStorageSync('islogin', true)
-								},
-								fail: res => {
-									uni.reLaunch({
-										url: '/pages/price/error'
-									});
-								}
+							this.$H.get('/login', {
+								authCode: uni.getStorageSync('code')
+							}, {}).then(res => {
+								uni.setStorageSync('dd_user', res)
+								uni.setStorageSync('islogin', true)
+							}).catch(res => {
+								uni.reLaunch({
+									url: '/pages/price/error'
+								});
 							})
 						},
 						onFail: function(err) {
@@ -198,21 +190,20 @@
 			uni.removeStorageSync('code')
 
 			//测试使用
-			// uni.setStorageSync('islogin', true)
-			// uni.setStorageSync('dd_user', {
-			// 	data: {
-			// 		data: {
-			// 			"name": "梁文辉",
-			// 			"mobile": "13267690653"
-			// 		}
-			// 	}
-			// })
+			uni.setStorageSync('islogin', true)
+			uni.setStorageSync('dd_user', {
+				data: {
+					data: {
+						"name": "梁文辉",
+						"mobile": "13267690653"
+					}
+				}
+			})
 
-			this.loginDD();
+			// this.loginDD();
 			let islogin = uni.getStorageSync('islogin')
 			setTimeout(function() {
 				if (islogin) {
-
 					uni.request({
 						url: 'http://47.112.190.46/so/login?method=login',
 						data: {

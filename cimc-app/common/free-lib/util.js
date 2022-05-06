@@ -1,7 +1,6 @@
 import $C from './config.js'
 import $H from './request.js';
 
-
 const platform = uni.getSystemInfoSync().platform;
 // 主颜色
 const $mainColor = "6DBA52";
@@ -104,13 +103,9 @@ export default {
 				}
 
 				if (data.data.isForcedUpdate) {
-
-					// updatePopup(data)
 					uni.showModal({
 						title: '发现新的版本(强更新版本，如不更新将退出应用)',
-						content: data.data.verUpdateDesc +
-							'-                                                                          更新时间-' +
-							data.data.verUpdateDate,
+						content: data.data.verUpdateDesc + '-更新时间-' + data.data.verUpdateDate,
 						cancelText: '放弃更新',
 						confirmText: '立即更新',
 						success: res => {
@@ -120,8 +115,6 @@ export default {
 							console.log(res)
 							if (!res.confirm) return;
 							console.log('开始下载' + data.data.verHref)
-
-
 							let popupData = {
 								progress: true,
 								buttonNum: 2
@@ -209,26 +202,6 @@ export default {
 							popupObj.reboot = function() {
 								plus.runtime.restart();
 							}
-
-
-							// uni.downloadFile({
-
-							// 	url: data.data.verHref,  
-							// 	success: (downloadResult) => {  
-							// 		console.log(downloadResult)
-							// 		if (downloadResult.statusCode === 200) {  
-							// 			plus.runtime.install(downloadResult.tempFilePath, {  
-							// 				force: true  
-							// 			}, function() {  
-
-							// 				plus.runtime.restart();  
-							// 				console.log('install success...');  
-							// 			}, function(e) {  
-							// 				console.error('install fail...');  
-							// 			});  
-							// 		}  
-							// 	}  
-							// });  
 						}
 					});
 					return
@@ -236,17 +209,12 @@ export default {
 
 				uni.showModal({
 					title: '发现新的版本',
-					content: data.data.verUpdateDesc +
-						'-                                                                          更新时间-' +
-						data.data.verUpdateDate,
+					content: data.data.verUpdateDesc + '-更新时间-' + data.data.verUpdateDate,
 					cancelText: '放弃更新',
 					confirmText: '立即更新',
 					success: res => {
-
 						if (!res.confirm) return;
 						console.log('开始下载' + data.data.verHref)
-
-
 						let popupData = {
 							progress: true,
 							buttonNum: 2
@@ -333,35 +301,14 @@ export default {
 						popupObj.reboot = function() {
 							plus.runtime.restart();
 						}
-
-
-						// uni.downloadFile({
-
-						// 	url: data.data.verHref,  
-						// 	success: (downloadResult) => {  
-						// 		console.log(downloadResult)
-						// 		if (downloadResult.statusCode === 200) {  
-						// 			plus.runtime.install(downloadResult.tempFilePath, {  
-						// 				force: true  
-						// 			}, function() {  
-
-						// 				plus.runtime.restart();  
-						// 				console.log('install success...');  
-						// 			}, function(e) {  
-						// 				console.error('install fail...');  
-						// 			});  
-						// 		}  
-						// 	}  
-						// });  
 					}
 				});
-
 			});
-
 		});
 		// #endif  
 	}
 }
+
 function drawtext(text, maxWidth) {
 	let textArr = text.split("");
 	let len = textArr.length;

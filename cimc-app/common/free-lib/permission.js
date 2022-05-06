@@ -1,5 +1,4 @@
 /// null = 未请求，1 = 已允许，0 = 拒绝|受限, 2 = 系统未开启
-
 var isIOS
 
 function album() {

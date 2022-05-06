@@ -62,34 +62,24 @@
 			search(val) {
 				this.$refs.popup.open('bottom')
 				if (this.index.id == 0) {
-					uni.request({
-						url: 'http://47.112.190.46/scp/service?src=flexbox&action=fclpol&q=' + val.value +
-							'&p=1&s=50',
-						method: 'GET',
-						success: res => {
-							this.portlist = res.data.results
-						},
-						fail: res => {
-							uni.showToast({
-								title: '失败：' + res.message,
-								icon: 'none'
-							});
-						}
+					this.$H.get('/scp/service?src=flexbox&action=fclpol&q=' + val.value +
+						'&p=1&s=50', {}, {}).then(res => {
+						this.portlist = res.results
+					}).catch(res => {
+						uni.showToast({
+							title: '失败：' + res.message,
+							icon: 'none'
+						});
 					})
 				} else {
-					uni.request({
-						url: 'http://47.112.190.46/scp/service?src=flexbox&action=fclpod&q=' + val.value +
-							'&p=1&s=50',
-						method: 'GET',
-						success: res => {
-							this.portlist = res.data.results
-						},
-						fail: res => {
-							uni.showToast({
-								title: '失败：' + res.message,
-								icon: 'none'
-							});
-						}
+					this.$H.post('/scp/service?src=flexbox&action=fclpod&q=' + val.value +
+						'&p=1&s=50', {}, {}).then(res => {
+						this.portlist = res.results
+					}).catch(res => {
+						uni.showToast({
+							title: '失败：' + res.message,
+							icon: 'none'
+						});
 					})
 				}
 			},
@@ -154,20 +144,19 @@
 			},
 			onLoad: function(option) {
 				this.index = option
-				uni.request({
-					url: 'http://47.112.190.46/scp/service?src=flexbox&action=fclpod&q=' +
-						'&p=1&s=500',
-					method: 'GET',
-					success: res => {
+				let isRet = uni.getStorageSync("portlist")
+				if (isRet) {
+					this.list = isRet
+				} else {
+					this.$H.post('/scp/service?src=flexbox&action=fclpod&q=&p=1&s=500', {}, {}).then(res => {
 						var list_map = new Array();
-						var data = res.data.results
+						var data = res.results
 						for (var i = 0; i < data.length; i++) {
 							list_map.push({
 								letter: data[i].namee.substr(0, 1),
 								data: []
 							});
 						}
-
 						//res去重复后的集合
 						var res = [];
 						var temp = {};
@@ -177,7 +166,6 @@
 								temp[list_map[i].letter] = 1;
 							}
 						}
-
 						// abc顺序排序
 						for (var i = 0; i < res.length; i++) {
 							for (var j = i + 1; j < res.length; j++) {
@@ -189,7 +177,6 @@
 								}
 							}
 						}
-
 						for (var i = 0; i < res.length; i++) {
 							for (var j = 0; j < data.length; j++) {
 								if (res[i].letter == data[j].namee.substr(0, 1)) {
@@ -198,14 +185,14 @@
 							}
 						}
 						this.list = res
-					},
-					fail: res => {
+						uni.setStorageSync("portlist", this.list)
+					}).catch(res => {
 						uni.showToast({
 							title: '失败：' + res.message,
 							icon: 'none'
 						});
-					}
-				})
+					})
+				}
 			}
 		},
 

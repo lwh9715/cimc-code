@@ -148,26 +148,24 @@
 					title: '加载中',
 					mask: true
 				});
-				uni.request({
-					url: 'http://47.112.190.46/so/price?method=fcllist&pol=' + this.datatemp.pol + '&pod=' +
-						this.datatemp.pod + '&crrier=' + this.datatemp.carrier,
-					method: 'GET',
-					header: {
+				this.$H.get('/so/price?method=fcllist&pol=' + this.datatemp.pol + '&pod=' +
+					this.datatemp.pod + '&crrier=' + this.datatemp.carrier, this.form, {
 						'content-type': 'application/x-www-form-urlencoded'
-					},
-					success: res => {
-						this.isread = true
-						setTimeout(function() {
-							uni.hideLoading();
-						}, 300);
-						this.pricelist = res.data.data.splice(0, 25);
-					},
-					fail: res => {
-						uni.showToast({
-							title: '失败：' + res.message,
-							icon: 'none'
-						});
+					}).then(res => {
+					this.isread = true
+					setTimeout(function() {
+						uni.hideLoading();
+					}, 300);
+					if (res.data.length > 0) {
+						this.pricelist = res.data.splice(0, 25);
+					} else {
+						this.pricelist = []
 					}
+				}).catch(res => {
+					uni.showToast({
+						title: '失败：' + res.message,
+						icon: 'none'
+					});
 				})
 			} else {
 				uni.reLaunch({

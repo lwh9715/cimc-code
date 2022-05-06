@@ -162,14 +162,12 @@
 			if (islogin && user) {
 				this.watermarkConfig.text = user.data.data.name + user.data.data.mobile.substring(7, 11)
 				if (this.formData.uuid) {
-					this.$H.post('/price?method=getfeeadd&id=' + this.formData.uuid, this.form, {
-						token: false
-					}).then(res => {
+					this.$H.post('/so/price?method=getfeeadd&id=' + this.formData.uuid, {}, {}).then(res => {
 						this.feelist = res;
 					}).catch(res => {
 						console.log(res)
 						uni.showToast({
-							title: 'search失败：' + res.message,
+							title: '失败：' + res.message,
 							icon: 'none'
 						});
 					})
