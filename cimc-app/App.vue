@@ -2,7 +2,7 @@
 	export default {
 		onLaunch: function() {
 			console.log('App Launch');
-			this.$U.setStorage('url', 'http://47.112.190.46');
+			this.$U.setStorage('url', 'http://47.112.190.46:81');
 		},
 		onShow: function() {
 			console.log('App Show');

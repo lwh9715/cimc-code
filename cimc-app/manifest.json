@@ -98,7 +98,7 @@
             "disableHostCheck" : true,
             "proxy" : {
                 "/so" : {
-                    "target" : "http://47.112.190.46", //目标接口域名
+                    "target" : "http://47.112.190.46:81", //目标接口域名
                     "changeOrigin" : true, //是否跨域
                     "secure" : false // 设置支持https协议的代理
                 }

@@ -354,7 +354,7 @@
 						return;
 					}
 					uni.request({
-						url: 'http://47.112.190.46/so/booking?method=createBooking',
+						url: 'http://47.112.190.46:81/so/booking?method=createBooking',
 						data: this.formData,
 						method: 'POST',
 						header: {

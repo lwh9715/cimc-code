@@ -38,7 +38,6 @@
 	</view>
 </template>
 
-
 <script>
 	import * as dd from 'dingtalk-jsapi';
 
@@ -46,6 +45,16 @@
 		data() {
 			return {
 				mode: 0,
+				keyword: "",
+				carrierlist: [],
+				isHideKeyboard: true,
+				formData: {
+					pol: '',
+					pod: '',
+					carrier: '',
+					date: Date.now(),
+					pricetype: ['FAK', 'NAC', 'SPOT']
+				},
 				modedata: [{
 					"value": 0,
 					"text": "模式一"
@@ -53,11 +62,6 @@
 					"value": 1,
 					"text": "模式二"
 				}],
-				acode: "",
-				keyword: "",
-				carrierlist: [],
-				isAvailable: false,
-				isHideKeyboard: true,
 				freightlist: [{
 					"value": 'FAK',
 					"text": "FAK"
@@ -67,14 +71,7 @@
 				}, {
 					"value": 'SPOT',
 					"text": "SPOT"
-				}],
-				formData: {
-					pol: '',
-					pod: '',
-					carrier: '',
-					date: Date.now(),
-					pricetype: ['FAK', 'NAC', 'SPOT']
-				}
+				}]
 			}
 		},
 		methods: {
@@ -120,41 +117,41 @@
 				this.formData.pol = this.formData.pod
 				this.formData.pod = temp
 			},
+
 			/**
 			 * 查询运价
 			 */
 			submitForm() {
-
-				if (!this.isAvailable) {
+				let bRet = uni.getStorageSync("isAvailable")
+				if (!bRet) {
 					uni.showToast({
-						title: '请先登录在进行操作',
+						title: '请登录后在进行操作',
 						icon: 'none'
 					});
 					return;
 				}
-
-				if (this.formData.pol != '' && this.formData.pod != '') {
-					if (this.mode == 0) {
-						uni.setStorageSync("bosslist_detail", this.formData)
-						uni.navigateTo({
-							url: '/pages/price/bosslist',
-							fail: (res) => {
-								console.log(res) //打印错误信息
-							}
-						});
-					} else {
-						uni.setStorageSync("list_detail", this.formData)
-						uni.navigateTo({
-							url: '/pages/price/list',
-							fail: (res) => {
-								console.log(res) //打印错误信息
-							}
-						});
-					}
-				} else {
+				if (this.formData.pol == '' || this.formData.pod == '') {
 					uni.showToast({
-						title: '请输入港口信息查询',
+						title: '请输入港口查询',
 						icon: 'none'
+					});
+					return;
+				}
+				if (this.mode == 0) {
+					uni.setStorageSync("bosslist_detail", this.formData)
+					uni.navigateTo({
+						url: '/pages/price/bosslist',
+						fail: (res) => {
+							console.log(res)
+						}
+					});
+				} else {
+					uni.setStorageSync("list_detail", this.formData)
+					uni.navigateTo({
+						url: '/pages/price/list',
+						fail: (res) => {
+							console.log(res)
+						}
 					});
 				}
 			},
@@ -205,6 +202,7 @@
 		},
 		created() {
 			//TODO 后续添加到拦截器中
+			uni.removeStorageSync("isAvailable")
 			uni.removeStorageSync("dd_user")
 			uni.removeStorageSync('code')
 
@@ -224,7 +222,7 @@
 			setTimeout(function() {
 				if (islogin) {
 					uni.request({
-						url: 'http://47.112.190.46/so/login?method=login',
+						url: 'http://47.112.190.46:81/so/login?method=login',
 						data: {
 							username: "梁文辉",
 							password: "bf58b2e54beca61bffc15b30be7afdd1",
@@ -242,8 +240,7 @@
 								});
 								return;
 							}
-							this.isAvailable = true
-							console.log(this.isAvailable);
+							uni.setStorageSync("isAvailable", true)
 						},
 						fail: res => {
 							uni.showToast({

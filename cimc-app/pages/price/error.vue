@@ -9,7 +9,9 @@
 		data() {
 			return {}
 		},
-		created() {},
+		created() {
+			uni.clearStorageSync()
+		},
 		methods: {}
 
 	}
@@ -17,6 +19,7 @@
 
 <style>
 	.error-content {
+		margin: 120px 30px;
 		height: calc(100vh);
 		background-image: url('../../static/img/404.png');
 		background-repeat: no-repeat;

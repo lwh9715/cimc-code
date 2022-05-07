@@ -36,7 +36,7 @@
 			}
 		},
 		created() {
-			this.$U.setStorage('url', 'http://47.112.190.46/so');
+			this.$U.setStorage('url', 'http://47.112.190.46:81');
 		},
 		methods: {
 			notAvail() {
