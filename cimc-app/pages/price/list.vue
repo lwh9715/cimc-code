@@ -149,9 +149,7 @@
 					mask: true
 				});
 				this.$H.get('/so/price?method=fcllist&pol=' + this.datatemp.pol + '&pod=' +
-					this.datatemp.pod + '&crrier=' + this.datatemp.carrier, this.form, {
-						'content-type': 'application/x-www-form-urlencoded'
-					}).then(res => {
+					this.datatemp.pod + '&crrier=' + this.datatemp.carrier, {}, {}).then(res => {
 					this.isread = true
 					setTimeout(function() {
 						uni.hideLoading();
@@ -224,21 +222,7 @@
 			},
 			onLoad: function(option) {
 				this.datatemp = uni.getStorageSync("list_detail")
-				if (this.datatemp) {
-					// uni.request({
-					// 	url: 'http://8.129.68.2:8989/scp/edi/api?method=commonInterface&methodFlag=getFreightRate',
-					// 	data: this.datatemp,
-					// 	method: 'GET',
-					// 	success: res => {
-					// 	},
-					// 	fail: res => {
-					// 		uni.showToast({
-					// 			title: '失败：' + res.message,
-					// 			icon: 'none'
-					// 		});
-					// 	}
-					// })
-				} else {
+				if (!this.datatemp) {
 					uni.showToast({
 						title: '请输入起运港-目的港口查询',
 						icon: 'none'

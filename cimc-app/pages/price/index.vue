@@ -41,6 +41,7 @@
 
 <script>
 	import * as dd from 'dingtalk-jsapi';
+
 	export default {
 		data() {
 			return {
@@ -55,6 +56,7 @@
 				acode: "",
 				keyword: "",
 				carrierlist: [],
+				isAvailable: false,
 				isHideKeyboard: true,
 				freightlist: [{
 					"value": 'FAK',
@@ -122,6 +124,15 @@
 			 * 查询运价
 			 */
 			submitForm() {
+
+				if (!this.isAvailable) {
+					uni.showToast({
+						title: '请先登录在进行操作',
+						icon: 'none'
+					});
+					return;
+				}
+
 				if (this.formData.pol != '' && this.formData.pod != '') {
 					if (this.mode == 0) {
 						uni.setStorageSync("bosslist_detail", this.formData)
@@ -153,15 +164,23 @@
 						corpId: "ding2bb9458351f19b9b35c2f4657eb6378f",
 						onSuccess: function(result) {
 							uni.setStorageSync('code', result.code);
-							this.$H.get('/login', {
-								authCode: uni.getStorageSync('code')
-							}, {}).then(res => {
-								uni.setStorageSync('dd_user', res)
-								uni.setStorageSync('islogin', true)
-							}).catch(res => {
-								uni.reLaunch({
-									url: '/pages/price/error'
-								});
+							console.log('code', result.code);
+							uni.request({
+								url: 'http://47.112.190.46/login',
+								data: {
+									"authCode": uni.getStorageSync('code')
+								},
+								method: 'GET',
+								success: res => {
+									console.log('authCode', res);
+									uni.setStorageSync('dd_user', res)
+									uni.setStorageSync('islogin', true)
+								},
+								fail: res => {
+									uni.reLaunch({
+										url: '/pages/price/error'
+									});
+								}
 							})
 						},
 						onFail: function(err) {
@@ -190,17 +209,17 @@
 			uni.removeStorageSync('code')
 
 			//测试使用
-			uni.setStorageSync('islogin', true)
-			uni.setStorageSync('dd_user', {
-				data: {
-					data: {
-						"name": "梁文辉",
-						"mobile": "13267690653"
-					}
-				}
-			})
+			// uni.setStorageSync('islogin', true)
+			// uni.setStorageSync('dd_user', {
+			// 	data: {
+			// 		data: {
+			// 			"name": "梁文辉",
+			// 			"mobile": "13267690653"
+			// 		}
+			// 	}
+			// })
 
-			// this.loginDD();
+			this.loginDD();
 			let islogin = uni.getStorageSync('islogin')
 			setTimeout(function() {
 				if (islogin) {
@@ -215,7 +234,17 @@
 							isread: "on"
 						},
 						method: 'POST',
-						success: res => {},
+						success: res => {
+							if (!res.data.success) {
+								uni.showToast({
+									title: res.data.message,
+									icon: 'none'
+								});
+								return;
+							}
+							this.isAvailable = true
+							console.log(this.isAvailable);
+						},
 						fail: res => {
 							uni.showToast({
 								title: '失败：' + res.message,
