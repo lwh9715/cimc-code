@@ -1,7 +1,7 @@
 <template>
 	<view class="card-content">
 		<view class="view-content" v-watermark="watermarkConfig">
-			<view class="flex justify-between" style="padding: 10px 10px;">
+			<view class="flex justify-between" style="padding: 10px 15px;">
 				<view class="" style="text-align: center;">
 					<uni-icons type="location"></uni-icons>
 					<text style="font-size:14px;font-weight: 700;">{{formData.pol}}</text>
@@ -15,7 +15,7 @@
 				</view>
 			</view>
 			<view style="border-bottom: 1px solid #e5e5e5;" />
-			<view style="padding: 10px 10px;">
+			<view style="padding: 10px 15px;">
 				<uni-forms ref="formData" :rules="rules" :value="formData">
 					<uni-forms-item name="cnorname" required label="发货人" labelWidth="80">
 						<input type="text" v-model="formData.cnorname" placeholder="请输入发货人" size="mini" />
@@ -23,8 +23,13 @@
 					<uni-forms-item name="payplace" required label="付款地点" labelWidth="80">
 						<input type="text" v-model="formData.payplace" placeholder="请输入付款地点" />
 					</uni-forms-item>
-					<uni-forms-item name="carryitem" required label="运费条款" labelWidth="80">
-						<input type="text" v-model="freightname" placeholder="请输入运费条款" @click="openFreightClause()" />
+					<uni-forms-item name="carryitem" label="运输条款" labelWidth="80">
+						<input type="text" adjust-position="false" autocomplete="off" @focus="focus" auto-blur="false"
+							v-model="formData.carryitem" placeholder="请输入运输条款" @click="openCarryClause()" />
+					</uni-forms-item>
+					<uni-forms-item name="freighitem" required label="运费条款" labelWidth="80">
+						<input type="text" adjust-position="false" autocomplete="off" @focus="focus" auto-blur="false"
+							v-model="freightname" placeholder="请输入运费条款" @click="openFreightClause()" />
 					</uni-forms-item>
 					<uni-forms-item name="shipping" label="船公司" labelWidth="80">
 						<input type="text" v-model="formData.shipping" disabled="true" />
@@ -112,7 +117,13 @@
 			</view>
 		</view>
 
-
+		<uni-popup ref="carryClausePopup" type="bottom" mask-background-color="rgba(0,0,0,-0.6)">
+			<scroll-view scroll-y="true" class="scroll-Y">
+				<view class="popup-view" v-for="(item,index) in carryitem" @click="bindCarryClauseChange(item.name)">
+					<view>{{ item.name }}</view>
+				</view>
+			</scroll-view>
+		</uni-popup>
 		<uni-popup ref="freightClausePopup" type="bottom" mask-background-color="rgba(0,0,0,-0.6)">
 			<scroll-view scroll-y="true" class="scroll-Y">
 				<view class="popup-view" v-for="(item,index) in freightitem" @click="bindFreightClauseChange(item)">
@@ -181,7 +192,7 @@
 						}]
 					}
 				},
-
+				isHideKeyboard: true,
 				userInfo: {},
 				watermarkConfig: {
 					text: '中集世倡0001',
@@ -193,7 +204,7 @@
 				pg20pa: "",
 				pg40pa: "",
 				hq40pa: "",
-				freightname: "",
+				freightname: "FREIGHT PREPAID",
 				cnyprice: 0,
 				cnytotal: 0,
 				usdtotal: 0,
@@ -206,6 +217,37 @@
 				amt20CNY: 0,
 				amt40gpCNY: 0,
 				amt40hqCNY: 0,
+				carryitem: [{
+						"name": "CFS-CFS"
+					},
+					{
+						"name": "CFS-CY"
+					},
+					{
+						"name": "CFS-DOOR"
+					},
+					{
+						"name": "CY-CFS"
+					},
+					{
+						"name": "CY-CY"
+					},
+					{
+						"name": "CY-DOOR"
+					},
+					{
+						"name": "CY-FO"
+					},
+					{
+						"name": "DOOR-CY"
+					},
+					{
+						"name": "DOOR-DOOR"
+					},
+					{
+						"name": "FCL-FCL"
+					}
+				],
 				freightitem: [{
 					"value": "PP",
 					"name": "FREIGHT PREPAID"
@@ -230,7 +272,7 @@
 					billtel: "",
 					blcontacts: "", //联系人
 					bltype: "H",
-					carryitem: "CY-CY",
+					carryitem: "CY-CY", //运输条款
 					cbm: "",
 					cls: "", //截关日期
 					cneename: "",
@@ -336,6 +378,19 @@
 			}
 		},
 		methods: {
+			/**
+			 * 禁止软键盘弹出
+			 */
+			focus() {
+				if (this.isHideKeyboard) uni.hideKeyboard()
+			},
+			openCarryClause: async function(e) {
+				this.$refs.carryClausePopup.open('bottom')
+			},
+			bindCarryClauseChange: function(e) {
+				this.formData.carryitem = e
+				this.$refs.carryClausePopup.close()
+			},
 			openFreightClause: async function(e) {
 				this.$refs.freightClausePopup.open('bottom')
 			},

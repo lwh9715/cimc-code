@@ -5,7 +5,7 @@
 				<text class="title-text">FCL报价查询</text>
 			</view>
 			<view style="border-bottom: 1px solid #e5e5e5;margin-bottom: 40rpx;" />
-			<view style="padding: 0px 20px;">
+			<view style="padding: 0px 20px 40px;">
 				<uni-forms :value="formData">
 					<uni-forms-item name="pol" label="起运港">
 						<input v-model="formData.pol" type="text" placeholder="请输入起运港" @click="openStartPage(0)" />
@@ -25,7 +25,7 @@
 						<uni-data-checkbox v-model="mode" :localdata="modedata" />
 					</uni-forms-item>
 				</uni-forms>
-				<button type="primary" @click="submitForm" style="margin-top: 20rpx;margin-bottom: 50rpx;">立即查询</button>
+				<button type="primary" @click="submitForm">立即查询</button>
 			</view>
 		</view>
 		<uni-popup ref="carrierPopup" type="bottom" mask-background-color="rgba(0,0,0,-0.6)">
@@ -169,7 +169,6 @@
 								},
 								method: 'GET',
 								success: res => {
-									console.log('authCode', res);
 									uni.setStorageSync('dd_user', res)
 									uni.setStorageSync('islogin', true)
 								},
@@ -221,15 +220,12 @@
 			let islogin = uni.getStorageSync('islogin')
 			setTimeout(function() {
 				if (islogin) {
+					let ddUser = uni.getStorageSync('dd_user')
 					uni.request({
-						url: 'http://47.112.190.46:81/so/login?method=login',
+						url: 'http://47.112.190.46:81/so/login?method=loginapp',
 						data: {
-							username: "梁文辉",
-							password: "bf58b2e54beca61bffc15b30be7afdd1",
-							verification: "2148",
-							rememberme: "on",
-							issysuser: "on",
-							isread: "on"
+							username: ddUser.data.data.name,
+							issysuser: "on"
 						},
 						method: 'POST',
 						success: res => {
@@ -254,7 +250,7 @@
 						url: '/pages/price/error'
 					});
 				}
-			}, 500)
+			}, 800)
 		}
 	}
 </script>
@@ -300,7 +296,6 @@
 
 	.scroll-Y {
 		width: 100%;
-		text-align: center;
 		height: calc(100vh - 51vh);
 		background-color: #FFFFFF;
 		border-top-left-radius: 15px;
@@ -312,11 +307,7 @@
 		margin: 30rpx;
 	}
 
-	>>>.checklist-group {
+	>>>.uni-data-checklist .checklist-group {
 		flex-wrap: inherit;
-	}
-
-	.checklist-box .uni-label-pointer {
-		margin-right: 10rpx;
 	}
 </style>
