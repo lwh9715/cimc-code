@@ -18,8 +18,7 @@
 							v-model="formData.carrier" type="text" placeholder="请选择船公司" @click="openCarrierList()" />
 					</uni-forms-item>
 					<uni-forms-item name="freight" label="运价类型">
-						<uni-data-checkbox multiple style="transform:scale(1)" v-model="formData.pricetype"
-							:localdata="freightlist" />
+						<uni-data-checkbox multiple v-model="formData.pricetype" :localdata="freightlist" />
 					</uni-forms-item>
 					<uni-forms-item name="mode" label="查询模式">
 						<uni-data-checkbox v-model="mode" :localdata="modedata" />
@@ -81,9 +80,11 @@
 			focus() {
 				if (this.isHideKeyboard) uni.hideKeyboard()
 			},
-			bindDateChange: function(e) {
-				this.formData.date = e
-			},
+
+			/**
+			 * 船公司列表
+			 * @param {Object} e
+			 */
 			openCarrierList: async function(e) {
 				this.$refs.carrierPopup.open('bottom')
 				this.$H.post('/so/combobox?method=fscarrier', this.form, {}).then(res => {
@@ -97,10 +98,19 @@
 				})
 			},
 
+			/**
+			 * 选择船公司
+			 * @param {Object} e
+			 */
 			bindCarrierChange: function(e) {
 				this.formData.carrier = e
 				this.$refs.carrierPopup.close()
 			},
+
+			/**
+			 * 港口搜索
+			 * @param {Object} val
+			 */
 			openStartPage: function(val) {
 				uni.navigateTo({
 					url: '/pages/price/search?id=' + val,
@@ -108,14 +118,6 @@
 						console.log(res) //打印错误信息
 					}
 				});
-			},
-			/**
-			 * 起运港和目的港信息反转
-			 */
-			loopSubmit: async function() {
-				let temp = this.formData.pol
-				this.formData.pol = this.formData.pod
-				this.formData.pod = temp
 			},
 
 			/**
@@ -155,6 +157,10 @@
 					});
 				}
 			},
+
+			/**
+			 * 钉钉授权
+			 */
 			loginDD() {
 				dd.ready(function() {
 					dd.runtime.permission.requestAuthCode({
@@ -169,6 +175,13 @@
 								},
 								method: 'GET',
 								success: res => {
+									if (!res.data.success) {
+										uni.showToast({
+											title: '钉钉未授权，<br/>没有调用该接口的权限',
+											icon: 'none'
+										});
+										return;
+									}
 									uni.setStorageSync('dd_user', res)
 									uni.setStorageSync('islogin', true)
 								},
@@ -188,6 +201,10 @@
 				});
 			}
 		},
+
+		/**
+		 * 获取搜索港口返回值
+		 */
 		onShow() {
 			let pages = getCurrentPages();
 			let currPage = pages[pages.length - 1]; // 当前页的实例
@@ -199,6 +216,10 @@
 				}
 			}
 		},
+
+		/**
+		 * 生命周期-创建时
+		 */
 		created() {
 			//TODO 后续添加到拦截器中
 			uni.removeStorageSync("isAvailable")
@@ -250,7 +271,7 @@
 						url: '/pages/price/error'
 					});
 				}
-			}, 800)
+			}, 850)
 		}
 	}
 </script>
