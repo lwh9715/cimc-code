@@ -148,8 +148,18 @@
 					title: '加载中',
 					mask: true
 				});
+
+				let type = "";
+				if (this.datatemp.pricetype.length == 3) {
+					let p = this.datatemp.pricetype.join(',').split(",");
+					type = "'" + p[0] + "'," + "'" + p[1] + "'," + "'" + p[2] + "'";
+				} else {
+					type = "'" + this.datatemp.pricetype.join(',').replace(",", "','") + "'";
+				}
 				this.$H.get('/so/price?method=fcllist&pol=' + this.datatemp.pol + '&pod=' +
-					this.datatemp.pod + '&crrier=' + this.datatemp.carrier, {}, {}).then(res => {
+					this.datatemp.pod + '&crrier=' + this.datatemp.carrier + '&pricetype=' + type, {}, {
+						'content-type': 'text/html;charset=utf-8',
+					}).then(res => {
 					this.isread = true
 					setTimeout(function() {
 						uni.hideLoading();
